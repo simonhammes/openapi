@@ -1,261 +1,6 @@
-openapi: 3.0.0
-info:
-  title: Base Operations
-  description: >-
-    The official SeaTable API Reference (OpenAPI 3.0).
-  version: "4.4"
-servers:
-  - url: "https://{server}"
-    variables:
-      server:
-        default: cloud.seatable.io
-
-## Questions for later:
-# - same variables as path and query? Why?
-# - objects not uniform: table_id sometimes inside the object, sometimes outside the object (compare insert column vs append columns)
-# - File-Upload super complicated: a) "parent_dir, parent_file, parent_path"? why not using the same name for the same thing? b) why requires appending file to a base, type, name and size? Image requires only url.
-# - why is it necessary to pass the base_uuid? The base-token identifies the base already...
-# - sometimes column_key, sometimes column_name. Why?
-# - why column_key and not column_id?
-# - sometimes base_uuid, sometimes dtable_uuid. Why?
-# - some calls allow table_name or table_id. "lock rows" requires table_name. "links" requires table_id. Confusing!
-# - sometimes "convert", sometimes "convert_keys"
-# - create row link and create row links => one time table names, one time table_ids
-# - "get row": why do I have to provide row_id as path and body?
-# - Upload File/Image: why ret-json=1 in URL?
-
-x-readme:
-  explorer-enabled: true
-  metrics-enabled: false
-  proxy-enabled: false
-
 components:
-  # Security scheme definitions (see Authentication)
-  securitySchemes:
-    BaseTokenAuth:
-      type: http
-      scheme: bearer
-      description: This is the [Base-Token](/reference/authentication).
-
-    ApiTokenAuth:
-      type: http
-      scheme: bearer
-      description: This is the [API-Token](/reference/authentication).
-
   # Reusable path, query, header and cookie parameters
   parameters:
-    #=======================Query parameters=======================#
-    row_id:
-      name: row_id
-      description: Unique id of a row.
-      in: query
-      schema:
-        type: string
-        pattern: ^[A-Za-z0-9]{22}$
-      example: YMIviMeERQCUiQhPPqo6Gw
-      required: true
-    page:
-      name: page
-      description: The page number you want to start showing the entries. If no value is provided, 1 will be used.
-      in: query
-      schema:
-        type: integer
-        minimum: 1
-      example: 1
-      required: false
-    per_page:
-      name: per_page
-      in: query
-      schema:
-        type: integer
-        minimum: 1
-      description: The number of results that should be returned. If no value is provided, 25 results will be returned.
-      example: 25
-      required: false
-    op_type:
-      name: op_type
-      description: >-
-        Type of delete operation that should be listed. Optional. Choose
-        from `delete_row`, `delete_rows`, `delete_table`, and
-        `delete_column`.
-      in: query
-      schema:
-        type: string
-        enum: ["delete_row", "delete_rows", "delete_table", "delete_column"]
-      example: delete_row
-      required: true
-    table_id:
-      name: table_id
-      in: query
-      schema:
-        type: string
-        pattern: "^[A-Za-z0-9]{4}$"
-      description: "The id of the table. The id of a table is unique inside a base and is often used to identify a table. **Important: the table_id is not the table_name**."
-      example: "0000"
-      required: true
-    table_name:
-      name: table_name
-      description: The name of the table.
-      in: query
-      schema:
-        type: string
-      example: Table1
-      required: true
-
-    view_name:
-      name: view_name
-      in: query
-      schema:
-        type: string
-      required: false
-      description: The name of the view.
-      example: "Default View"
-    convert_link_id:
-      name: convert_link_id
-      description: Whether the link column in the returned row is the ID (false) of the linked row or the name (true) of the linked row. If no value is provided, false is the default.
-      in: query
-      schema:
-        type: boolean
-      example: false
-      required: false
-    order_by:
-      name: order_by
-      in: query
-      schema:
-        type: string
-      required: false
-      description: The name or id of a column that is used to sort the results.
-      example: Likes
-    direction:
-      name: direction
-      in: query
-      schema:
-        type: string
-        enum: ["", "asc", "desc"]
-        default: ""
-      required: false
-      description: The direction of the sort, ascending `asc` or descending `desc`. asc by default. Works only if start and limit are set, too.
-      example: "desc"
-    start:
-      name: start
-      in: query
-      schema:
-        type: integer
-      required: false
-      description: Starting position (number) of the returned rows. 0 by default.
-      example: 0
-    limit:
-      name: limit
-      in: query
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 1000
-      required: false
-      description: Number of rows that should be returned. 1000 by default.
-      example: 100
-    file_path:
-      name: path
-      in: query
-      schema:
-        type: string
-        pattern: ^\/(images|files){1}\/[0-9]{4}\-[0-9]{2}\/.
-      description: "Path to the file"
-      example: "/images/2021-03/test.png"
-      required: true
-    days:
-      name: days
-      in: query
-      schema:
-        type: integer
-        minimum: 1
-      example: 7
-    convert:
-      name: convert
-      in: query
-      schema:
-        type: boolean
-      description: If 'true', the column's id will be converted to column names.
-      example: true
-    custom_folder_path:
-      name: path
-      in: query
-      schema:
-        type: string
-      description: "Path of the custom folder"
-      example: "/"
-      required: true
-    custom_folder_file_name:
-      name: name
-      in: query
-      schema:
-        type: string
-      description: "Name of the file in the custom folder"
-      example: "b374.pdf"
-      required: true
-    custom_folder_path_with_filename:
-      name: path
-      in: query
-      schema:
-        type: string
-      description: "Path and name of the file in the custom folder"
-      example: "/supplierOne/b374.pdf"
-      required: true
-
-    #=======================Path parameters=======================#
-    base_uuid:
-      name: base_uuid
-      in: path
-      schema:
-        type: string
-        pattern: '^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$'
-      required: true
-      description: The unique identifier of a base. Sometimes also called dtable_uuid.
-      example: 5c264e76-0e5a-448a-9f34-580b551364ca
-    row_id_path:
-      name: row_id
-      in: path
-      schema:
-        type: string
-        pattern: ^[A-Za-z0-9]{22}$
-      required: true
-      description: The id of the row.
-      example: Qtf7xPmoRaiFyQPO1aENTjb
-    view_name_path:
-      name: view_name
-      in: path
-      schema:
-        type: string
-      required: true
-      description: The name of the view.
-      example: "Default View"
-    comment_id:
-      name: comment_id
-      description: The id of the comment.
-      in: path
-      schema:
-        type: integer
-        minimum: 1
-      required: true
-      example: 1
-    notification_id:
-      name: notification_id
-      description: The id of the notification.
-      in: path
-      schema:
-        type: integer
-        minimum: 1
-      required: true
-      example: 1
-    upload_link:
-      name: upload_link
-      description: "This is the value you got from the call Get File/Image Upload Link via API Token."
-      in: path
-      schema:
-        type: string
-        pattern: ^[a-z0-9]{8}(-[a-z0-9]{4}){3}-[a-z0-9]{12}$
-      required: true
-      example: "5e666848-4152-45e5-990e-d686960f2a05"
 
   # Reusable schemas (data models)
   schemas:
@@ -594,10 +339,10 @@ components:
       type: object
       description: create row link
       properties:
-        table_name:
-          $ref: "#/components/schemas/table_name"
-        other_table_name:
-          $ref: "#/components/schemas/table_name"
+        table_id:
+          $ref: "#/components/schemas/table_id"
+        other_table_id:
+          $ref: "#/components/schemas/table_id"
         link_id:
           $ref: "#/components/schemas/link_id"
         table_row_id:
@@ -605,8 +350,8 @@ components:
         other_table_row_id:
           $ref: "#/components/schemas/row_id"
       required:
-        - table_name
-        - other_table_name
+        - table_id
+        - other_table_id
         - link_id
         - table_row_id
         - other_table_row_id
@@ -627,10 +372,10 @@ components:
     create_row_links:
       type: object
       properties:
-        table_name:
-          $ref: "#/components/schemas/table_name"
-        other_table_name:
-          $ref: "#/components/schemas/table_name"
+        table_id:
+          $ref: "#/components/schemas/table_id"
+        other_table_id:
+          $ref: "#/components/schemas/table_id"
         link_id:
           $ref: "#/components/schemas/link_id"
         row_id:
@@ -644,8 +389,8 @@ components:
       required:
         - row_id
         - link_id
-        - table_name
-        - other_table_name
+        - table_id
+        - other_table_id
         - other_rows_id
 
     update_links:
@@ -675,6 +420,28 @@ components:
         - row_id_list
         - other_rows_ids_map
 
+    add_del_links:
+      type: object
+      description: update row links (batch)
+      properties:
+        table_id:
+          $ref: "#/components/schemas/table_id"
+        other_table_id:
+          $ref: "#/components/schemas/table_id"
+        link_id:
+          $ref: "#/components/schemas/link_id"
+        other_rows_ids_map:
+          type: object
+          description: Map of IDs of the target rows which you'd like to link your source rows to.
+          items:
+            type: string
+      required:
+        - link_id
+        - table_id
+        - other_table_id
+        - row_id_list
+        - other_rows_ids_map
+
     archived_row_links:
       type: object
       description: handle row links of archived data (batch)
@@ -686,16 +453,17 @@ components:
         link_id:
           $ref: "#/components/schemas/link_id"
         other_rows_ids_map:
-          type: array
-          additionalProperties: { type: array, items: { type: string } }
+          type: object
           description: |
-            Map of IDs of the target rows which you'd like to link/unlink your source rows. Use a key-to-list like:
+            Map of IDs of the target rows which you'd like to link your source rows. Use a key-to-list like:
             ```
             "other_rows_ids_map": {
-              "<row1 of table>": ["<row1 of other_table>", "<row2 of other_table>"],
-              "<row2 of table>": ["<row3 of other_table>"]
+              "SDRktTOjR7mCLPINvBYU6g": ["HU1eSwCiQRiqOhcXPtR7qQ", "KNsPc7TnTqqqI5glSOun7w"],
+              "YujPlptaTzGrGmzyJaKm0Q": ["bcBZbuc0S_im0RPdVKRYfg"]
             }
             ```
+          items:
+            type: string
       required:
         - link_id
         - table_id
@@ -705,10 +473,10 @@ components:
     delete_row_link:
       type: object
       properties:
-        table_name:
-          $ref: "#/components/schemas/table_name"
-        other_table_name:
-          $ref: "#/components/schemas/table_name"
+        table_id:
+          $ref: "#/components/schemas/table_id"
+        other_table_id:
+          $ref: "#/components/schemas/table_id"
         link_id:
           $ref: "#/components/schemas/link_id"
         table_row_id:
@@ -716,8 +484,8 @@ components:
         other_table_row_id:
           $ref: "#/components/schemas/table_id"
       required:
-        - table_name
-        - other_table_name
+        - table_id
+        - other_table_id
         - link_id
         - table_row_id
         - other_table_row_id
@@ -2416,12 +2184,12 @@ components:
 
 paths:
   # Base Info
-  /dtable-server/dtables/{base_uuid}:
+  /api-gateway/api/v2/dtables/{base_uuid}:
     get:
       tags:
         - Base Info
       summary: Get Base Info
-      description: Returns basic information about the specified base.
+      description: Get the basic information of a base.
       security:
         - BaseTokenAuth: []
       parameters:
@@ -2507,12 +2275,12 @@ paths:
                         groupbys: []
                         groups: []
                     id_row_map: {}
-  /dtable-server/api/v1/dtables/{base_uuid}/metadata/:
+  /api-gateway/api/v2/dtables/{base_uuid}/metadata/:
     get:
       tags:
         - Base Info
       summary: Get Metadata
-      description: Returns all metadata of the specified base including tables, columns, views and settings.
+      description: Get the complete metadata of a base with all tables, columns and views and settings. The metadata does not contain any data.
       security:
         - BaseTokenAuth: []
       parameters:
@@ -2591,55 +2359,12 @@ paths:
                         can_copy: false
                         can_export: false
                         can_print: false
-  /dtable-db/api/v1/base-info/{base_uuid}/:
-    get:
-      tags:
-        - Base Info
-      summary: Get Big Data Status
-      description: Returns the total number of rows stored in the big data backend of the specified base as well as rows in the big data backend per table.
-      security:
-        - BaseTokenAuth: []
-      parameters:
-        - $ref: "#/components/parameters/base_uuid"
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-              example:
-                id: abcdefgh-fd55-48e4-8c4a-5fd6f2549765
-                tables:
-                  - id: Z7dm
-                    name: Table1
-                    rows: 9
-                  - id: QoSF
-                    name: Table2
-                    rows: 0
-                  - id: 0bqQ
-                    name: Table3
-                    rows: 0
-                  - id: 1kjR
-                    name: Table4
-                    rows: 4
-                  - id: wB7j
-                    name: Table5
-                    rows: 71011
-                  - id: 8h4H
-                    name: Table7
-                    rows: 0
-                  - id: l9x9
-                    name: Table8
-                    rows: 0
-                storage: 309620017
-                rows: 101031
-  /dtable-server/api/v1/dtables/{base_uuid}/related-users/:
+  /api-gateway/api/v2/dtables/{base_uuid}/related-users/:
     get:
       tags:
         - Base Info
       summary: List Collaborators
-      description: Returns all collaborators in the specified base including name, email address and avatar.
+      description: List all collaborators of a base with name, email address and avatar.
       security:
         - BaseTokenAuth: []
       parameters:
@@ -2663,23 +2388,24 @@ paths:
                     avatar_url: https://cloud.seatable.io/media/avatars/default.png
 
   # Rows
-  /dtable-db/api/v1/query/{base_uuid}/:
+  /api-gateway/api/v2/dtables/{base_uuid}/sql:
     post:
       tags:
         - Rows
       summary: List Rows (with SQL)
       description: |
-        Lists rows in a table based on an SQL-query provided in the request. Also returns the metadata of the table.
+        Gets a list or rows contained in a table, according to the `select` SQL-query provided in the request. Also the metadata of the table is returned.
 
-        Typical SQL-statements are supported. Below some basic examples:
+        Typical SQL-statements are supported. For more details, check the [SQL-syntax supported by SeaTable](https://seatable.github.io/seatable-scripts/python/sql/).
+
+        Here are some basic examples how to use this request for a fictitious table *Participants* with the columns *name*, *age*, *birthday* and *gender*:
         `SELECT name, age, birthday, gender FROM Participants`<br/>
         `SELECT name, surname FROM Participants ORDER BY name`<br/>
         `SELECT * FROM Participants LIMIT 25`
-        For more details, check the [SQL-syntax supported by SeaTable](https://developer.seatable.io/scripts/sql/reference/).
 
         > 📘 Returns also data from the big data backend
         > 
-        > This request is the only available endpoint that returns rows stored in the big data backend. 
+        > This request is the only available endpoint that can return rows stored in the big data backend. 
 
         > 🚧 Returns at most 10 000 rows
         >
@@ -2702,21 +2428,18 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/sql_query_response"
-  /dtable-server/api/v1/dtables/{base_uuid}/rows/:
+  /api-gateway/api/v2/dtables/{base_uuid}/rows/:
     get:
       tags:
         - Rows
       summary: List Rows
       description: |
-        Lists rows in a table (or in a view if provided), ordered according to the filter conditions and sort criteria provided in the request. 
+        Gets a list of rows contained in a table (or in a view if provided), ordered according to the filter conditions and sort criteria provided in the request. 
+        The response contains a maximum of 1.000 rows regardless of the specified limit.
 
         > 📘 Returns no data from the big data backend
         > 
         > This request does not return rows stored in the big data backend. To query the big data backend, use the request [List Rows (with SQL)](/reference/list-rows-with-sql) instead.
-
-        > 🚧 Returns at most 1 000 rows
-        >
-        > The request returns a maximum of 1 000 rows regardless of the limit specified in the SQL-statement.
       security:
         - BaseTokenAuth: []
       parameters:
@@ -2751,7 +2474,7 @@ paths:
         - Rows
       summary: Add Row
       description: |
-        Appends or inserts a single row.
+        Either insert or append a row. If you want to insert the row at a desired position, you need to provide the id of an anchor row.
 
         > 📘 How to define the row object
         > 
@@ -2784,7 +2507,7 @@ paths:
         - Rows
       summary: Update Row
       description: |
-        Updates a single row.
+        Change the values in an existing row by defining the new values for necessary columns in the row object.
 
         > 📘 Structure of the row object
         > 
@@ -2812,7 +2535,8 @@ paths:
       tags:
         - Rows
       summary: Delete Row
-      description: Deletes a single row.
+      description: |
+        Deletes one row from the table, identified by its row id.
       security:
         - BaseTokenAuth: []
       parameters:
@@ -2831,12 +2555,12 @@ paths:
                 type: object
               example:
                 success: true
-  /dtable-server/api/v1/dtables/{base_uuid}/rows/{row_id}/:
+  /api-gateway/api/v2/dtables/{base_uuid}/rows/{row_id}/:
     get:
       tags:
         - Rows
       summary: Get Row
-      description: Retrieves a single row.
+      description: Get the values of one row with all columns and values, according to the row id provided. Depending of `convert` the response will contain the column names or the column keys.
       security:
         - BaseTokenAuth: []
       parameters:
@@ -2858,17 +2582,13 @@ paths:
                 Date: "2020-08-01"
                 Content: "111"
                 link: []
-  /dtable-server/api/v1/dtables/{base_uuid}/batch-append-rows/:
+  /api-gateway/api/v2/dtables/{base_uuid}/batch-append-rows/:
     post:
       tags:
         - Rows
       summary: Append Rows
       description: |-
-        Appends multiple rows.
-
-        > 🚧 Appends at most 1 000 rows
-        >
-        > A maximum of 1 000 rows can be appended with a single request.
+        Append multiple rows to a table. Define the column:values pairs of each column in the [rows object](/reference/models).
       requestBody:
         content:
           application/json:
@@ -2888,16 +2608,12 @@ paths:
                 type: object
               example:
                 inserted_row_count: 3
-  /dtable-server/api/v1/dtables/{base_uuid}/batch-update-rows/:
+  /api-gateway/api/v2/dtables/{base_uuid}/batch-update-rows/:
     put:
       tags:
         - Rows
       summary: Update Rows
-      description: Updates multiple rows.
-
-        > 🚧 Updates at most 1 000 rows
-        >
-        > A maximum of 1 000 rows can be updated with a single request.
+      description: Update the values of multiple rows in one request.
       requestBody:
         content:
           application/json:
@@ -2916,16 +2632,12 @@ paths:
                 type: object
               example:
                 success: true
-  /dtable-server/api/v1/dtables/{base_uuid}/batch-delete-rows/:
+  /api-gateway/api/v2/dtables/{base_uuid}/batch-delete-rows/:
     delete:
       tags:
         - Rows
       summary: Delete Rows
-      description: Deletes multiple rows.
-
-        > 🚧 Deletes at most 10 000 rows
-        >
-        > A maximum of 10 000 rows can be deleted with a single request.
+      description: Delete multiple rows in one request.
       security:
         - BaseTokenAuth: []
       parameters:
@@ -2944,19 +2656,17 @@ paths:
                 type: object
               example:
                 success: true
-  /dtable-server/api/v1/dtables/{base_uuid}/lock-rows/:
+  /api-gateway/api/v2/dtables/{base_uuid}/lock-rows/:
     put:
       tags:
         - Rows
       summary: Lock Rows
       description: |
-        Locks a single or multiple rows. 
-
-        The request ensures that all specified rows are locked. Locked rows are ignored.
+        Locks one or more rows. It is ok to include rows that were already locked.
 
         > 📘 Advanced feature
         > 
-        > Row locking is only available in [SeaTable Cloud Plus and Enterprise](https://seatable.io/preise/?lang=auto) as well as SeaTable Server Enterprise Edition.
+        > Lock rows is an advanced feature in SeaTable and only available for [enterprise subscriptions](https://seatable.io/preise/?lang=auto).
       requestBody:
         content:
           application/json:
@@ -2975,19 +2685,15 @@ paths:
                 type: object
               example:
                 success: true
-  /dtable-server/api/v1/dtables/{base_uuid}/unlock-rows/:
+  /api-gateway/api/v2/dtables/{base_uuid}/unlock-rows/:
     put:
       tags:
         - Rows
       summary: Unlock Rows
       description: |
-        Unlocks a single or multiple rows.
-
-        The request ensures that all specified rows are unlocked. Unlocked rows are ignored.
-
-        > 📘 Advanced feature
-        > 
-        > Row locking is only available in [SeaTable Cloud Plus and Enterprise](https://seatable.io/preise/?lang=auto) as well as SeaTable Server Enterprise Edition.
+        Use this API request to unlock one or more locked rows. As this request
+        makes sure that all the mentioned rows are unlocked, it's OK to include
+        rows that were not locked.
       requestBody:
         content:
           application/json:
@@ -3006,151 +2712,9 @@ paths:
                 type: object
               example:
                 success: true
-  /dtable-server/api/v1/dtables/{base_uuid}/filtered-rows/:
-    get:
-      deprecated: true
-      tags:
-        - Rows
-      summary: List Filtered Rows
-      description: |
-        List rows by filter conditions. This is especially useful when you want to filter out records and only see those records.
-        > 🚧 Deprecated since version 2.3
-        > 
-        > This request has been depricated since SeaTable 2.3. This means you can probably still use it, but it will not be maintained and will probably be removed/deactivated any time without further notice in the future.
-        > Please use [List rows (with SQL)](/reference/list-rows-with-sql) or [List rows](/reference/list-rows) instead.
-      security:
-        - BaseTokenAuth: []
-      parameters:
-        - $ref: "#/components/parameters/base_uuid"
-        - $ref: "#/components/parameters/table_name"
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/filtered-rows-filter"
-      responses:
-        "200":
-          description: OK
   # Links
-  /dtable-server/api/v1/dtables/{base_uuid}/links/:
-    post:
-      tags:
-        - Links
-      summary: Create Row Link
-      description: |
-        You can link a row to another row in the same table, or in another table in the same base. **Before you use this request**, you should create a
-        link column first, and retrieve its `link_id`. This value is an attribute of a link column, and can also be retrieved from the call
-        [Get Metadata](/reference/get-metadata).
-
-        Check out the [Models](/reference/models#a-link) page to get more information about the structure of a link.
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/create_row_link"
-      security:
-        - BaseTokenAuth: []
-      parameters:
-        - $ref: "#/components/parameters/base_uuid"
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-              example:
-                success: true
-    put:
-      tags:
-        - Links
-      summary: Create Row Links
-      description: |
-        Creates multiple links between one column and many others (1:n relation).
-
-        > 🚧 No support for Big Data
-        >
-        > This request does not support to add links in big data rows. There is another call [supporting big data](/reference/post_dtable-db-api-v1-base-base-uuid-links).
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/create_row_links"
-      security:
-        - BaseTokenAuth: []
-      parameters:
-        - $ref: "#/components/parameters/base_uuid"
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-              example:
-                success: true
-    delete:
-      tags:
-        - Links
-      summary: Delete Row Link
-      description: Delete an existing link between two rows.
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/delete_row_link"
-      security:
-        - BaseTokenAuth: []
-      parameters:
-        - $ref: "#/components/parameters/base_uuid"
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-              example:
-                deleted_links_count: 1
-
-  /dtable-server/api/v1/dtables/{base_uuid}/batch-update-links/:
-    put:
-      tags: [Links]
-      summary: Create Row Links (Batch)
-      description: |
-        Update multiple links in batch in one table for one link column. It is possible to create multiple links with a n:m relation.
-        Here is an example how the body with `row_id_list` and `other_rows_ids_map` should look like: 
-        ```
-        "row_id_list": [
-                "Qtf7xPmoRaiFyQPO1aENTjb",
-                "Qtf7xPmoRaiFyQPO1aENTjc"
-            ],
-            "other_rows_ids_map": {
-                "Qtf7xPmoRaiFyQPO1aENTjb": ["Qtf7xPmoRaiFyQPO1aENTjc", "{{row3_id}}"],
-                "Qtf7xPmoRaiFyQPO1aENTjc": ["Qtf7xPmoRaiFyQPO1aENTjb", "{{row3_id}}"]
-            }
-        ```
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/update_links"
-      security:
-        - BaseTokenAuth: []
-      parameters:
-        - $ref: "#/components/parameters/base_uuid"
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-              example:
-                success: true
-
-  /dtable-db/api/v1/linked-records/{base_uuid}:
-    post:
+  /api-gateway/api/v2/dtables/{base_uuid}/links/:
+    get:
       tags:
         - Links
       summary: List Row Links
@@ -3201,91 +2765,25 @@ paths:
                 Qtf7xPmoRaiFyQPO1aENTjb:
                   - row_id: G5rbgqudTKKfAm1-cjnjbQ
                     display_value: Orson
-
-  # Files & Images
-  /api/v2.1/dtable/app-upload-link/:
-    get:
-      tags:
-        - Files & Images
-      summary: Get Upload Link
-      description: |
-        With the **API token** (not the Base Token), you can generate an upload link, the parent- and the relative path. These information are needed to upload a file / an image to a bases.
-        Then this file/image can be attached to a file/image column. 
-
-        > 📘 The upload link is only valid for a short time
-        > 
-        > The upload link is only valid for some minutes. After that the upload link must be created again.
-      security:
-        - ApiTokenAuth: []
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-              example:
-                upload_link: >-
-                  https://cloud.seafile.com/seafhttp/upload-api/83e701c8-84ba-498c-91b1-ddb3789edb7e
-                parent_path: /asset/a275d870-fd55-48e4-8c4a-5fd6f2549765
-                img_relative_path: images/2021-08
-                file_relative_path: files/2021-08
-  /seafhttp/upload-api/{upload_link}?ret-json=1:
     post:
       tags:
-        - Files & Images
-      summary: Upload File/Image
+        - Links
+      summary: Create Row Link
       description: |
-        Upload a file or an image as an attachment to a base. To execute this request you need to generate an [upload link](/reference/get-file-image-upload-link) first. 
+        You can link a row to another row in the same table, or in another table in the same base. **Before you use this request**, you should create a
+        link column first, and retrieve its `link_id`. This value is an attribute of a link column, and can also be retrieved from the call
+        [Get Metadata](/reference/get-metadata).
 
-        > 📘 Three steps to add a file/an image to a base
-        > 
-        > To add an image or a file to a base, three steps are necessary: 
-        > 1. [Generate an upload link](/reference/get-file-image-upload-link).
-        > 2. Upload the file to the base as an attachment.
-        > 3. [Update a row](/reference/update-row) and attach the file/the image to a file or image column. 
-
-        > 📘 Different variable names
-        > 
-        > Pay attention that the return values of [upload link](/reference/get-file-image-upload-link) have slightly different names, so `parent_path` is `parent_dir` in this call.
-
-        ## Attach the file/image to a file or image column
-
-        After uploading the file/image to a base, SeaTable saves the uploaded file at non-public URL in the form: `/workspace/{workspace_id}`+`parent_dir`+`relative_path`+`name`. 
-
-        Here is an example how this might look like: `https://cloud.seatable.io/workspace/24/asset/55f2f056-5da1-4095-b5f8-791bb51b991e/images/2023-07/party.png`
-        If you are logged in with your browser, you can access this file. Otherwise you will see the login screen.
-
-        Knowing this URL, you can add a new row or update an existing row and use the URL to add this attachment to your file/image column.
-        ```
-        # Example how to add an already uploaded image to a row:
-        "row": {
-          "My Image Column": ["/workspace/24/asset/55f2f056-5da1-4095-b5f8-791bb51b991e/images/2023-07/party.png`"]
-        }
-
-        # Example how to add an already uploaded file to a row:
-        "row": {
-          "File Column": [{
-            "name": "invoice.pdf", 
-            "size": 101454, 
-            "type": "file", 
-            "url": "/workspace/24/asset/55f2f056-5da1-4095-b5f8-791bb51b991e/images/2023-07/invoice.pdf"
-          }]
-        }
-        ```
-        > 📘 File requires the input variables size, type and url
-        > 
-        > As you can see, in the case of an image the URL is sufficient to attach the image to an image column. In case of a file, you have to provide all four input values.
-
+        Check out the [Models](/reference/models#a-link) page to get more information about the structure of a link.
       requestBody:
         content:
-          multipart/form-data:
+          application/json:
             schema:
-              $ref: "#/components/schemas/upload_file_image"
+              $ref: "#/components/schemas/create_row_link"
       security:
-        - ApiTokenAuth: []
+        - BaseTokenAuth: []
       parameters:
-        - $ref: "#/components/parameters/upload_link"
+        - $ref: "#/components/parameters/base_uuid"
       responses:
         "200":
           description: OK
@@ -3294,24 +2792,77 @@ paths:
               schema:
                 type: object
               example:
-                - name: favicon.ico
-                  id: b4356e3000d01a37b458524b59cecb1a5d23d964
-                  size: 67646
-  /api/v2.1/dtable/app-download-link/:
-    get:
+                success: true
+    put:
       tags:
-        - Files & Images
-      summary: Get File Download Link
+        - Links
+      summary: Create Row Links
       description: |
-        Get the file download link of a base's attachment.
+        Creates multiple links between one column and many others (1:n relation).
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/create_row_links"
+      security:
+        - BaseTokenAuth: []
+      parameters:
+        - $ref: "#/components/parameters/base_uuid"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                success: true
+    delete:
+      tags:
+        - Links
+      summary: Delete Row Link
+      description: Delete an existing link between two rows.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/delete_row_link"
+      security:
+        - BaseTokenAuth: []
+      parameters:
+        - $ref: "#/components/parameters/base_uuid"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                deleted_links_count: 1
 
-        > 🚧 This request needs the API-Token
-        >
-        > Obwohl wir im Bereich Base Operations sind, werden für die requests im Abschnitt Files & Images der API-Token benötigt.
+  /api-gateway/api/v2/dtables/{base_uuid}/batch-add-links/:
+    post:
+      tags: [Links]
+      summary: Create Row Links (Batch)
+      description: |
+        Add multiple links in batch in one table for one link column. It is possible to create multiple links with a n:m relation.
+        Here is an example how the body with `other_rows_ids_map` should look like: 
+        ```
+        "other_rows_ids_map": {
+              "Qtf7xPmoRaiFyQPO1aENTjb": ["Qtf7xPmoRaiFyQPO1aENTjc", "{{row3_id}}"],
+              "Qtf7xPmoRaiFyQPO1aENTjc": ["Qtf7xPmoRaiFyQPO1aENTjb", "{{row3_id}}"]
+          }
+        ```
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/add_del_links"
       security:
-        - ApiTokenAuth: []
+        - BaseTokenAuth: []
       parameters:
-        - $ref: "#/components/parameters/file_path"
+        - $ref: "#/components/parameters/base_uuid"
       responses:
         "200":
           description: OK
@@ -3320,18 +2871,34 @@ paths:
               schema:
                 type: object
               example:
-                download_link: >-
-                  https://cloud.seatable.io/seafhttp/files/12345678-1234-4672-834c-4eca40dc104b/test.png
+                success: true
 
-  # Files & Images (Custom Folder)
-  /api/v2.1/dtable/custom/app-asset-dir/:
-    get:
-      tags: [Files & Images (Custom Folder)]
-      summary: Get Folder Content
+  /api-gateway/api/v2/dtables/{base_uuid}/batch-update-links/:
+    put:
+      tags: [Links]
+      summary: Update Row Links (Batch)
+      description: |
+        Update multiple links in batch in one table for one link column. It is possible to create multiple links with a n:m relation.
+        Here is an example how the body with `row_id_list` and `other_rows_ids_map` should look like: 
+        ```
+        "row_id_list": [
+                "Qtf7xPmoRaiFyQPO1aENTjb",
+                "Qtf7xPmoRaiFyQPO1aENTjc"
+            ],
+            "other_rows_ids_map": {
+                "Qtf7xPmoRaiFyQPO1aENTjb": ["Qtf7xPmoRaiFyQPO1aENTjc", "{{row3_id}}"],
+                "Qtf7xPmoRaiFyQPO1aENTjc": ["Qtf7xPmoRaiFyQPO1aENTjb", "{{row3_id}}"]
+            }
+        ```
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/update_links"
       security:
-        - ApiTokenAuth: []
+        - BaseTokenAuth: []
       parameters:
-        - $ref: "#/components/parameters/custom_folder_path"
+        - $ref: "#/components/parameters/base_uuid"
       responses:
         "200":
           description: OK
@@ -3340,21 +2907,31 @@ paths:
               schema:
                 type: object
               example:
-                dir:
-                  - name: "Invoices"
-                  - name: "Requests"
-                file:
-                  - name: "b347.pdf"
+                success: true
 
-  /api/v2.1/dtable/custom/app-asset-file/:
-    get:
-      tags: [Files & Images (Custom Folder)]
-      summary: Get File Metadata
+  /api-gateway/api/v2/dtables/{base_uuid}/batch-delete-links/:
+    delete:
+      tags: [Links]
+      summary: Delete Row Links (Batch)
+      description: |
+        Delete multiple links in batch in one table for one link column. It is possible to create multiple links with a n:m relation.
+        Here is an example how the body with `other_rows_ids_map` should look like: 
+        ```
+
+        "other_rows_ids_map": {
+                "Qtf7xPmoRaiFyQPO1aENTjb": ["Qtf7xPmoRaiFyQPO1aENTjc", "{{row3_id}}"],
+                "Qtf7xPmoRaiFyQPO1aENTjc": ["Qtf7xPmoRaiFyQPO1aENTjb", "{{row3_id}}"]
+            }
+        ```
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/add_del_links"
       security:
-        - ApiTokenAuth: []
+        - BaseTokenAuth: []
       parameters:
-        - $ref: "#/components/parameters/custom_folder_path"
-        - $ref: "#/components/parameters/custom_folder_file_name"
+        - $ref: "#/components/parameters/base_uuid"
       responses:
         "200":
           description: OK
@@ -3363,53 +2940,10 @@ paths:
               schema:
                 type: object
               example:
-                dirent:
-                  is_file: true
-                  obj_name: "b347.pdf"
-                  file_size: 11583
-                  last_update: "2023-04-11T14:59:53+08:00"
-                  uuid: "2bbe9499-e1df-4086-bdd3-d130d6c91bd3"
-  /api/v2.1/dtable/custom/app-upload-link/:
-    get:
-      tags: [Files & Images (Custom Folder)]
-      summary: Get Upload Link
-      security:
-        - ApiTokenAuth: []
-      parameters:
-        - $ref: "#/components/parameters/custom_folder_path"
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-              example:
-                dirent:
-                  upload_link: "https://cloud.seatable.io/seafhttp/upload-api/e943a56a-c5b3-441a-ac1d-9199819dec71"
-                  parent_path: "/asset/1338f224-8482-4d71-b8be-63c8f37b896a/custom"
-                  relative_path": "/"
-  /api/v2.1/dtable/custom/app-download-link:
-    get:
-      tags: [Files & Images (Custom Folder)]
-      summary: Get Download Link
-      security:
-        - ApiTokenAuth: []
-      parameters:
-        - $ref: "#/components/parameters/custom_folder_path_with_filename"
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-              example:
-                dirent:
-                  download_link: "https://cloud.seatable.io/seafhttp/files/a73e26e9-0417-4d98-bb5d-92826f4af671/b347.pdf"
+                success: true
 
   # Tables
-  /dtable-server/api/v1/dtables/{base_uuid}/tables/:
+  /api-gateway/api/v2/dtables/{base_uuid}/tables/:
     post:
       tags:
         - Tables
@@ -3469,7 +3003,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/base"
-
     put:
       tags:
         - Tables
@@ -3516,220 +3049,9 @@ paths:
                 type: object
               example:
                 success: true
-  /dtable-server/api/v1/dtables/{base_uuid}/tables/duplicate-table/:
-    post:
-      tags:
-        - Tables
-      summary: Duplicate Table
-      description: |
-        Duplicate an existing table in your base with or without the existing data in it.
-
-        > 🚧 Rename the table in a second step
-        >
-        > If you duplicate one table, the name of this new table will always be the same like the original one plus the appendix **(copy)**. To rename the table, you will need another call.
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/duplicate_table"
-      security:
-        - BaseTokenAuth: []
-      parameters:
-        - $ref: "#/components/parameters/base_uuid"
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-              example:
-                _id: oW2Q
-                name: Appointments(copy)
-                columns:
-                  - key: "0000"
-                    name: New Date
-                    type: date
-                    width: 169
-                    editable: true
-                    resizable: true
-                    editor:
-                      key: null
-                      ref: null
-                      props: {}
-                      _owner: null
-                    formatter:
-                      key: null
-                      ref: null
-                      props: {}
-                      _owner: null
-                    data:
-                      format: YYYY-MM-DD HH:mm
-                      enable_fill_default_value: false
-                      default_value: ""
-                      default_date_type: specific_date
-                  - key: 004l
-                    type: link
-                    name: Pax
-                    editable: true
-                    width: 200
-                    resizable: true
-                    draggable: true
-                    data:
-                      display_column_key: "0000"
-                      table_id: anJ2
-                      other_table_id: oW2Q
-                      is_internal_link: true
-                      is_multiple: true
-                      is_row_from_view: false
-                      other_view_id: ""
-                      link_id: EeKy
-                    permission_type: ""
-                    permitted_users: []
-                    colorbys: null
-                  - key: TlwL
-                    type: duration
-                    name: dauer
-                    editable: true
-                    width: 200
-                    resizable: true
-                    draggable: true
-                    data:
-                      format: duration
-                      duration_format: h:mm
-                    permission_type: ""
-                    permitted_users: []
-                  - key: E5kr
-                    type: formula
-                    name: Ende
-                    editable: true
-                    width: 200
-                    resizable: true
-                    draggable: true
-                    data:
-                      formula: "{Termine}+{dauer}"
-                      operated_columns:
-                        - "0000"
-                        - TlwL
-                      result_type: date
-                      format: YYYY-MM-DD HH:mm
-                    permission_type: ""
-                    permitted_users: []
-                  - key: quLi
-                    type: text
-                    name: Name
-                    editable: true
-                    width: 200
-                    resizable: true
-                    draggable: true
-                    data: null
-                    permission_type: ""
-                    permitted_users: []
-                    description: null
-                  - key: X16v
-                    type: number
-                    name: Amount
-                    editable: true
-                    width: 200
-                    resizable: true
-                    draggable: true
-                    data:
-                      format: number
-                      precision: 3
-                      enable_precision: true
-                      enable_fill_default_value: false
-                      decimal: dot
-                      thousands: "no"
-                    permission_type: ""
-                    permitted_users: []
-                    description: null
-                  - key: "0000"
-                    type: text
-                    name: Name2
-                    editable: true
-                    width: 200
-                    resizable: true
-                    draggable: true
-                    data: null
-                    permission_type: ""
-                    permitted_users: []
-                    description: null
-                  - key: "0000"
-                    type: text
-                    name: Name3
-                    editable: true
-                    width: 200
-                    resizable: true
-                    draggable: true
-                    data: null
-                    permission_type: ""
-                    permitted_users: []
-                    description: null
-                rows: []
-                id_row_map: {}
-                views:
-                  - _id: "0000"
-                    name: Default View
-                    type: table
-                    is_locked: false
-                    rows: []
-                    formula_rows: {}
-                    summaries: []
-                    filter_conjunction: And
-                    filters: []
-                    sorts: []
-                    hidden_columns: []
-                    groupbys: []
-                    groups: []
-                  - _id: kIZQ
-                    name: Frei
-                    type: table
-                    private_for: null
-                    is_locked: false
-                    row_height: default
-                    filter_conjunction: And
-                    filters:
-                      - column_key: 004l
-                        filter_predicate: is_empty
-                        filter_term_modifier: exact_date
-                        filter_term: ""
-                    sorts: []
-                    groupbys: []
-                    group_rows: []
-                    groups: []
-                    colorbys: {}
-                    hidden_columns: []
-                    rows: []
-                    formula_rows: {}
-                    link_rows: {}
-                    summaries: {}
-                    colors: {}
-                  - _id: 0Uz1
-                    name: Besetzt
-                    type: table
-                    private_for: null
-                    is_locked: false
-                    row_height: default
-                    filter_conjunction: And
-                    filters:
-                      - column_key: 004l
-                        filter_predicate: is_not_empty
-                        filter_term_modifier: exact_date
-                        filter_term: ""
-                    sorts: []
-                    groupbys: []
-                    group_rows: []
-                    groups: []
-                    colorbys: {}
-                    hidden_columns: []
-                    rows: []
-                    formula_rows: {}
-                    link_rows: {}
-                    summaries: {}
-                    colors: {}
 
   # Views
-  /dtable-server/api/v1/dtables/{base_uuid}/views/:
+  /api-gateway/api/v2/dtables/{base_uuid}/views/:
     get:
       tags:
         - Views
@@ -3807,7 +3129,7 @@ paths:
                 link_rows: {}
                 summaries: {}
                 colors: {}
-  /dtable-server/api/v1/dtables/{base_uuid}/views/{view_name}/:
+  /api-gateway/api/v2/dtables/{base_uuid}/views/{view_name}/:
     get:
       tags:
         - Views
@@ -3930,7 +3252,7 @@ paths:
                 success: true
 
   # Columns
-  /dtable-server/api/v1/dtables/{base_uuid}/columns/:
+  /api-gateway/api/v2/dtables/{base_uuid}/columns/:
     get:
       tags:
         - Columns
@@ -4051,8 +3373,9 @@ paths:
 
         `new_column_type` is the new type of the target column. For a list of
         column type params refer to the SeaTable API Parameter.
-
-        Get more information about columns and column types in [Models](https://api.seatable.io/reference/models).
+        There is one further source of information on column types in the
+        [SeaTable Scripts Programming
+        Manual](https://seatable.github.io/seatable-scripts/data-structure/#column).
       requestBody:
         content:
           application/json:
@@ -4105,7 +3428,7 @@ paths:
                 type: object
               example:
                 success: true
-  /dtable-server/api/v1/dtables/{base_uuid}/batch-append-columns/:
+  /api-gateway/api/v2/dtables/{base_uuid}/batch-append-columns/:
     post:
       tags:
         - Columns
@@ -4200,7 +3523,7 @@ paths:
                     permitted_users: []
                     description: null
 
-  /dtable-server/api/v1/dtables/{base_uuid}/column-options/:
+  /api-gateway/api/v2/dtables/{base_uuid}/column-options/:
     post:
       tags:
         - Columns
@@ -4332,7 +3655,7 @@ paths:
                 type: object
               example:
                 success: true
-  /dtable-server/api/v1/dtables/{base_uuid}/column-cascade-settings/:
+  /api-gateway/api/v2/dtables/{base_uuid}/column-cascade-settings/:
     post:
       tags:
         - Columns
@@ -4418,7 +3741,7 @@ paths:
                 success: true
 
   # Big Data
-  /dtable-db/api/v1/insert-rows/{base_uuid}/:
+  /api-gateway/api/v2/dtables/{base_uuid}/insert-archived-rows/:
     post:
       tags:
         - Big Data
@@ -4443,57 +3766,7 @@ paths:
                 type: object
               example:
                 inserted_row_count: 1
-  /dtable-db/api/v1/update-rows/{base_uuid}/:
-    put:
-      tags:
-        - Big Data
-      summary: Update Rows in Big Data
-      description: Update multipe rows in the big data backend identified by their row id.
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/update_rows"
-      security:
-        - BaseTokenAuth: []
-      parameters:
-        - $ref: "#/components/parameters/base_uuid"
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-              example:
-                success: true
-  /dtable-db/api/v1/delete-rows/{base_uuid}/:
-    delete:
-      tags:
-        - Big Data
-      summary: Delete Rows in Big Data
-      description: Delete rows that are currently stored the big data backend identified by their row id.
-      security:
-        - BaseTokenAuth: []
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/delete_rows"
-
-      parameters:
-        - $ref: "#/components/parameters/base_uuid"
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-              example:
-                deleted_rows: 1
-
-  /dtable-server/api/v1/dtables/{base_uuid}/archive-view/:
+  /api-gateway/api/v2/dtables/{base_uuid}/archive-view/:
     post:
       tags: [Big Data]
       summary: Move Rows to Big Data
@@ -4517,57 +3790,8 @@ paths:
               example:
                 success: true
                 error_message: ""
-
-  /dtable-db/api/v1/base/{base_uuid}/links/:
-    post:
-      tags: [Big Data]
-      summary: Create Row Links in Big Data
-      description: |
-        This API can handle both archived and unarchived rows.
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/archived_row_links"
-      security:
-        - BaseTokenAuth: []
-      parameters:
-        - $ref: "#/components/parameters/base_uuid"
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-              example:
-                success: true
-    delete:
-      tags: [Big Data]
-      summary: Delete Row Links in Big Data
-      description: |
-        This API can handle both archived and unarchived rows.
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/archived_row_links"
-      security:
-        - BaseTokenAuth: []
-      parameters:
-        - $ref: "#/components/parameters/base_uuid"
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-              example:
-                success: true
-
   # Row Comments
-  /dtable-server/api/v1/dtables/{base_uuid}/comments/:
+  /api-gateway/api/v2/dtables/{base_uuid}/comments/:
     get:
       tags:
         - Row Comments
@@ -4612,8 +3836,7 @@ paths:
                   created_at: "2021-01-15T13:53:13.000Z"
                   updated_at: "2021-01-15T13:53:13.000Z"
                   resolved: 1
-
-  /dtable-server/api/v1/dtables/{base_uuid}/comments/{comment_id}/:
+  /api-gateway/api/v2/dtables/{base_uuid}/comments/{comment_id}/:
     delete:
       tags:
         - Row Comments
@@ -4659,7 +3882,7 @@ paths:
                 created_at: "2021-01-15T13:52:48.000Z"
                 updated_at: "2021-01-15T13:52:48.000Z"
                 resolved: 0
-  /dtable-server/api/v1/dtables/{base_uuid}/comments-count/:
+  /api-gateway/api/v2/dtables/{base_uuid}/comments-count/:
     get:
       tags:
         - Row Comments
@@ -4681,7 +3904,7 @@ paths:
                 type: object
               example:
                 count: 3
-  /dtable-server/api/v1/dtables/{base_uuid}/comments-within-days/:
+  /api-gateway/api/v2/dtables/{base_uuid}/comments-within-days/:
     get:
       tags:
         - Row Comments
@@ -4713,7 +3936,7 @@ paths:
                     resolved: 0
 
   # Notifications
-  /dtable-server/api/v1/dtables/{base_uuid}/notifications/:
+  /api-gateway/api/v2/dtables/{base_uuid}/notifications/:
     get:
       tags:
         - Notifications
@@ -4788,7 +4011,7 @@ paths:
                 type: object
               example:
                 success: true
-  /dtable-server/api/v1/dtables/{base_uuid}/notifications/{notification_id}/:
+  /api-gateway/api/v2/dtables/{base_uuid}/notifications/{notification_id}/:
     put:
       tags:
         - Notifications
@@ -4820,7 +4043,7 @@ paths:
                 success: true
 
   # Activities & Logs
-  /dtable-server/api/v1/dtables/{base_uuid}/operations/:
+  /api-gateway/api/v2/dtables/{base_uuid}/operations/:
     get:
       tags:
         - Activities & Logs
@@ -4858,7 +4081,7 @@ paths:
                     operation: >-
                       {"op_type":"delete_column","table_id":"0000","column_key":"jQyv","old_column":{"rowType":"header","key":"jQyv","type":null,"name":null,"editable":true,"width":200,"resizable":true,"draggable":true,"data":null,"permission_type":"","permitted_users":[],"editor":{"key":null,"ref":null,"props":{},"_owner":null},"formatter":null,"left":480,"idx":3},"upper_column_key":"J2mq"}
                     op_id: 116
-  /dtable-server/api/v1/dtables/{base_uuid}/activities/:
+  /api-gateway/api/v2/dtables/{base_uuid}/activities/:
     get:
       tags:
         - Activities & Logs
@@ -4939,45 +4162,7 @@ paths:
                           column_data: {}
                           value: ""
                 total_count: 3
-  /api/v2.1/dtables/{base_uuid}/delete-operation-logs/:
-    get:
-      tags:
-        - Activities & Logs
-      summary: List Delete Operation Logs
-      description: >-
-        Deleted rows, tables and columns are saved in SeaTable for 7 days. You
-        can list these in the operation log with this request. To restore them,
-        you'll need to log into the web UI.
-
-
-        For `op_type` notice:
-
-
-        `delete_row` returns the single operations which have deleted 1 row each
-        time.
-
-
-        `delete_rows` returns the operations in which multiple rows were
-        deleted.
-
-
-        `delete_column` returns the column that was deleted by each operation.
-
-
-        `delete_table` returns the table that was deleted by each operation.
-      security:
-        - BaseTokenAuth: []
-      parameters:
-        - $ref: "#/components/parameters/page"
-        - $ref: "#/components/parameters/per_page"
-        - $ref: "#/components/parameters/op_type"
-        - $ref: "#/components/parameters/base_uuid"
-      responses:
-        "200":
-          description: Successful response
-          content:
-            application/json: {}
-  /dtable-server/api/v1/dtables/{base_uuid}/deleted-rows/:
+  /api-gateway/api/v2/dtables/{base_uuid}/deleted-rows/:
     get:
       tags:
         - Activities & Logs
@@ -5029,7 +4214,7 @@ paths:
                     op_app: null
 
   # Snapshots
-  /dtable-server/api/v1/dtables/{base_uuid}/snapshot/:
+  /api-gateway/api/v2/dtables/{base_uuid}/snapshot/:
     post:
       tags:
         - Snapshots
