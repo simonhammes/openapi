@@ -2519,6 +2519,7 @@ paths:
       tags:
         - Base Info
       summary: Get Big Data Status
+      operationId: getBigDataStatus
       description: Returns the total number of rows stored in the big data backend of the specified base as well as rows in the big data backend per table.
       security:
         - BaseTokenAuth: []
@@ -2562,6 +2563,7 @@ paths:
       tags:
         - Base Info
       summary: List Collaborators
+      operationId: listCollaborators
       description: Returns all collaborators in the specified base including name, email address and avatar.
       security:
         - BaseTokenAuth: []
@@ -2591,6 +2593,7 @@ paths:
       tags:
         - Rows
       summary: List Rows (with SQL)
+      operationId: querySQL
       description: |
         Lists rows in a table based on an SQL-query provided in the request. Also returns the metadata of the table.
 
@@ -2630,6 +2633,7 @@ paths:
       tags:
         - Rows
       summary: List Rows
+      operationId: listRows
       description: |
         Lists rows in a table (or in a view if provided), ordered according to the filter conditions and sort criteria provided in the request. 
 
@@ -2673,6 +2677,7 @@ paths:
       tags:
         - Rows
       summary: Add Row
+      operationId: addRow
       description: |
         Appends or inserts a single row.
 
@@ -2706,6 +2711,7 @@ paths:
       tags:
         - Rows
       summary: Update Row
+      operationId: updateRow
       description: |
         Updates a single row.
 
@@ -2735,6 +2741,7 @@ paths:
       tags:
         - Rows
       summary: Delete Row
+      operationId: deleteRow
       description: Deletes a single row.
       security:
         - BaseTokenAuth: []
@@ -2759,6 +2766,7 @@ paths:
       tags:
         - Rows
       summary: Get Row
+      operationId: getRow
       description: Retrieves a single row.
       security:
         - BaseTokenAuth: []
@@ -2786,6 +2794,7 @@ paths:
       tags:
         - Rows
       summary: Append Rows
+      operationId: appendRows
       description: |-
         Appends multiple rows.
 
@@ -2816,6 +2825,7 @@ paths:
       tags:
         - Rows
       summary: Update Rows
+      operationId: updateRows
       description: Updates multiple rows.
 
         > 🚧 Updates at most 1 000 rows
@@ -2844,6 +2854,7 @@ paths:
       tags:
         - Rows
       summary: Delete Rows
+      operationId: deleteRows
       description: Deletes multiple rows.
 
         > 🚧 Deletes at most 10 000 rows
@@ -2872,6 +2883,7 @@ paths:
       tags:
         - Rows
       summary: Lock Rows
+      operationId: lockRows
       description: |
         Locks a single or multiple rows. 
 
@@ -2903,6 +2915,7 @@ paths:
       tags:
         - Rows
       summary: Unlock Rows
+      operationId: unlockRows
       description: |
         Unlocks a single or multiple rows.
 
@@ -2935,6 +2948,7 @@ paths:
       tags:
         - Rows
       summary: List Filtered Rows
+      operationId: listFilteredRows
       description: |
         List rows by filter conditions. This is especially useful when you want to filter out records and only see those records.
         > 🚧 Deprecated since version 2.3
@@ -2960,6 +2974,7 @@ paths:
       tags:
         - Links
       summary: Create Row Link
+      operationId: createRowLink
       description: |
         You can link a row to another row in the same table, or in another table in the same base. **Before you use this request**, you should create a
         link column first, and retrieve its `link_id`. This value is an attribute of a link column, and can also be retrieved from the call
@@ -2988,6 +3003,7 @@ paths:
       tags:
         - Links
       summary: Create Row Links
+      operationId: createRowLinks
       description: |
         Creates multiple links between one column and many others (1:n relation).
 
@@ -3016,6 +3032,7 @@ paths:
       tags:
         - Links
       summary: Delete Row Link
+      operationId: deleteRowLink
       description: Delete an existing link between two rows.
       requestBody:
         content:
@@ -3040,6 +3057,7 @@ paths:
     put:
       tags: [Links]
       summary: Create Row Links (Batch)
+      operationId: createRowLinks
       description: |
         Update multiple links in batch in one table for one link column. It is possible to create multiple links with a n:m relation.
         Here is an example how the body with `row_id_list` and `other_rows_ids_map` should look like: 
@@ -3077,6 +3095,7 @@ paths:
       tags:
         - Links
       summary: List Row Links
+      operationId: listRowLinks
       description: >-
         When you have a "Link to other records" column in your table and you
         have created some links to the current or another table, you can use
@@ -3130,7 +3149,8 @@ paths:
     post:
       tags:
         - Tables
-      summary: Create New Table
+      summary: Create Table
+      operationId: createTable
       description: |
         Creates a new table in a base. Optionally, you can already add some columns to the base.
 
@@ -3191,6 +3211,7 @@ paths:
       tags:
         - Tables
       summary: Rename Table
+      operationId: renameTable
       description: Rename a table by providing it's original `table_name` and the desired `new_table_name`.
       requestBody:
         content:
@@ -3214,6 +3235,7 @@ paths:
       tags:
         - Tables
       summary: Delete Table
+      operationId: deleteTable
       description: Delete an existing table identified by its name.
       requestBody:
         content:
@@ -3238,6 +3260,7 @@ paths:
       tags:
         - Tables
       summary: Duplicate Table
+      operationId: duplicateTable
       description: |
         Duplicate an existing table in your base with or without the existing data in it.
 
@@ -3451,6 +3474,7 @@ paths:
       tags:
         - Views
       summary: List Views
+      operationId: listViews
       description: List all the views and their settings in a table.
       security:
         - BaseTokenAuth: []
@@ -3484,6 +3508,7 @@ paths:
       tags:
         - Views
       summary: Create View
+      operationId: createView
       description: Create a new view in the current table.
 
         In the **request body**, use `name` for the name of the new view. After
@@ -3529,6 +3554,7 @@ paths:
       tags:
         - Views
       summary: Get View
+      operationId: getView
       description: Get the detailed settings of a view by its name.
       security:
         - BaseTokenAuth: []
@@ -3573,6 +3599,7 @@ paths:
       tags:
         - Views
       summary: Update View
+      operationId: updateView
       description: |
         Change the settings of a current view by its name. All parameters are
         optional. 
@@ -3629,6 +3656,7 @@ paths:
       tags:
         - Views
       summary: Delete View
+      operationId: deleteView
       description: Delete a view by its name.
       security:
         - BaseTokenAuth: []
@@ -3652,6 +3680,7 @@ paths:
       tags:
         - Columns
       summary: List Columns
+      operationId: listColumns
       description: >-
         List all the visible columns in a certain view in a table.
       security:
@@ -3689,6 +3718,7 @@ paths:
       tags:
         - Columns
       summary: Insert Column
+      operationId: insertColumn
       description: >-
         Create a new column. You can only add one new column at the end of a table.
       requestBody:
@@ -3754,6 +3784,7 @@ paths:
       tags:
         - Columns
       summary: Update Column
+      operationId: updateColumn
       description: >-
         Allows various changes of the column: name, column_type, freeze/unfreeze, resize, etc...
 
@@ -3801,6 +3832,7 @@ paths:
       tags:
         - Columns
       summary: Delete Column
+      operationId: deleteColumn
       description: |-
         Delete a column with its name or `key`.
         See the request body for detailed params.
@@ -3827,6 +3859,7 @@ paths:
       tags:
         - Columns
       summary: Append Columns
+      operationId: appendColumns
       description: >-
         Use this request to append multiple columns to your table at once. As
         for the request body, refer to the previous call, [Insert Column](/reference/insert-column),
@@ -3922,6 +3955,7 @@ paths:
       tags:
         - Columns
       summary: Add Single/Multiple Select Options
+      operationId: addSelectOption
       description: >-
         Once you have created a single/multiple select column, use this request
         to add options for it.
@@ -3963,6 +3997,7 @@ paths:
       tags:
         - Columns
       summary: Update Single/Multiple Select Options
+      operationId: updateSelectOption
       description: >-
         Use this request to update existing single/multiple select options by
         changing their name and/or color.
@@ -4015,6 +4050,7 @@ paths:
       tags:
         - Columns
       summary: Delete Single/Multiple Select Options
+      operationId: deleteSelectOption
       description: >-
         Use this request to remove single select or multiple select options that
         you don't need any more. Thes deleted options will be removed from the
@@ -4053,12 +4089,12 @@ paths:
     post:
       tags:
         - Columns
-      summary: Update Column Cascade Settings
+      summary: Update Column Cascade
+      operationId: updateColumnCascade
       description: >-
         After you have added at least two single select columns and have added
         relevant options, you can start to set the cascade relationships between
         these single select columns.
-
 
         ## What are cascade settings?
 
@@ -4140,6 +4176,7 @@ paths:
       tags:
         - Big Data
       summary: Insert Rows into Big Data
+      operationId: insertBigDataRows
       description: >-
         Insert rows into the big data backend.
       requestBody:
@@ -4165,6 +4202,7 @@ paths:
       tags:
         - Big Data
       summary: Update Rows in Big Data
+      operationId: updateBigDataRows
       description: Update multipe rows in the big data backend identified by their row id.
       requestBody:
         content:
@@ -4189,6 +4227,7 @@ paths:
       tags:
         - Big Data
       summary: Delete Rows in Big Data
+      operationId: deleteBigDataRows
       description: Delete rows that are currently stored the big data backend identified by their row id.
       security:
         - BaseTokenAuth: []
@@ -4214,6 +4253,7 @@ paths:
     post:
       tags: [Big Data]
       summary: Move Rows to Big Data
+      operationId: moveRowsToBigData
       description: Use an sql-like where clause to select the rows that should be moved into the big data backend.
       security:
         - BaseTokenAuth: []
@@ -4239,6 +4279,7 @@ paths:
     post:
       tags: [Big Data]
       summary: Create Row Links in Big Data
+      operationId: createBigDataRowsLink
       description: |
         This API can handle both archived and unarchived rows.
       requestBody:
@@ -4262,6 +4303,7 @@ paths:
     delete:
       tags: [Big Data]
       summary: Delete Row Links in Big Data
+      operationId: deleteBigDataRowLinks
       description: |
         This API can handle both archived and unarchived rows.
       requestBody:
@@ -4289,6 +4331,7 @@ paths:
       tags:
         - Row Comments
       summary: List Row Comments
+      operationId: listRowComments
       description: >-
         List all the comments in a certain row. The returned `id` value is the
         ID of each comment.
@@ -4335,6 +4378,7 @@ paths:
       tags:
         - Row Comments
       summary: Delete Comment
+      operationId: deleteComment
       description: Delete a certain comment by its ID.
       security:
         - BaseTokenAuth: []
@@ -4354,6 +4398,7 @@ paths:
       tags:
         - Row Comments
       summary: Get Comment
+      operationId: getComment
       description: Get the details of a certain comment with its ID.
       security:
         - BaseTokenAuth: []
@@ -4381,6 +4426,7 @@ paths:
       tags:
         - Row Comments
       summary: Get Row Comments Count
+      operationId: getRowCommentsCount
       description: >-
         Get the number of comments in a certain row. This could be a useful
         request to check if there's new comments there.
@@ -4403,6 +4449,7 @@ paths:
       tags:
         - Row Comments
       summary: List Comments within Days
+      operationId: listCommentsWithinDays
       description: >-
         List all the comments in a base within a given number of days before
         today.
@@ -4435,6 +4482,7 @@ paths:
       tags:
         - Notifications
       summary: List Notifications
+      operationId: listNotifications
       description: List all the notifications, read or unread, in a base.
       security:
         - BaseTokenAuth: []
@@ -4462,7 +4510,8 @@ paths:
     put:
       tags:
         - Notifications
-      summary: Mark Notifications Read
+      summary: Mark Base Notifications as seen
+      operationId: markBaseNotificationsAsSeen
       description: Use this request to mark all the notifications as read.
       requestBody:
         content:
@@ -4490,7 +4539,8 @@ paths:
     delete:
       tags:
         - Notifications
-      summary: Delete Notifications
+      summary: Delete Base Notifications
+      operationId: deleteBaseNotifications
       description: Delete all the notifications in the current base irrevocably.
       security:
         - BaseTokenAuth: []
@@ -4510,6 +4560,7 @@ paths:
       tags:
         - Notifications
       summary: Mark Notification Read/Unread
+      operationId: markBaseNotificationAsSeen
       description: Mark a specific notification as read or unread.
       requestBody:
         content:
@@ -4542,6 +4593,7 @@ paths:
       tags:
         - Activities & Logs
       summary: Get Base Activity Log
+      operationId: getBaseActivityLog
       description: Get the activities log in a base. With the base's `base_uuid`.
       security:
         - BaseTokenAuth: []
@@ -4580,6 +4632,7 @@ paths:
       tags:
         - Activities & Logs
       summary: List Row Activities
+      operationId: listRowActivities
       description: List all the activities done to a certain row with the row's `row_id`.
       security:
         - BaseTokenAuth: []
@@ -4660,7 +4713,8 @@ paths:
     get:
       tags:
         - Activities & Logs
-      summary: List Delete Operation Logs
+      summary: List Delete Operations
+      operationId: listDeleteOperations
       description: >-
         Deleted rows, tables and columns are saved in SeaTable for 7 days. You
         can list these in the operation log with this request. To restore them,
@@ -4699,6 +4753,7 @@ paths:
       tags:
         - Activities & Logs
       summary: List Deleted Rows
+      operationId: listDeletedRows
       description: >-
         List all the deleted rows in the last 7 days.
 
@@ -4751,6 +4806,7 @@ paths:
       tags:
         - Snapshots
       summary: Create Snapshot
+      operationId: createSnapshot
       description: |
         Creates a snapshot for the current base. The pre-conditions are, that there's at least one change since the last snapshot and at least 10 minutes have passed. 
         To get a list of already existing snapshots, use the the request [List Snapshots](/reference/list-snapshots).

@@ -16,7 +16,7 @@ x-readme:
   proxy-enabled: false
 
 # why uses /api/v2.1/admin/organizations-basic-info/ query_params? Why not using a body?
-# why sometimes base_uuid, sometimes manchmal base_id?
+# why sometimes base_uuid, sometimes base_id?
 # the auth.local has many different descriptions: owner, user_id, username or email. Keeping to the same description would be great.
 # is there a possibility to get "internal-links"?
 
