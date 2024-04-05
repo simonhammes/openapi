@@ -4892,7 +4892,7 @@ paths:
       tags:
         - Sharing
       summary: Delete User View Share
-      operationId: deleteUserViewShare
+      operationId: deleteUserAllViewShare
       description: Stop sharing a view to all users.
       security:
         - AccountTokenAuth: []
