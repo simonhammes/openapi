@@ -4686,7 +4686,7 @@ paths:
       tags:
         - Sharing
       summary: Delete Group View Share
-      operationId: deleteGroupViewShare
+      operationId: deleteGroupAllViewShare
       description: Stop sharing the view to all the groups.
       security:
         - AccountTokenAuth: []
