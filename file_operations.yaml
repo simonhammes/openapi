@@ -115,6 +115,7 @@ paths:
       tags:
         - Files & Images
       summary: Get Upload Link
+      operationId: getUploadLink
       description: |
         With the **API token** (not the Base Token), you can generate an upload link, the parent- and the relative path. These information are needed to upload a file / an image to a bases.
         Then this file/image can be attached to a file/image column. 
@@ -141,7 +142,8 @@ paths:
     post:
       tags:
         - Files & Images
-      summary: Upload File/Image
+      summary: Upload File (or Image)
+      operationId: uploadFile
       description: |
         Upload a file or an image as an attachment to a base. To execute this request you need to generate an [upload link](/reference/get-file-image-upload-link) first. 
 
@@ -209,6 +211,7 @@ paths:
       tags:
         - Files & Images
       summary: Get File Download Link
+      operationId: getFileDownloadLink
       description: |
         Get the file download link of a base's attachment.
 
@@ -234,7 +237,8 @@ paths:
   /api/v2.1/dtable/custom/app-asset-dir/:
     get:
       tags: [Files & Images (Custom Folder)]
-      summary: Get Folder Content
+      summary: Get Files from Folder
+      operationId: getCustomFiles
       security:
         - ApiTokenAuth: []
       parameters:
@@ -257,6 +261,7 @@ paths:
     get:
       tags: [Files & Images (Custom Folder)]
       summary: Get File Metadata
+      operationId: getCustomFileMetadata
       security:
         - ApiTokenAuth: []
       parameters:
@@ -280,6 +285,7 @@ paths:
     get:
       tags: [Files & Images (Custom Folder)]
       summary: Get Upload Link
+      operationId: getCustomUploadLink
       security:
         - ApiTokenAuth: []
       parameters:
@@ -300,6 +306,7 @@ paths:
     get:
       tags: [Files & Images (Custom Folder)]
       summary: Get Download Link
+      operationId: getCustomDownloadLink
       security:
         - ApiTokenAuth: []
       parameters:
