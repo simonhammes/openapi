@@ -77,7 +77,7 @@ jobs:
       - name: Update file operations 🚀
         uses: readmeio/rdme@v8
         with:
-          rdme: openapi file_operations.yaml --key=${{ secrets.README_API_KEY }} --id=999 --useSpecVersion
+          rdme: openapi file_operations.yaml --key=${{ secrets.README_API_KEY }} --id=660fd0eda3982a006d461109 --useSpecVersion
 
       # Account operations: System admin
       - name: Update sys admin account operations 🚀
