@@ -4481,8 +4481,8 @@ paths:
     get:
       tags:
         - Notifications
-      summary: List Notifications
-      operationId: listNotifications
+      summary: List Base Notifications
+      operationId: listBaseNotifications
       description: List all the notifications, read or unread, in a base.
       security:
         - BaseTokenAuth: []

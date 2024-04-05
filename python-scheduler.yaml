@@ -78,6 +78,7 @@ paths:
       tags:
         - Statistics
       summary: Script runs per user
+      operationId: scriptRunsPerUser
       security:
         - PythonSchedulerAuth: []
       parameters:
@@ -109,6 +110,7 @@ paths:
       tags:
         - Statistics
       summary: Script runs per team
+      operationId: scriptRunsPerTeam
       security:
         - PythonSchedulerAuth: []
       parameters:
@@ -140,6 +142,7 @@ paths:
       tags:
         - Statistics
       summary: Script runs per base
+      operationId: scriptRunsPerBase
       security:
         - PythonSchedulerAuth: []
       parameters:

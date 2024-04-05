@@ -47,6 +47,7 @@ paths:
       tags:
         - Info
       summary: Get SeaTable Server Info
+      operationId: getServerInfo
       description: >-
         Use this anonymous call to retrieve the current SeaTable server version
         information. The response includes the current version number and the
@@ -64,6 +65,7 @@ paths:
       tags:
         - Ping
       summary: Ping Server
+      operationId: pingServer
       description: Check the server status.
       responses:
         "200":
@@ -97,6 +99,7 @@ paths:
       tags:
         - Ping
       summary: Ping dtable Server
+      operationId: pingDtableServer
       description: >-
         Check the status of the dtable-server. Base related operations are
         carried out by the dtable-server. These operations are included in the
@@ -114,6 +117,7 @@ paths:
       tags:
         - Ping
       summary: Ping dtable-db Server
+      operationId: pingDtableDbServer
       description: Check the status of the dtable-db server.
       responses:
         "200":
