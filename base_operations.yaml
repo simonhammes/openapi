@@ -2434,6 +2434,7 @@ paths:
       tags:
         - Base Info
       summary: Get Metadata
+      operationId: getMetadata
       description: Returns all metadata of the specified base including tables, columns, views and settings.
       security:
         - BaseTokenAuth: []

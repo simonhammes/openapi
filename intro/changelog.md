@@ -16,9 +16,14 @@ Listed below are all the changes to the SeaTable API. Each date corresponds to a
 
 ## Version 4.4 (xx.04.2024)
 
+> 🚧 Breaking changes
+>
 > data collection table calls (user) removed
 > operationId added for all calls
 > old "base operations" replaced with two new sections "base operations (NEW)" & "File operations"
+> api-gateway
+> new "minute" limit für dtable-db operations
+> add how to check how many requests left at "limits"
 
 ## Version 4.3 (08.02.2024)
 

@@ -24,7 +24,7 @@ All other API-requests require an authorization header that looks like this, whe
 
 > 📘 Bearer or Token?
 >
-> Before version 4.0, the authentication header in SeaTable was not like `Authorization: Bearer` but `Authorization: Token`. Starting with version 4.0 both authentication headers are supported. We recommend the use of `Authorization: Bearer`, according to the official (OpenAPI 3.0 Specifiation)[https://swagger.io/docs/specification/authentication/bearer-authentication/].
+> Before version 4.0, the authentication header in SeaTable was not like `Authorization: Bearer` but `Authorization: Token`. Starting with version 4.0 both authentication headers are supported. We recommend the use of `Authorization: Bearer`, according to the official [OpenAPI 3.0 Specifiation](https://swagger.io/docs/specification/authentication/bearer-authentication/).
 
 ## Authentication Flows in SeaTable
 
@@ -32,7 +32,9 @@ Initially, authentication in SeaTable can seem a bit complicated, but the follow
 
 ![Authentication Flow in SeaTable](https://seatable.io/wp-content/uploads/2023/03/authentication-flow-in-seatable2.png)
 
-Every account operation requires an Account-Token. Every base operation requires an Base-Token, whereby there are four different ways to generate an Base-Token.
+- Every **account operation** (Uuser, Team Admin or System Admin) requires an **Account-Token**.
+- Every **base operation** requires a **Base-Token**.
+- Every **file operation** requires an **API-Token**.
 
 ---
 
@@ -44,7 +46,7 @@ Every account operation requires an Account-Token. Every base operation requires
 
 > 📘 API-Token
 >
-> An **API-Token** is like a password to use the API requests of a single base. The main purpose of an API-Token is to generate a Base-Token.
+> An **API-Token** is like a password to use the API requests of a single base. The main purpose of an API-Token is to generate a Base-Token or to grant access to the files of a base.
 > You can create as many API-Token per base as you want. Every API-Token can have different read or write permissions. This token is valid until you delete them.
 
 > 📘 Base-Token

@@ -32,7 +32,7 @@ The access counter is not reset at a specific time, but the relevant period is a
 | :------------------------------------------------- | :------------------- | :---------------------------- |
 | All web operations<br/>`/api/v2.1/*`               | 300/min              | unlimited                     |
 | All base operations<br/>`/dtable-server/api/v1/*`  | 300/min<br/>5000/day | 600/min<br/>5000/day          |
-| All dtable-db operations<br/>`/dtable-db/api/v1/*` | 5000/day             | unlimited                     |
+| All dtable-db operations<br/>`/dtable-db/api/v1/*` | 300/min<br/>5000/day | unlimited                     |
 
 ### Authentication rate limits
 

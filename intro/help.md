@@ -18,7 +18,7 @@ We make every effort to keep this API documentation complete and error-free. If 
 
 In order to help you quickly, please add the following information in your ticket:
 
-1. **Detailled Description:**
+1. **Detailed Description:**
    Please describe what you want to achieve. Do you use SeaTable Cloud or your own system? Name the SeaTable Server version and whether you are using Enterprise or Developer Edition. Please be precise and give as much information as possible to avoid further inquiries.
 
 1. **API request and API response:**
@@ -26,6 +26,10 @@ In order to help you quickly, please add the following information in your ticke
 
 1. **Output of the browser console:**
    You can use `Option` + `⌘` + `J` (on macOS), or `Shift` + `CTRL` + `J` (on Windows/Linux) to open your browser console. There you can typically get more details what is going wrong. Make a screenshot and post it in your new topic as well.
+
+## Developer Manual
+
+Please have a look at the [SeaTable Developer Manual](https://developer.seatable.io). There you can find more information about custom API clients or code examples.
 
 ## Expert support
 

@@ -145,18 +145,18 @@ paths:
       summary: Upload File (or Image)
       operationId: uploadFile
       description: |
-        Upload a file or an image as an attachment to a base. To execute this request you need to generate an [upload link](/reference/get-file-image-upload-link) first. 
+        Upload a file or an image as an attachment to a base. To execute this request you need to generate an upload link first. 
 
         > 📘 Three steps to add a file/an image to a base
         > 
         > To add an image or a file to a base, three steps are necessary: 
-        > 1. [Generate an upload link](/reference/get-file-image-upload-link).
-        > 2. Upload the file to the base as an attachment.
-        > 3. [Update a row](/reference/update-row) and attach the file/the image to a file or image column. 
+        > 1. [Generate an upload link](/reference/getUploadLink).
+        > 2. Upload the file to the base as an attachment. (this article)
+        > 3. [Update a row](/reference/updateRow) and attach the file/the image to a file or image column. 
 
         > 📘 Different variable names
         > 
-        > Pay attention that the return values of [upload link](/reference/get-file-image-upload-link) have slightly different names, so `parent_path` is `parent_dir` in this call.
+        > Pay attention that the return values of upload link have slightly different names, so `parent_path` is `parent_dir` in this call.
 
         ## Attach the file/image to a file or image column
 
@@ -182,7 +182,7 @@ paths:
           }]
         }
         ```
-        > 📘 File requires the input variables size, type and url
+        > 🚧 File requires the input variables size, type and url
         > 
         > As you can see, in the case of an image the URL is sufficient to attach the image to an image column. In case of a file, you have to provide all four input values.
 
@@ -215,9 +215,6 @@ paths:
       description: |
         Get the file download link of a base's attachment.
 
-        > 🚧 This request needs the API-Token
-        >
-        > Obwohl wir im Bereich Base Operations sind, werden für die requests im Abschnitt Files & Images der API-Token benötigt.
       security:
         - ApiTokenAuth: []
       parameters:
