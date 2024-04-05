@@ -2421,6 +2421,7 @@ paths:
       tags:
         - Base Info
       summary: Get Base Info
+      operationId: getBaseInfo
       description: Returns basic information about the specified base.
       security:
         - BaseTokenAuth: []
