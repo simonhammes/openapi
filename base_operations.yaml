@@ -3056,8 +3056,8 @@ paths:
   /dtable-server/api/v1/dtables/{base_uuid}/batch-update-links/:
     put:
       tags: [Links]
-      summary: Create Row Links (Batch)
-      operationId: createRowLinks
+      summary: Update Row Links (Batch)
+      operationId: updateRowLinks
       description: |
         Update multiple links in batch in one table for one link column. It is possible to create multiple links with a n:m relation.
         Here is an example how the body with `row_id_list` and `other_rows_ids_map` should look like: 
