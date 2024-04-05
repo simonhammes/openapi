@@ -2200,6 +2200,7 @@ paths:
       tags:
         - User
       summary: Get Account Info
+      operationId: getAccountInfo
       description: Get the detailed account information with the user's Account Token.
       security:
         - AccountTokenAuth: []
@@ -2235,6 +2236,7 @@ paths:
       tags:
         - User
       summary: Update Email Address
+      operationId: updateEmailAddress
       description: >-
         Update the user's email address. This feature is disabled on
         cloud.seatable.io. If you would like to change your email address in a
@@ -2264,6 +2266,7 @@ paths:
       tags:
         - User
       summary: Upload/Update User Avatar
+      operationId: addUserAvatar
       description: >-
         Upload an image to make it your current avatar. After successful
         uploading/updating your avatar, the file will be renamed and converted
@@ -2295,6 +2298,7 @@ paths:
       tags:
         - User
       summary: Get Public User Info
+      operationId: getPublicUserInfo
       description: Get the common info from a user by his email address.
       security:
         - AccountTokenAuth: []
@@ -2317,6 +2321,7 @@ paths:
       tags:
         - User
       summary: List Public User Infos
+      operationId: listPublicUserInfos
       description: >-
         List the details of other users identified by their email addresses.
       requestBody:
@@ -2349,6 +2354,7 @@ paths:
     get:
       tags: [User]
       summary: Search User
+      operationId: searchUser
       description: |
         Just search for a user with the string or substring in the `q` param. You can search by
         `email` (case sensitive),
@@ -2383,6 +2389,7 @@ paths:
       tags:
         - Bases
       summary: List Bases
+      operationId: listBases
       description: >-
         List all the bases that the current user can administer. These include:
         - All the bases in the user's personal workspace;
@@ -2457,6 +2464,7 @@ paths:
     get:
       tags: [Bases]
       summary: Search base or apps
+      operationId: searchBaseOrApps
       description: Search the base or apps of a user. Capitalization is irrelevant for the search and substrings are also allowed.
       security:
         - AccountTokenAuth: []
@@ -2492,6 +2500,7 @@ paths:
       tags:
         - Bases
       summary: Create Base
+      operationId: createBase
       description: >-
         Create a new base.  
 
@@ -2627,6 +2636,7 @@ paths:
       tags:
         - Bases
       summary: Update Base
+      operationId: updateBase
       description: Update a base's name, icon, and icon color.
       requestBody:
         content:
@@ -2670,6 +2680,7 @@ paths:
       tags:
         - Bases
       summary: Delete Base
+      operationId: deleteBase
       description: Delete an existing base.
       security:
         - AccountTokenAuth: []
@@ -2716,6 +2727,7 @@ paths:
       tags:
         - Bases
       summary: Favorite Base
+      operationId: favoriteBase
       description: Add a star to a base to make it a "favorite" base.
       requestBody:
         content:
@@ -2740,6 +2752,7 @@ paths:
       tags:
         - Bases
       summary: Unfavorite Base
+      operationId: unfavoriteBase
       description: Remove the star of a base and therefore removing it from "Favorites".
       security:
         - AccountTokenAuth: []
@@ -2759,10 +2772,10 @@ paths:
       tags:
         - Bases
       summary: Create Folder
+      operationId: createFolder
       description: >-
         With this request, you can create a base folder easily with the desired
         `name` of your folder.
-
 
         In the response body, the `id` will be the ID of your folder. You'll
         need this specific ID to move bases into this folder or update, or
@@ -2796,6 +2809,7 @@ paths:
       tags:
         - Bases
       summary: Update Folder
+      operationId: updateFolder
       description: Use this request to rename an existing folder with its `folder_id`.
       requestBody:
         content:
@@ -2826,6 +2840,7 @@ paths:
       tags:
         - Bases
       summary: Delete Folder
+      operationId: deleteFolder
       description: >-
         You can only delete a folder when it's empty. To do so, first move your bases out of it and then
         delete it with its `folder_id` in this request.
@@ -2848,6 +2863,7 @@ paths:
       tags:
         - Bases
       summary: Move Base into Folder
+      operationId: moveBaseIntoFolder
       description: >-
         Move your base from one folder to another by giving the `folder_id` of
         your source and target folders. Exception: the root folder doesn't have
@@ -2889,6 +2905,7 @@ paths:
       tags:
         - Bases
       summary: Base Password
+      operationId: basePassword
       description: >-
         Use this request to unset a base password. You'll need to enter the
         current password `password` to be able to unset it. After unsetting a
@@ -2931,6 +2948,7 @@ paths:
       tags:
         - Bases
       summary: List Trashed Bases
+      operationId: listTrashedBases
       description: List all the bases in the trash bin.
       security:
         - AccountTokenAuth: []
@@ -2977,6 +2995,7 @@ paths:
       tags:
         - Bases
       summary: Clear Trash
+      operationId: clearTrash
       description: >-
         By cleaning the trash bin, all the bases there will be removed
         permanently and cannot be restored any more.
@@ -2996,6 +3015,7 @@ paths:
       tags:
         - Bases
       summary: Restore Trashed Base
+      operationId: restoreTrashedBase
       description: >-
         Restore a trashed base from the trash bin. The base's ID can be
         retrieved from the call [List Trashed Bases](/reference/get_api-v2-1-trash-dtables-1). The base's ID is written
@@ -3024,6 +3044,7 @@ paths:
       tags:
         - Bases
       summary: List Group Trashed Bases
+      operationId: listGroupTrashedBases
       description: >-
         When a group base is deleted, it's sent to the group's trash bin. If you
         are the owner or administrator of this group, you have access to the
@@ -3062,6 +3083,7 @@ paths:
       tags:
         - Bases
       summary: Restore Group Trashed Base
+      operationId: restoreGroupTrashedBase
       description: >-
         With the UUID (retrievable with the previous call) of the trashed base,
         you can restore it with this request.
@@ -3086,6 +3108,7 @@ paths:
       tags:
         - Groups & Workspaces
       summary: List Groups
+      operationId: listGroups
       description: Show a list of all groups of the user.
       security:
         - AccountTokenAuth: []
@@ -3107,6 +3130,7 @@ paths:
     post:
       tags: [Groups & Workspaces]
       summary: Create Group
+      operationId: createGroup
       security:
         - AccountTokenAuth: []
       requestBody:
@@ -3131,6 +3155,7 @@ paths:
     get:
       tags: [Groups & Workspaces]
       summary: Get Group
+      operationId: getGroup
       security:
         - AccountTokenAuth: []
       parameters:
@@ -3153,6 +3178,7 @@ paths:
     put:
       tags: [Groups & Workspaces]
       summary: Update Group
+      operationId: updateGroup
       description: >-
         Use this request to rename, and/or change owner of a group.
 
@@ -3201,6 +3227,7 @@ paths:
     delete:
       tags: [Groups & Workspaces]
       summary: Delete Group
+      operationId: deleteGroup
       description: Delete a group with its ID.
       security:
         - AccountTokenAuth: []
@@ -3220,6 +3247,7 @@ paths:
     get:
       tags: [Groups & Workspaces]
       summary: Search Group
+      operationId: searchGroup
       description: >
         Just give a search keyword in the `q` param.
       security:
@@ -3247,6 +3275,7 @@ paths:
     get:
       tags: [Groups & Workspaces]
       summary: Get Group Members
+      operationId: getGroupMembers
       security:
         - AccountTokenAuth: []
       parameters:
@@ -3268,6 +3297,7 @@ paths:
     post:
       tags: [Groups & Workspaces]
       summary: Add Group Member
+      operationId: addGroupMember
       security:
         - AccountTokenAuth: []
       parameters:
@@ -3299,6 +3329,7 @@ paths:
     put:
       tags: [Groups & Workspaces]
       summary: Update Group Role
+      operationId: updateGroupRole
       security:
         - AccountTokenAuth: []
       parameters:
@@ -3325,6 +3356,7 @@ paths:
     delete:
       tags: [Groups & Workspaces]
       summary: Remove Group Member
+      operationId: removeGroupMember
       description: Group admins can remove other group members or a group member can leave the group.
       security:
         - AccountTokenAuth: []
@@ -3346,6 +3378,7 @@ paths:
       tags:
         - Groups & Workspaces
       summary: Search Group Members
+      operationId: searchGroupMembers
       description: >-
         As a group's administrator, you can use this API call to search for
         members in this group.
@@ -3397,6 +3430,7 @@ paths:
       tags:
         - Groups & Workspaces
       summary: List Workspaces
+      operationId: listWorkspaces
       description: >-
         List all the workspaces/bases you have access to.
 
@@ -3653,6 +3687,7 @@ paths:
       tags:
         - Groups & Workspaces
       summary: Copy Base from Workspace
+      operationId: copyBaseFromWorkspace
       description: >-
         Copy a base from a workspace to the destination workspace.
 
@@ -3707,6 +3742,7 @@ paths:
       tags:
         - Groups & Workspaces
       summary: Copy Base from External Link
+      operationId: copyBaseFromExternalLink
       description: Copy a base from an external link to a workspace.
       requestBody:
         content:
@@ -3747,6 +3783,7 @@ paths:
       tags:
         - Attachment
       summary: Get Base Attachment Upload Link
+      operationId: getBaseAttachmentUploadLink
       description: >-
         Get the attachment upload link to a base. Images should be uploaded to
         the `img_relative_path`, all other files should be uploaded to the
@@ -3774,6 +3811,7 @@ paths:
       tags:
         - Attachment
       summary: List Base Asset Directories And Files
+      operationId: listBaseAssets
       description: >-
         List all the directories, files and images in the given path in a base.
 
@@ -3826,6 +3864,7 @@ paths:
       tags:
         - Attachment
       summary: List Recently Uploaded Files
+      operationId: listRecentlyUploadedFiles
       description: >-
         Use this request to list off the files uploaded to the current base in
         the past months.
@@ -3870,6 +3909,7 @@ paths:
       tags:
         - Attachment
       summary: Rename Base Asset
+      operationId: renameBaseAsset
       description: "Once you have the exact path and filename of an asset, you can use this request to rename it. In the request body:\r\n\r\n`path` is the exact path and filename of your asset;\r\n`new_name` is the new filename of your asset without path."
       requestBody:
         content:
@@ -3899,12 +3939,11 @@ paths:
       tags:
         - Attachment
       summary: Delete Base Assets
+      operationId: deleteBaseAssets
       description: >-
         Delete base assets/attachments by batch.
 
-
         In the request body:
-
 
         - `parent_path` is the parent path in which the objects are in, that you
         would like to delete. They could be files, or folders.
@@ -3929,6 +3968,7 @@ paths:
       tags:
         - Attachment
       summary: Check If Asset Exists
+      operationId: checkIfAssetExists
       description: >-
         Check if a certain asset exists. The returned `is_exist` value confirms
         the existence (`true`).
@@ -3954,6 +3994,7 @@ paths:
       tags:
         - Import & Export
       summary: Import Base from xlsx or csv
+      operationId: importBasefromFile
       description: >-
         With this request, you can create a base by uploading a .xlsx or a .csv
         file.
@@ -3985,6 +4026,7 @@ paths:
       tags:
         - Import & Export
       summary: Import Table from xlsx or csv
+      operationId: importTableFromFile
       description: >-
         An XLSX or CSV file can also be imported as a new table in your base.
         Just select the `file` and tell SeaTable your base's UUID and the file
@@ -4018,6 +4060,7 @@ paths:
       tags:
         - Import & Export
       summary: Update from xlsx or csv
+      operationId: updateFromFile
       requestBody:
         content:
           multipart/form-data:
@@ -4050,6 +4093,7 @@ paths:
       tags:
         - Import & Export
       summary: Export Base
+      operationId: exportBase
       security:
         - AccountTokenAuth: []
       parameters:
@@ -4067,6 +4111,7 @@ paths:
       tags:
         - Import & Export
       summary: Export Table
+      operationId: exportTable
       security:
         - AccountTokenAuth: []
       parameters:
@@ -4084,6 +4129,7 @@ paths:
       tags:
         - Import & Export
       summary: Export View
+      operationId: exportView
       security:
         - AccountTokenAuth: []
       parameters:
@@ -4103,6 +4149,7 @@ paths:
       tags:
         - Import & Export
       summary: Export Base from External Link
+      operationId: exportBaseFromExternalLink
       description: >-
         Download a base with its external link as a .dtable zip file. **Password
         protected external links are not supported yet**.
@@ -4119,6 +4166,7 @@ paths:
       tags:
         - Import & Export
       summary: Export Big Data View to Excel
+      operationId: exportBigDataView
       description: >-
         Hier muss noch eine Beschreibung ergänzt werden
       security:
@@ -4140,6 +4188,7 @@ paths:
       tags:
         - Import & Export
       summary: Append Excel CSV
+      operationId: appendToTableFromFile
       description: Hier muss noch eine Beschreibung ergänzt werden.
       requestBody:
         content:
@@ -4172,7 +4221,8 @@ paths:
     get:
       tags:
         - Sharing
-      summary: My Shares
+      summary: List My Shares
+      operationId: listMyShares
       description: >-
         List all the bases currently shared to you. This request only lists off
         all the bases shared explicit to YOU, not your groups.
@@ -4205,6 +4255,7 @@ paths:
       tags:
         - Sharing
       summary: List User Shares
+      operationId: listUserShares
       description: >-
         List all the users sharing a base (except the current user). This
         request only lists off all the individual users sharing the base, which
@@ -4235,6 +4286,7 @@ paths:
       tags:
         - Sharing
       summary: Create User Share
+      operationId: createUserShare
       description: Share a base to a certain user with certain permission.
       requestBody:
         content:
@@ -4264,6 +4316,7 @@ paths:
       tags:
         - Sharing
       summary: Update User Share
+      operationId: updateUserShare
       description: >-
         Change the sharing permission (read-only or read and write) of a base to
         a user.
@@ -4295,6 +4348,7 @@ paths:
       tags:
         - Sharing
       summary: Delete User Share
+      operationId: deleteUserShare
       description: Stop sharing a base to a user.
       security:
         - AccountTokenAuth: []
@@ -4314,7 +4368,8 @@ paths:
     get:
       tags:
         - Sharing
-      summary: My Group Shares
+      summary: List My Group Shares
+      operationId: listMyGroupShares
       description: >-
         List all the bases shared to the groups I am in. These bases may
         include:
@@ -4378,6 +4433,7 @@ paths:
       tags:
         - Sharing
       summary: List Group Shares
+      operationId: listGroupShares
       description: List all the groups a particular base is being shared to.
       security:
         - AccountTokenAuth: []
@@ -4403,6 +4459,7 @@ paths:
       tags:
         - Sharing
       summary: Create Group Share
+      operationId: createGroupShare
       description: >-
         Share a base from My Bases to a group with read-only or read and write
         permissions.
@@ -4438,6 +4495,7 @@ paths:
       tags:
         - Sharing
       summary: Update Group Share
+      operationId: updateGroupShare
       description: Change the sharing permission (read-only/read and write) to a group.
       requestBody:
         content:
@@ -4466,6 +4524,7 @@ paths:
       tags:
         - Sharing
       summary: Delete Group Share
+      operationId: deleteGroupShare
       description: Stop sharing a base to a certain group.
       security:
         - AccountTokenAuth: []
@@ -4487,6 +4546,7 @@ paths:
       tags:
         - Sharing
       summary: My Group View Shares
+      operationId: listMyGroupViewShares
       description: >-
         As `ToUser`, you can use this request to list all the views shared to
         you via your groups.
@@ -4536,6 +4596,7 @@ paths:
       tags:
         - Sharing
       summary: List Group View Shares
+      operationId: listGroupViewShares
       description: >-
         This request lets you, as `FromUser`, see which views you are sharing to
         the groups you are in.
@@ -4583,6 +4644,7 @@ paths:
       tags:
         - Sharing
       summary: Create Group View Share
+      operationId: createGroupViewShare
       description: Share a view to a group, thus you are the `FromUser` here.
       requestBody:
         content:
@@ -4624,6 +4686,7 @@ paths:
       tags:
         - Sharing
       summary: Delete Group View Share
+      operationId: deleteGroupViewShare
       description: Stop sharing the view to all the groups.
       security:
         - AccountTokenAuth: []
@@ -4646,6 +4709,7 @@ paths:
       tags:
         - Sharing
       summary: Update Group View Share
+      operationId: updateGroupViewShare
       description: Update the permission of a view sharing as a `FromUser`.
       requestBody:
         content:
@@ -4682,6 +4746,7 @@ paths:
       tags:
         - Sharing
       summary: Delete Group View Share
+      operationId: deleteGroupViewShare
       description: >-
         Use this request to stop sharing a view to a certain group as
         `FromUser`. If you would like to stop sharing it with all of the groups
@@ -4705,7 +4770,8 @@ paths:
     get:
       tags:
         - Sharing
-      summary: My User View Shares
+      summary: List My User View Shares
+      operationId: listMyUserViewShares
       description: List all the views shared to you.
       security:
         - AccountTokenAuth: []
@@ -4749,6 +4815,7 @@ paths:
       tags:
         - Sharing
       summary: List User View Shares
+      operationId: listUserViewShares
       description: >-
         Use this request to list all the views you are currently sharing to
         other users.
@@ -4780,6 +4847,7 @@ paths:
       tags:
         - Sharing
       summary: Create User View Share
+      operationId: createUserViewShare
       description: >-
         Start sharing a view to another user, which is the `ToUser` in this
         case.
@@ -4823,7 +4891,8 @@ paths:
     delete:
       tags:
         - Sharing
-      summary: Delete User View Shares (??)
+      summary: Delete User View Share
+      operationId: deleteUserViewShare
       description: Stop sharing a view to all users.
       security:
         - AccountTokenAuth: []
@@ -4846,6 +4915,7 @@ paths:
       tags:
         - Sharing
       summary: Update User View Share
+      operationId: updateUserViewShare
       description: >-
         As `FromUser`, you can use this request to update the sharing permission
         to a certain user.
@@ -4885,6 +4955,7 @@ paths:
       tags:
         - Sharing
       summary: Delete User View Share
+      operationId: deleteUserViewShare
       description: >-
         Stop sharing a view to a certain user. The `user_view_share_id` here is
         the value you can retrieve from the above requests when you list, add or
@@ -4909,6 +4980,7 @@ paths:
       tags:
         - Sharing
       summary: Leave Shared View
+      operationId: leaveSharedView
       description: >-
         Delete your access to a view shared to you. After executing this
         request, you won't be able to see that view as a `ToUser`.
@@ -4930,6 +5002,7 @@ paths:
       tags:
         - Sharing
       summary: List Collaborators
+      operationId: listCollaborators
       description: >-
         List all the collaborators (related users who have read&write
         permission) to a base.
@@ -4960,6 +5033,7 @@ paths:
       tags:
         - Sharing Links
       summary: List Base External Links
+      operationId: listBaseExternalLinks
       security:
         - AccountTokenAuth: []
       parameters:
@@ -4992,6 +5066,7 @@ paths:
       tags:
         - Sharing Links
       summary: Create Base External Link
+      operationId: createBaseExternalLink
       description: Generate a read-only external link for a base.
       requestBody:
         content:
@@ -5030,6 +5105,7 @@ paths:
       tags:
         - Sharing Links
       summary: Delete External Link
+      operationId: deleteExternalLink
       description: Delete a base external link by its token.
       security:
         - AccountTokenAuth: []
@@ -5051,6 +5127,7 @@ paths:
       tags:
         - Sharing Links
       summary: List View External Links
+      operationId: listViewExternalLinks
       description: "List all the external links generated for a specific view with the table's and the view's IDs.\r\n\r\nNormally when you open a view in the browser, you can see the `tid` and `vid` in the address line, which are indeed the `table_id` and `view_id` here."
       security:
         - AccountTokenAuth: []
@@ -5086,6 +5163,7 @@ paths:
       tags:
         - Sharing Links
       summary: Create View External Link
+      operationId: createViewExternalLink
       description: >-
         Create a view external link from a view and optionally custom the link's
         token, password, permission and expiration days.
@@ -5137,6 +5215,7 @@ paths:
       tags:
         - Sharing Links
       summary: Delete View External Link
+      operationId: deleteViewExternalLink
       description: >-
         Delete a view external link by its token. This token could be a custom
         token or a random token. Include the token in the URL, in this example,
@@ -5161,6 +5240,7 @@ paths:
       tags:
         - Sharing Links
       summary: Create Invite Link
+      operationId: createInviteLink
       description: >-
         Use this request to generate an invite link for your base. See below for
         the details for the params.
@@ -5216,6 +5296,7 @@ paths:
       tags:
         - Sharing Links
       summary: Delete Invite Link
+      operationId: deleteInviteLink
       description: >-
         Delete an invite link via its `token`.
 
@@ -5248,6 +5329,7 @@ paths:
       tags:
         - Common Dataset
       summary: Publish Common Dataset
+      operationId: publishCommonDataset
       description: >-
         You can publish a common dataset from a view, if the following
         conditions are met:
@@ -5295,6 +5377,7 @@ paths:
       tags:
         - Common Dataset
       summary: List Common Datasets
+      operationId: listCommonDataset
       description: >-
         List all the common datasets a particular base can access by its
         `base_uuid`.
@@ -5330,6 +5413,7 @@ paths:
       tags:
         - Common Dataset
       summary: Import Common Dataset
+      operationId: importCommonDataset
       description: "Import a common dataset into your destination base. This will create a new table labeled as a common dataset table.\r\n\r\nTo import a common dataset into a base, the following conditions have to be met:\r\n\r\n- The destination base is in a group, and\r\n- You are the admin or owner of this group, and\r\n- This group has access to the common dataset.\r\n\r\nThe ID of the common dataset can be retrieved via the request e.g. [List Common Datasets A Base Can Access](/reference/get_api-v2-1-dtable-common-datasets-1)."
       requestBody:
         content:
@@ -5357,6 +5441,7 @@ paths:
       tags:
         - Common Dataset
       summary: Get Common Dataset Info
+      operationId: getCommonDatasetInfo
       description: >-
         List the basic information of the common dataset by the source table
         name and view name. The `dataset_id` used here is the ID you have
@@ -5381,6 +5466,7 @@ paths:
       tags:
         - Common Dataset
       summary: Get Common Dataset
+      operationId: getCommonDataset
       description: >-
         List the content of the common dataset by rows, columns and related
         users. The `dataset_id` used here is the ID you have retrieved from the
@@ -5416,6 +5502,7 @@ paths:
       tags:
         - Common Dataset
       summary: Rename Common Dataset
+      operationId: renameCommonDataset
       description: Use this request to rename a common dataset.
       requestBody:
         content:
@@ -5456,6 +5543,7 @@ paths:
       tags:
         - Common Dataset
       summary: Delete Common Dataset
+      operationId: deleteCommonDataset
       description: >-
         Delete a common dataset by its ID. This ID could be retrieved by the
         call e.g. [List Common Datasets A Base Can Access](/reference/get_api-v2-1-dtable-common-datasets-1).
@@ -5481,6 +5569,7 @@ paths:
       tags:
         - Common Dataset
       summary: Update Common Dataset Sync
+      operationId: updateCommonDatasetSync
       description: "You can change the configuration of your common dataset's syncing with these params:\r\n\r\n`is_sync_periodically`: Whether syncing should be carried out daily (`true` or `false`, required);\r\n`dst_dtable_uuid`: The UUID of the base where you'd like this common dataset to sync to;\r\n`dst_table_id`: The ID of the destination table.\r\n\r\nAttention: This configuration update doesn't establish a new common dataset synchronization, but only can update existing common dataset connections."
       requestBody:
         content:
@@ -5511,6 +5600,7 @@ paths:
       tags:
         - Common Dataset
       summary: Sync Common Dataset
+      operationId: syncCommonDataset
       description: >-
         Common datasets do not automatically synchronize with the original view.
         Use this request regularly to keep your data up-to-date.
@@ -5542,6 +5632,7 @@ paths:
       tags:
         - Common Dataset
       summary: List Sync History
+      operationId: listSyncHistory
       description: >-
         Use this call to list off the common datasets synchronization history of
         the current base.
@@ -5593,6 +5684,7 @@ paths:
       tags:
         - Departments
       summary: List Departments
+      operationId: listDepartments
       description: >-
         As a team (organization) user, you can use this API request to list all
         the departments in your team (organization).
@@ -5622,7 +5714,8 @@ paths:
     get:
       tags:
         - Departments
-      summary: List Members
+      summary: List Deparment Members
+      operationId: listDeparmentMembers
       description: List the members of a department in your team (organization).
       security:
         - AccountTokenAuth: []
@@ -5656,6 +5749,7 @@ paths:
       tags:
         - Forms
       summary: List Forms
+      operationId: listForms
       description: >-
         List all the forms of a base with full details of these forms. The
         returned `form_link` value is the URL of the form page, ready to be sent
@@ -5691,6 +5785,7 @@ paths:
       tags:
         - Forms
       summary: Create Form
+      operationId: createForm
       description: >-
         Create a form in the base.
 
@@ -5814,6 +5909,7 @@ paths:
       tags:
         - Forms
       summary: Update Form
+      operationId: updateForm
       description: Update your form's configuration.
       requestBody:
         content:
@@ -5851,6 +5947,7 @@ paths:
       tags:
         - Forms
       summary: Delete Form
+      operationId: deleteForm
       description: Delete a form with its token.
       security:
         - AccountTokenAuth: []
@@ -5870,6 +5967,7 @@ paths:
       tags:
         - Forms
       summary: Duplicate Form
+      operationId: duplicateForm
       description: >-
         With a form's `form_token` (or `token` as returned by the call to list a
         user's or a base's forms), you can duplicate a form with this request.
@@ -5964,6 +6062,7 @@ paths:
       tags:
         - Forms
       summary: Upload Form Logo
+      operationId: uploadFormLogo
       description: >-
         Use this request to upload a custom logo for your form using your form's
         `form_token`.
@@ -5993,6 +6092,7 @@ paths:
       tags:
         - Forms
       summary: List Shared Forms
+      operationId: listSharedForms
       description: List all the shared forms the user has access to.
       security:
         - AccountTokenAuth: []
@@ -6033,232 +6133,6 @@ paths:
                     submit_count: 20
                     group_name: Datamate3
                     group_id: 62
-  /api/v2.1/collection-tables/:
-    get:
-      tags:
-        - Forms
-      summary: List Data Collection Forms
-      description: >-
-        List all the data collection tables of a base with full details of these
-        tables. The returned `collection_link` value is the URL of the table
-        page, ready to be sent to your collaborators.
-      security:
-        - AccountTokenAuth: []
-      parameters:
-        - $ref: "#/components/parameters/workspace_id_query"
-        - $ref: "#/components/parameters/base_name_query"
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-              example:
-                collection_table_list:
-                  - id: 24
-                    username: 876543216569491ba42905bf1647fd3f@auth.local
-                    workspace_id: 204
-                    dtable_uuid: abcdefgh-fd55-48e4-8c4a-5fd6f2549765
-                    config: >-
-                      {"name":"table8","table_id":"l9x9","columns":[{"key":"0000","name":"Date","type":"date","editable":true},{"key":"ZZm0","name":"Single","type":"long-text","editable":true}],"submit_deadline_option":{}}
-                    token: 76543219-c2b6-4b7c-bfdf-87029904b18e
-                    collection_link: >-
-                      https://cloud.seatable.io/dtable/collection-tables/76543219-c2b6-4b7c-bfdf-87029904b18e/
-                    view_count: 6
-                    created_at: "2021-11-03T14:15:52+00:00"
-                  - id: 25
-                    username: 876543216569491ba42905bf1647fd3f@auth.local
-                    workspace_id: 204
-                    dtable_uuid: abcdefgh-fd55-48e4-8c4a-5fd6f2549765
-                    config: >-
-                      {"name":"Table2","table_id":"QoSF","columns":[{"key":"0000","name":"Name","type":"text","editable":true},{"key":"6NKm","name":"Number","type":"number","editable":true},{"key":"t7gf","name":"Percentage","type":"number","editable":true},{"key":"976R","name":"Date","type":"date","editable":true},{"key":"72IC","name":"Single
-                      select","type":"single-select","editable":true},{"key":"aQGd","name":"Multiple
-                      select","type":"multiple-select","editable":true},{"key":"wlSx","name":"Image","type":"image","editable":true},{"key":"0d22","name":"File","type":"file","editable":true},{"key":"9sc0","name":"Email","type":"email","editable":true},{"key":"qbQo","name":"Checkbox","type":"checkbox","editable":true},{"key":"fqWu","name":"Long
-                      text","type":"long-text","editable":true},{"key":"T15J","name":"Duration","type":"duration","editable":true},{"key":"SWt5","name":"URL","type":"url","editable":true},{"key":"k4B5","name":"Rating","type":"rate","editable":true},{"key":"wsXY","name":"Formula","type":"formula","editable":true},{"key":"664m","name":"Geolocation","type":"geolocation","editable":true},{"key":"_creator","name":"Creator","type":"creator","editable":true},{"key":"_ctime","name":"Created
-                      time","type":"ctime","editable":true},{"key":"_last_modifier","name":"Last
-                      modifier","type":"last-modifier","editable":true},{"key":"_mtime","name":"Last
-                      modified
-                      time","type":"mtime","editable":true},{"key":"cKQK","name":"Continent","type":"single-select","editable":true},{"key":"ALBn","name":"Country","type":"single-select","editable":true}],"submit_deadline_option":{}}
-                    token: abcdefgh-6be8-4d69-ab5e-1bc19260d62b
-                    collection_link: >-
-                      https://cloud.seatable.io/dtable/collection-tables/abcdefgh-6be8-4d69-ab5e-1bc19260d62b/
-                    view_count: 5
-                    created_at: "2021-11-12T11:07:28+00:00"
-    post:
-      tags:
-        - Forms
-      summary: Create Data Collection Form
-      description: >-
-        Create a data collection table in your base.
-
-
-        In the request body, give the "name" of your collection table in the
-        `config` object.
-
-
-        **However, this request only creates a collection table with a
-        customized name**. To further customize this table, for example, to
-        assign the corresponding table, use the next request - [Update Data
-        Collection Table](/reference/put_api-v2-1-collection-tables-collection-token-1).
-      requestBody:
-        content:
-          multipart/form-data:
-            schema:
-              type: object
-              properties:
-                workspace_id:
-                  $ref: "#/components/schemas/workspace_id"
-                name:
-                  $ref: "#/components/schemas/name"
-                config:
-                  $ref: "#/components/schemas/form_config"
-      security:
-        - AccountTokenAuth: []
-      responses:
-        "201":
-          description: Created
-          content:
-            application/json:
-              schema:
-                type: object
-              example:
-                collection_table:
-                  id: 41
-                  username: 87654321a6569491ba42905bf1647fd3f@auth.local
-                  workspace_id: "204"
-                  dtable_uuid: 46453726-ba46-4c07-8116-d237bdeb35a3
-                  config: '{"name":"Example 1", "table_id":"0000"}'
-                  token: bcdefghi-7dde-4f04-86d0-404e53490164
-                  collection_link: >-
-                    https://cloud.seatable.io/dtable/collection-tables/bcdefghi-7dde-4f04-86d0-404e53490164/
-                  view_count: 0
-                  created_at: "2022-07-24T14:39:27+00:00"
-  /api/v2.1/collection-tables/{collection_token}/:
-    put:
-      tags:
-        - Forms
-      summary: Update Data Collection Form
-      description: >-
-        After creating a data collection table, use this request to further
-        customize it. With this request, you can, with help of the `config`
-        object in the request body:
-
-
-        *   Change the name of your collection table in "name";
-
-        *   Assign the corresponding table in "table_id";
-
-        *   Decide which columns to show in the "columns" list (see example);
-
-        *   If you'd like to show a submit deadline and when the deadline will
-        be (see example).
-      requestBody:
-        content:
-          multipart/form-data:
-            schema:
-              type: object
-              properties:
-                workspace_id:
-                  $ref: "#/components/schemas/workspace_id"
-                name:
-                  $ref: "#/components/schemas/name"
-                config:
-                  $ref: "#/components/schemas/form_config"
-      security:
-        - AccountTokenAuth: []
-      parameters:
-        - $ref: "#/components/parameters/collection_token"
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-              example:
-                collection_table:
-                  id: 41
-                  username: 876543216569491ba42905bf1647fd3f@auth.local
-                  workspace_id: 204
-                  dtable_uuid: 46354723-ba46-4c07-8116-d237bdeb35a3
-                  config: >-
-                    {"name":"Example
-                    2","table_id":"lxRt","columns":[{"key":"Sl5g","name":"Advantages","type":"text","editable":true}],"submit_deadline_option":{"is_submit_deadline_show":true,"submit_deadline":"2022-09-01
-                    00:00:00"}}
-                  token: bcdefghi-7dde-4f04-86d0-404e53490164
-                  collection_link: >-
-                    https://cloud.seatable.io/dtable/collection-tables/bcdefghi-7dde-4f04-86d0-404e53490164/
-                  view_count: 10
-                  created_at: "2022-07-24T14:39:27+00:00"
-    delete:
-      tags:
-        - Forms
-      summary: Delete Data Collection Form
-      description: Delete a data collection table with its token.
-      security:
-        - AccountTokenAuth: []
-      parameters:
-        - $ref: "#/components/parameters/collection_token"
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-              example:
-                success: true
-  /api/v2.1/collection-tables/{collection_token}/duplicate/:
-    post:
-      tags:
-        - Forms
-      summary: Duplicate Data Collection Form
-      description: >-
-        With a data collection table's `collection_token` (or `token` as
-        returned by the call to list a user's or a base's collection tables),
-        you can duplicate a collection table with this request.
-
-
-        In the response, the details of the newly created duplication are
-        listed.
-      security:
-        - AccountTokenAuth: []
-      parameters:
-        - $ref: "#/components/parameters/collection_token"
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-              example:
-                collection_table:
-                  id: 39
-                  username: 87654321a6569491ba42905bf1647fd3f@auth.local
-                  workspace_id: 204
-                  dtable_uuid: cdefghij-3643-489b-880c-51c8ee2a9a20
-                  config: >-
-                    {"name": "expiration date (1)", "table_id": "0000",
-                    "view_id": "0000", "columns": [{"key": "0000", "name":
-                    "Project", "type": "text", "editable": true}, {"key":
-                    "zj4h", "name": "Category", "type": "single-select",
-                    "editable": true}, {"key": "hAAU", "name": "Finished",
-                    "type": "checkbox", "editable": true}, {"key": "b0P5",
-                    "name": "Images", "type": "image", "editable": true},
-                    {"key": "gF3x", "name": "Client", "type": "link",
-                    "editable": true}, {"key": "J74d", "name": "Kick-off date",
-                    "type": "date", "editable": true}, {"key": "cqDA", "name":
-                    "Deadline", "type": "date", "editable": true}, {"key":
-                    "4y3e", "name": "Notes", "type": "long-text", "editable":
-                    true}, {"key": "6uZp", "name": "Tasks", "type": "link",
-                    "editable": true}]}
-                  token: 34567890-7b26-4f9b-bb2b-fccd9945a25a
-                  collection_link: >-
-                    https://cloud.seatable.io/dtable/collection-tables/34567890-7b26-4f9b-bb2b-fccd9945a25a/
-                  view_count: 0
-                  created_at: "2022-07-24T14:26:34+00:00"
 
   # Automations
   /api/v2.1/workspace/{workspace_id}/dtable/{base_name}/automation-rules/:
@@ -6266,6 +6140,7 @@ paths:
       tags:
         - Automations
       summary: List Automation Rules
+      operationId: listAutomationRules
       description: List all the automation rules in a base.
       security:
         - AccountTokenAuth: []
@@ -6314,6 +6189,7 @@ paths:
       tags:
         - Automations
       summary: Create Automation Rule
+      operationId: createAutomationRule
       description: >-
         You can set the automation rule to trigger by condition, or
         periodically. The following instruction shows you how to send the
@@ -6665,6 +6541,7 @@ paths:
       tags:
         - Automations
       summary: Update Automation Rule
+      operationId: updateAutomationRule
       description: >-
         Update a base automation rule with this API request. Use the `id` you
         retrieved by listing automation rules or creating an automation rule.
@@ -6722,6 +6599,7 @@ paths:
       tags:
         - Automations
       summary: Delete Automation Rule
+      operationId: deleteAutomationRule
       description: Delete an existing automation rule. This operation cannot be undone!
       security:
         - AccountTokenAuth: []
@@ -6745,6 +6623,7 @@ paths:
       tags:
         - Notifications
       summary: List Notification Rules
+      operationId: listNotificationRules
       description: >-
         Use this request to list all the existing notification rules in the
         current base.
@@ -6782,6 +6661,7 @@ paths:
       tags:
         - Notifications
       summary: Add Notification Rule
+      operationId: addNotificationRule
       description: >-
         Use this request to add a new notification rule for a base.
 
@@ -7051,6 +6931,7 @@ paths:
       tags:
         - Notifications
       summary: Update Notification Rule
+      operationId: updateNotificationRule
       description: >-
         Update the params of an existing notification rule.
 
@@ -7106,6 +6987,7 @@ paths:
       tags:
         - Notifications
       summary: Delete Notification Rule
+      operationId: deleteNotificationRule
       description: >-
         Delete an existing notification rule.
 
@@ -7133,6 +7015,7 @@ paths:
       tags:
         - Notifications
       summary: Mark Notifications As Seen
+      operationId: markNotificationAsSeen
       description: Delete all notifications sent to the current user.
       security:
         - AccountTokenAuth: []
@@ -7152,6 +7035,7 @@ paths:
       tags:
         - System Notifications
       summary: List System Notifications
+      operationId: listSystemNotifications
       description: >-
         List all the notifications that are unseen by the users. A user can only
         mark a system notification as seen by clicking on the "x" to close it.
@@ -7189,6 +7073,7 @@ paths:
       tags:
         - System Notifications
       summary: Mark System Notification As Seen
+      operationId: markSystemNotificationsAsSeen
       description: Mark a system notification as seen with its ID.
       security:
         - AccountTokenAuth: []
@@ -7219,6 +7104,7 @@ paths:
       tags:
         - Email Accounts
       summary: List Email Accounts
+      operationId: listEmailAccounts
       description: List all email accounts available in a base.
       security:
         - AccountTokenAuth: []
@@ -7245,6 +7131,7 @@ paths:
       tags:
         - Email Accounts
       summary: Add Email Account
+      operationId: addEmailAccount
       description: >-
         Bound a third party email account in a base by using the params in the
         sample request body. The returned `id` value is the ID of this account.
@@ -7286,6 +7173,7 @@ paths:
       tags:
         - Email Accounts
       summary: Update Email Account
+      operationId: updateEmailAccount
       description: >-
         Change the account name, type, or detail (host, port, username or
         password) of a third party account using the account's ID in the URL.
@@ -7329,6 +7217,7 @@ paths:
       tags:
         - Email Accounts
       summary: Delete Email Account
+      operationId: deleteEmailAccount
       description: Delete a third party account using its ID in the request URL.
       security:
         - AccountTokenAuth: []
@@ -7349,6 +7238,7 @@ paths:
       tags:
         - Email Accounts
       summary: Get Email Account
+      operationId: getEmailAccount
       description: >-
         Get the details of a 3rd party email account's information by its
         `account_name` in the URL.
@@ -7379,6 +7269,7 @@ paths:
       tags:
         - Email Accounts
       summary: Get Email Sending Status
+      operationId: getEmailSendingStatus
       description: >-
         Query the task status with the returned `task_id` when you **Send An
         Email via 3rd Party Account**. If you get an error message:
@@ -7415,6 +7306,7 @@ paths:
       tags:
         - Webhooks
       summary: List Webhooks
+      operationId: listWebhooks
       description: List all the webhooks created in a base.
       security:
         - AccountTokenAuth: []
@@ -7441,6 +7333,7 @@ paths:
       tags:
         - Webhooks
       summary: Create Webhook
+      operationId: createWebhook
       description: Create a new webhook for a base.
       requestBody:
         content:
@@ -7478,6 +7371,7 @@ paths:
       tags:
         - Webhooks
       summary: Update Webhook
+      operationId: updateWebhook
       description: Update the URL and/or secret of a webhook.
       requestBody:
         content:
@@ -7515,6 +7409,7 @@ paths:
       tags:
         - Webhooks
       summary: Delete Webhook
+      operationId: deleteWebhook
       description: Remove a webhook from a base.
       security:
         - AccountTokenAuth: []
@@ -7538,6 +7433,7 @@ paths:
       tags:
         - Snapshots
       summary: List Snapshots
+      operationId: listSnapshots
       description: >-
         List all the snapshots currently available in a base. The snapshots are
         saved as `.dtable` files, and therefore returned as a base name with
@@ -7576,6 +7472,7 @@ paths:
       tags:
         - Snapshots
       summary: Restore Snapshot
+      operationId: restoreSnapshot
       description: >-
         Restore a snapshot and save it as a new base besides the existing base. 
 
@@ -7627,7 +7524,8 @@ paths:
     get:
       tags:
         - Apps
-      summary: List Universal Apps
+      summary: List Apps
+      operationId: listApps
       description: Hier muss noch eine Beschreibung ergänzt werden
       security:
         - AccountTokenAuth: []
@@ -7654,36 +7552,6 @@ paths:
                         "link": "https://cloud.seatable.io/external-apps/5863cf72-a3fa-488a-84cd-d02d2c578660/",
                         "edit_link": "https://cloud.seatable.io/dtable/external-apps-edit/5863cf72-a3fa-488a-84cd-d02d2c578660/",
                         "joined_at": "2023-01-05T09:30:25+00:00",
-                      },
-                      {
-                        "app_user_id": 14,
-                        "app_id": 21,
-                        "app_name": "test",
-                        "app_token": "4b0b7a91-c4bc-4075-88c3-88fb851d7eae",
-                        "app_config": '{"app_type": "universal-app", "app_name": "test", "settings": {"pages": [{"id": "XtTu", "name": "test", "type": "custom_page", "icon": "app-gallery", "content_url": "https://stage.seatable.io/workspace/3/asset/2d0d0c32-5e79-4437-a414-766ade7618a5/external-apps/XtTu/XtTu.json", "trigger_workflow_option": {"can_trigger_workflow": false}}], "navigation": [{"id": "XtTu", "type": "page"}]}, "use_custom_icon": false, "icon_class_name": "customer-contract-management", "app_icon": "", "app_theme_mode": "dark", "icon_color_index": 0, "app_theme_color": "#FF8000"}',
-                        "role_name": "admin",
-                        "permission": "rw",
-                        "dtable_uuid": "b0c53bef24e14e74a53c78a5c1231783",
-                        "dtable_name": "button create two pdf",
-                        "workspace_id": 2,
-                        "link": "https://cloud.seatable.io/external-apps/4b0b7a91-c4bc-4075-88c3-88fb851d7eae/",
-                        "edit_link": "https://cloud.seatable.io/dtable/external-apps-edit/4b0b7a91-c4bc-4075-88c3-88fb851d7eae/",
-                        "joined_at": "2023-01-05T09:31:55+00:00",
-                      },
-                      {
-                        "app_user_id": 15,
-                        "app_id": 22,
-                        "app_name": "app",
-                        "app_token": "a2f9dcb4-a8b8-4a3e-b550-fddf18ef0ab6",
-                        "app_config": '{"app_type": "universal-app", "app_name": "app", "settings": {"pages": [{"id": "IpvJ", "name": "test", "type": "custom_page", "icon": "app-form", "content_url": "https://stage.seatable.io/workspace/3/asset/a81922f3-ead6-4904-942e-4617402b8006/external-apps/IpvJ/IpvJ.json", "trigger_workflow_option": {"can_trigger_workflow": false}}], "navigation": [{"id": "IpvJ", "type": "page"}]}, "use_custom_icon": false, "icon_class_name": "customer-contract-management", "app_icon": "", "app_theme_mode": "dark", "icon_color_index": 0, "app_theme_color": "#FF8000"}',
-                        "role_name": "admin",
-                        "permission": "rw",
-                        "dtable_uuid": "a81922f3ead64904942e4617402b8006",
-                        "dtable_name": "history test",
-                        "workspace_id": 3,
-                        "link": "https://cloud.seatable.io/external-apps/a2f9dcb4-a8b8-4a3e-b550-fddf18ef0ab6/",
-                        "edit_link": "https://cloud.seatable.io/dtable/external-apps-edit/a2f9dcb4-a8b8-4a3e-b550-fddf18ef0ab6/",
-                        "joined_at": "2023-01-05T15:32:45+00:00",
                       },
                       {
                         "app_user_id": 16,
@@ -7715,66 +7583,6 @@ paths:
                         "edit_link": "https://cloud.seatable.io/dtable/external-apps-edit/d356b5ce-9c5a-41fb-afc5-582dff6d58a4/",
                         "joined_at": "2023-02-10T10:35:02+00:00",
                       },
-                      {
-                        "app_user_id": 53,
-                        "app_id": 71,
-                        "app_name": "Belehrungsdatenbank (Soldat)",
-                        "app_token": "669c8eaf-2a28-4843-8b45-b0d4d63139eb",
-                        "app_config": "{\"app_type\": \"universal-app\", \"app_name\": \"Belehrungsdatenbank (Soldat)\", \"settings\": {\"pages\": [{\"id\": \"ZKcm\", \"name\": \"\\u00dcbersicht Belehrungen\", \"type\": \"custom_page\", \"icon\": \"app-gallery\", \"content_url\": \"https://stage.seatable.io/workspace/241/asset/5e3bdce8-355b-4e3a-bc50-338c446b9714/external-apps/71-ZKcm/ZKcm.json\", \"page_permissions\": {\"view_rows_permission\": {\"permission_type\": \"default\", \"permitted_roles\": []}}, \"trigger_workflow_option\": {\"can_trigger_workflow\": false}}, {\"id\": \"GGtm\", \"name\": \"Belehrung erfassen\", \"type\": \"form\", \"icon\": \"app-calendar\", \"table_id\": \"QKC4\", \"elements_order\": [{\"key\": \"QKqw\", \"type\": \"column\"}, {\"key\": \"R3xF\", \"type\": \"column\"}, {\"key\": \"9Q2O\", \"type\": \"column\"}, {\"key\": \"RIVn\", \"type\": \"column\"}], \"static_elements\": [], \"form_column_description_color\": \"#999999\", \"columns\": [{\"key\": \"QKqw\", \"description\": \"\", \"is_required\": true, \"custom_name\": \"Personennummer\", \"require_fill_checked\": false, \"filters\": [], \"filter_conjunction\": \"And\", \"link_filters\": [], \"link_filter_conjunction\": \"And\", \"editable\": true, \"enable_fill_default_value\": true, \"default_value\": \"{creator.id}\", \"enable_link_existing_records\": true, \"enable_add_new_records\": true, \"add_link_visible_column_fields\": [], \"add_link_required_column_fields\": [], \"link_existed_visible_column_fields\": [], \"enable_not_change_default_value\": true, \"options_show_type\": \"dropdown\", \"permission\": \"rw\", \"link_at_most_one_record\": false, \"existing_link_btn_name\": \"\", \"new_link_btn_name\": \"\", \"enable_customize_existing_link_btn_name\": false, \"enable_customize_new_link_btn_name\": false, \"enable_big_data\": false, \"query_list\": []}, {\"key\": \"R3xF\", \"description\": \"\", \"is_required\": true, \"custom_name\": \"\", \"require_fill_checked\": false, \"filters\": [], \"filter_conjunction\": \"And\", \"link_filters\": [], \"link_filter_conjunction\": \"And\", \"editable\": true, \"enable_fill_default_value\": false, \"default_value\": \"\", \"enable_link_existing_records\": true, \"enable_add_new_records\": true, \"add_link_visible_column_fields\": [], \"add_link_required_column_fields\": [], \"link_existed_visible_column_fields\": [], \"enable_not_change_default_value\": false, \"options_show_type\": \"dropdown\", \"permission\": \"rw\", \"link_at_most_one_record\": false, \"existing_link_btn_name\": \"\", \"new_link_btn_name\": \"\", \"enable_customize_existing_link_btn_name\": false, \"enable_customize_new_link_btn_name\": false, \"enable_big_data\": false, \"query_list\": []}, {\"key\": \"RIVn\", \"description\": \"\", \"is_required\": true, \"custom_name\": \"\", \"require_fill_checked\": false, \"filters\": [], \"filter_conjunction\": \"And\", \"link_filters\": [], \"link_filter_conjunction\": \"And\", \"editable\": true, \"enable_fill_default_value\": false, \"default_value\": \"\", \"enable_link_existing_records\": true, \"enable_add_new_records\": true, \"add_link_visible_column_fields\": [], \"add_link_required_column_fields\": [], \"link_existed_visible_column_fields\": [], \"enable_not_change_default_value\": false, \"options_show_type\": \"dropdown\", \"permission\": \"rw\", \"link_at_most_one_record\": false, \"existing_link_btn_name\": \"\", \"new_link_btn_name\": \"\", \"enable_customize_existing_link_btn_name\": false, \"enable_customize_new_link_btn_name\": false, \"enable_big_data\": false, \"query_list\": []}, {\"key\": \"9Q2O\", \"description\": \"\", \"is_required\": true, \"custom_name\": \"\", \"require_fill_checked\": false, \"filters\": [], \"filter_conjunction\": \"And\", \"link_filters\": [], \"link_filter_conjunction\": \"And\", \"editable\": true, \"enable_fill_default_value\": false, \"default_value\": \"\", \"enable_link_existing_records\": true, \"enable_add_new_records\": true, \"add_link_visible_column_fields\": [], \"add_link_required_column_fields\": [], \"link_existed_visible_column_fields\": [], \"enable_not_change_default_value\": false, \"options_show_type\": \"dropdown\", \"permission\": \"rw\", \"link_at_most_one_record\": false, \"existing_link_btn_name\": \"\", \"new_link_btn_name\": \"\", \"enable_customize_existing_link_btn_name\": false, \"enable_customize_new_link_btn_name\": false, \"enable_big_data\": false, \"query_list\": []}], \"trigger_workflow_option\": {\"can_trigger_workflow\": false}}, {\"id\": \"2tVF\", \"name\": \"Erfasste Belehrungen\", \"type\": \"table\", \"icon\": \"app-table\", \"table_id\": \"QKC4\", \"shown_column_keys\": [\"0000\", \"R3xF\", \"RIVn\", \"9Q2O\", \"99St\", \"_ctime\", \"Vo55\", \"_mtime\"], \"filters\": [], \"sorts\": [{\"column_key\": \"9Q2O\", \"sort_type\": \"down\"}], \"filter_conjunction\": \"And\", \"link_columns_settings\": [{\"key\": \"Yg5U\", \"link_filter_conjunction\": \"And\", \"link_filters\": [], \"enable_add_new_records\": true, \"enable_link_existing_records\": true, \"add_link_visible_column_fields\": [], \"add_link_required_column_fields\": [], \"link_at_most_one_record\": false, \"link_existed_visible_column_fields\": [], \"enable_big_data\": false, \"query_list\": []}], \"page_permissions\": {\"add_rows_permission\": {\"permission_type\": \"none\", \"permitted_roles\": []}, \"edit_rows_permission\": {\"permission_type\": \"none\", \"permitted_roles\": []}, \"delete_rows_permission\": {\"permission_type\": \"none\", \"permitted_roles\": []}, \"view_rows_permission\": {\"permission_type\": \"default\", \"permitted_roles\": []}}, \"trigger_workflow_option\": {\"can_trigger_workflow\": false}}], \"navigation\": [{\"id\": \"ZKcm\", \"type\": \"page\"}, {\"id\": \"GGtm\", \"type\": \"page\"}, {\"id\": \"2tVF\", \"type\": \"page\"}]}, \"use_custom_icon\": false, \"icon_class_name\": \"customer-contract-management\", \"app_icon\": \"\", \"app_theme_mode\": \"light\", \"icon_color_index\": 0, \"app_theme_color\": \"#FF8000\"}",
-                        "role_name": "admin",
-                        "permission": "rw",
-                        "dtable_uuid": "5e3bdce8355b4e3abc50338c446b9714",
-                        "dtable_name": "Belehrung",
-                        "workspace_id": 241,
-                        "link": "https://cloud.seatable.io/external-apps/669c8eaf-2a28-4843-8b45-b0d4d63139eb/",
-                        "edit_link": "https://cloud.seatable.io/dtable/external-apps-edit/669c8eaf-2a28-4843-8b45-b0d4d63139eb/",
-                        "joined_at": "2023-03-31T14:14:34+00:00",
-                      },
-                      {
-                        "app_user_id": 54,
-                        "app_id": 72,
-                        "app_name": "Dgdfh",
-                        "app_token": "8254d58e-6a67-45ab-be37-87939d80e99f",
-                        "app_config": '{"app_type":"universal-app","app_name":"Dgdfh","settings":{}}',
-                        "role_name": "admin",
-                        "permission": "rw",
-                        "dtable_uuid": "18c9eb2637604aa782b7297432db2c55",
-                        "dtable_name": "all column types (1)",
-                        "workspace_id": 3,
-                        "link": "https://cloud.seatable.io/external-apps/8254d58e-6a67-45ab-be37-87939d80e99f/",
-                        "edit_link": "https://cloud.seatable.io/dtable/external-apps-edit/8254d58e-6a67-45ab-be37-87939d80e99f/",
-                        "joined_at": "2023-04-02T20:59:23+00:00",
-                      },
-                      {
-                        "app_user_id": 58,
-                        "app_id": 76,
-                        "app_name": "Eintr\u00e4ge (Soldat)",
-                        "app_token": "a99c7b34-30f9-4473-9658-55b9bfb94dba",
-                        "app_config": "{\"app_type\": \"universal-app\", \"app_name\": \"Eintr\\u00e4ge (Soldat)\", \"settings\": {\"pages\": [{\"id\": \"1WN8\", \"name\": \"Belehrungen erfassen\", \"type\": \"form\", \"icon\": \"app-map\", \"table_id\": \"0000\", \"elements_order\": [{\"key\": \"0000\", \"type\": \"column\"}, {\"key\": \"4Ule\", \"type\": \"column\"}, {\"key\": \"MD4w\", \"type\": \"column\"}, {\"key\": \"3A3P\", \"type\": \"column\"}, {\"key\": \"y4K9\", \"type\": \"column\"}], \"static_elements\": [], \"form_column_description_color\": \"#999999\", \"columns\": [{\"key\": \"0000\", \"description\": \"\", \"is_required\": false, \"custom_name\": \"\", \"require_fill_checked\": false, \"filters\": [], \"filter_conjunction\": \"And\", \"link_filters\": [], \"link_filter_conjunction\": \"And\", \"editable\": true, \"enable_fill_default_value\": true, \"default_value\": \"{creator.id}\", \"enable_link_existing_records\": true, \"enable_add_new_records\": true, \"add_link_visible_column_fields\": [], \"add_link_required_column_fields\": [], \"link_existed_visible_column_fields\": [], \"enable_not_change_default_value\": false, \"options_show_type\": \"dropdown\", \"permission\": \"rw\", \"link_at_most_one_record\": false, \"existing_link_btn_name\": \"\", \"new_link_btn_name\": \"\", \"enable_customize_existing_link_btn_name\": false, \"enable_customize_new_link_btn_name\": false, \"enable_big_data\": false, \"query_list\": []}, {\"key\": \"4Ule\", \"description\": \"\", \"is_required\": true, \"custom_name\": \"\", \"require_fill_checked\": false, \"filters\": [], \"filter_conjunction\": \"And\", \"link_filters\": [], \"link_filter_conjunction\": \"And\", \"editable\": true, \"enable_fill_default_value\": false, \"default_value\": \"\", \"enable_link_existing_records\": true, \"enable_add_new_records\": false, \"add_link_visible_column_fields\": [], \"add_link_required_column_fields\": [], \"link_existed_visible_column_fields\": [], \"enable_not_change_default_value\": false, \"options_show_type\": \"dropdown\", \"permission\": \"rw\", \"link_at_most_one_record\": true, \"existing_link_btn_name\": \"\", \"new_link_btn_name\": \"\", \"enable_customize_existing_link_btn_name\": false, \"enable_customize_new_link_btn_name\": false, \"enable_big_data\": false, \"query_list\": []}, {\"key\": \"MD4w\", \"description\": \"\", \"is_required\": false, \"custom_name\": \"\", \"require_fill_checked\": false, \"filters\": [], \"filter_conjunction\": \"And\", \"link_filters\": [], \"link_filter_conjunction\": \"And\", \"editable\": true, \"enable_fill_default_value\": false, \"default_value\": \"\", \"enable_link_existing_records\": true, \"enable_add_new_records\": true, \"add_link_visible_column_fields\": [], \"add_link_required_column_fields\": [], \"link_existed_visible_column_fields\": [], \"enable_not_change_default_value\": false, \"options_show_type\": \"dropdown\", \"permission\": \"rw\", \"link_at_most_one_record\": false, \"existing_link_btn_name\": \"\", \"new_link_btn_name\": \"\", \"enable_customize_existing_link_btn_name\": false, \"enable_customize_new_link_btn_name\": false, \"enable_big_data\": false, \"query_list\": []}, {\"key\": \"3A3P\", \"description\": \"\", \"is_required\": true, \"custom_name\": \"\", \"require_fill_checked\": false, \"filters\": [], \"filter_conjunction\": \"And\", \"link_filters\": [], \"link_filter_conjunction\": \"And\", \"editable\": true, \"enable_fill_default_value\": false, \"default_value\": \"\", \"enable_link_existing_records\": true, \"enable_add_new_records\": true, \"add_link_visible_column_fields\": [], \"add_link_required_column_fields\": [], \"link_existed_visible_column_fields\": [], \"enable_not_change_default_value\": false, \"options_show_type\": \"dropdown\", \"permission\": \"rw\", \"link_at_most_one_record\": false, \"existing_link_btn_name\": \"\", \"new_link_btn_name\": \"\", \"enable_customize_existing_link_btn_name\": false, \"enable_customize_new_link_btn_name\": false, \"enable_big_data\": false, \"query_list\": []}, {\"key\": \"y4K9\", \"description\": \"\", \"is_required\": false, \"custom_name\": \"Ung\\u00fcltiges Unterzeichnungsdatum, bitte pr\\u00fcfen\", \"require_fill_checked\": false, \"filters\": [{\"column_key\": \"3A3P\", \"filter_predicate\": \"is_after\", \"filter_term\": \"\", \"filter_term_modifier\": \"today\"}], \"filter_conjunction\": \"And\", \"link_filters\": [], \"link_filter_conjunction\": \"And\", \"editable\": true, \"enable_fill_default_value\": false, \"default_value\": \"\", \"enable_link_existing_records\": true, \"enable_add_new_records\": true, \"add_link_visible_column_fields\": [], \"add_link_required_column_fields\": [], \"link_existed_visible_column_fields\": [], \"enable_not_change_default_value\": false, \"options_show_type\": \"dropdown\", \"permission\": \"rw\", \"link_at_most_one_record\": false, \"existing_link_btn_name\": \"\", \"new_link_btn_name\": \"\", \"enable_customize_existing_link_btn_name\": false, \"enable_customize_new_link_btn_name\": false, \"enable_big_data\": false, \"query_list\": []}], \"trigger_workflow_option\": {\"can_trigger_workflow\": false}}, {\"id\": \"23Pq\", \"name\": \"Erfasste Belehrungen\", \"type\": \"table\", \"icon\": \"app-information\", \"table_id\": \"0000\", \"shown_column_keys\": [\"0000\", \"4Ule\", \"MD4w\", \"3A3P\", \"_ctime\", \"08AX\", \"9P4V\"], \"filters\": [{\"column_key\": \"mXct\", \"filter_predicate\": \"is_current_user_ID\", \"filter_term\": \"{creator.id}\"}], \"sorts\": [], \"filter_conjunction\": \"And\", \"link_columns_settings\": [{\"key\": \"9euR\", \"link_filter_conjunction\": \"And\", \"link_filters\": [], \"enable_add_new_records\": false, \"enable_link_existing_records\": true, \"add_link_visible_column_fields\": [], \"add_link_required_column_fields\": [], \"link_at_most_one_record\": true, \"link_existed_visible_column_fields\": [], \"enable_big_data\": false, \"query_list\": []}, {\"key\": \"4Ule\", \"link_filter_conjunction\": \"And\", \"link_filters\": [], \"enable_add_new_records\": false, \"enable_link_existing_records\": true, \"add_link_visible_column_fields\": [], \"add_link_required_column_fields\": [], \"link_at_most_one_record\": true, \"link_existed_visible_column_fields\": [], \"enable_big_data\": false, \"query_list\": []}], \"page_permissions\": {\"add_rows_permission\": {\"permission_type\": \"none\", \"permitted_roles\": []}, \"edit_rows_permission\": {\"permission_type\": \"none\", \"permitted_roles\": []}, \"delete_rows_permission\": {\"permission_type\": \"none\", \"permitted_roles\": []}}, \"trigger_workflow_option\": {\"can_trigger_workflow\": false}, \"check_new_record_format\": false}, {\"id\": \"kVC3\", \"name\": \"Dashboard Soldat\", \"type\": \"custom_page\", \"icon\": \"app-gallery\", \"content_url\": \"https://stage.seatable.io/workspace/243/asset/fa445f9b-d4c5-4eb6-a233-46893a28bee1/external-apps/76-kVC3/kVC3.json\", \"page_permissions\": {\"view_rows_permission\": {\"permission_type\": \"default\", \"permitted_roles\": []}}, \"trigger_workflow_option\": {\"can_trigger_workflow\": false}}, {\"id\": \"2Z1M\", \"name\": \"IGF erfassen\", \"type\": \"form\", \"icon\": \"app-form\", \"table_id\": \"Hxxp\", \"elements_order\": [{\"key\": \"0000\", \"type\": \"column\"}, {\"key\": \"67SH\", \"type\": \"column\"}, {\"key\": \"a3WW\", \"type\": \"column\"}, {\"key\": \"gZ5v\", \"type\": \"column\"}, {\"key\": \"Hn5s\", \"type\": \"column\"}], \"static_elements\": [], \"form_column_description_color\": \"#999999\", \"columns\": [{\"key\": \"0000\", \"description\": \"\", \"is_required\": false, \"custom_name\": \"\", \"require_fill_checked\": false, \"filters\": [], \"filter_conjunction\": \"And\", \"link_filters\": [], \"link_filter_conjunction\": \"And\", \"editable\": true, \"enable_fill_default_value\": true, \"default_value\": \"{creator.id}\", \"enable_link_existing_records\": true, \"enable_add_new_records\": true, \"add_link_visible_column_fields\": [], \"add_link_required_column_fields\": [], \"link_existed_visible_column_fields\": [], \"enable_not_change_default_value\": true, \"options_show_type\": \"dropdown\", \"permission\": \"rw\", \"link_at_most_one_record\": false, \"existing_link_btn_name\": \"\", \"new_link_btn_name\": \"\", \"enable_customize_existing_link_btn_name\": false, \"enable_customize_new_link_btn_name\": false, \"enable_big_data\": false, \"query_list\": []}, {\"key\": \"67SH\", \"description\": \"\", \"is_required\": true, \"custom_name\": \"\", \"require_fill_checked\": false, \"filters\": [], \"filter_conjunction\": \"And\", \"link_filters\": [], \"link_filter_conjunction\": \"And\", \"editable\": true, \"enable_fill_default_value\": false, \"default_value\": \"\", \"enable_link_existing_records\": true, \"enable_add_new_records\": false, \"add_link_visible_column_fields\": [], \"add_link_required_column_fields\": [], \"link_existed_visible_column_fields\": [], \"enable_not_change_default_value\": false, \"options_show_type\": \"dropdown\", \"permission\": \"rw\", \"link_at_most_one_record\": true, \"existing_link_btn_name\": \"\", \"new_link_btn_name\": \"\", \"enable_customize_existing_link_btn_name\": false, \"enable_customize_new_link_btn_name\": false, \"enable_big_data\": false, \"query_list\": []}, {\"key\": \"a3WW\", \"description\": \"\", \"is_required\": true, \"custom_name\": \"\", \"require_fill_checked\": false, \"filters\": [], \"filter_conjunction\": \"And\", \"link_filters\": [], \"link_filter_conjunction\": \"And\", \"editable\": true, \"enable_fill_default_value\": false, \"default_value\": \"\", \"enable_link_existing_records\": true, \"enable_add_new_records\": true, \"add_link_visible_column_fields\": [], \"add_link_required_column_fields\": [], \"link_existed_visible_column_fields\": [], \"enable_not_change_default_value\": false, \"options_show_type\": \"dropdown\", \"permission\": \"rw\", \"link_at_most_one_record\": false, \"existing_link_btn_name\": \"\", \"new_link_btn_name\": \"\", \"enable_customize_existing_link_btn_name\": false, \"enable_customize_new_link_btn_name\": false, \"enable_big_data\": false, \"query_list\": []}, {\"key\": \"gZ5v\", \"description\": \"\", \"is_required\": true, \"custom_name\": \"\", \"require_fill_checked\": false, \"filters\": [], \"filter_conjunction\": \"And\", \"link_filters\": [], \"link_filter_conjunction\": \"And\", \"editable\": true, \"enable_fill_default_value\": false, \"default_value\": \"\", \"enable_link_existing_records\": true, \"enable_add_new_records\": true, \"add_link_visible_column_fields\": [], \"add_link_required_column_fields\": [], \"link_existed_visible_column_fields\": [], \"enable_not_change_default_value\": false, \"options_show_type\": \"dropdown\", \"permission\": \"rw\", \"link_at_most_one_record\": false, \"existing_link_btn_name\": \"\", \"new_link_btn_name\": \"\", \"enable_customize_existing_link_btn_name\": false, \"enable_customize_new_link_btn_name\": false, \"enable_big_data\": false, \"query_list\": []}, {\"key\": \"Hn5s\", \"description\": \"\", \"is_required\": false, \"custom_name\": \"Ung\\u00fcltiges Pr\\u00fcfungsdatum, bitte pr\\u00fcfen.\", \"require_fill_checked\": false, \"filters\": [{\"column_key\": \"gZ5v\", \"filter_predicate\": \"is_after\", \"filter_term\": \"\", \"filter_term_modifier\": \"today\"}], \"filter_conjunction\": \"And\", \"link_filters\": [], \"link_filter_conjunction\": \"And\", \"editable\": true, \"enable_fill_default_value\": false, \"default_value\": \"\", \"enable_link_existing_records\": true, \"enable_add_new_records\": true, \"add_link_visible_column_fields\": [], \"add_link_required_column_fields\": [], \"link_existed_visible_column_fields\": [], \"enable_not_change_default_value\": false, \"options_show_type\": \"dropdown\", \"permission\": \"rw\", \"link_at_most_one_record\": false, \"existing_link_btn_name\": \"\", \"new_link_btn_name\": \"\", \"enable_customize_existing_link_btn_name\": false, \"enable_customize_new_link_btn_name\": false, \"enable_big_data\": false, \"query_list\": []}], \"trigger_workflow_option\": {\"can_trigger_workflow\": false}}, {\"id\": \"ExtA\", \"name\": \"Helm\", \"type\": \"form\", \"icon\": \"app-form\", \"table_id\": \"V01U\", \"elements_order\": [{\"key\": \"0000\", \"type\": \"column\"}, {\"key\": \"zNp3\", \"type\": \"column\"}, {\"key\": \"EobK\", \"type\": \"column\"}, {\"key\": \"6d85\", \"type\": \"column\"}], \"static_elements\": [], \"form_column_description_color\": \"#999999\", \"columns\": [{\"key\": \"0000\", \"description\": \"\", \"is_required\": false, \"custom_name\": \"\", \"require_fill_checked\": false, \"filters\": [], \"filter_conjunction\": \"And\", \"link_filters\": [], \"link_filter_conjunction\": \"And\", \"editable\": true, \"enable_fill_default_value\": true, \"default_value\": \"{creator.id}\", \"enable_link_existing_records\": true, \"enable_add_new_records\": true, \"add_link_visible_column_fields\": [], \"add_link_required_column_fields\": [], \"link_existed_visible_column_fields\": [], \"enable_not_change_default_value\": true, \"options_show_type\": \"dropdown\", \"permission\": \"rw\", \"link_at_most_one_record\": false, \"existing_link_btn_name\": \"\", \"new_link_btn_name\": \"\", \"enable_customize_existing_link_btn_name\": false, \"enable_customize_new_link_btn_name\": false, \"enable_big_data\": false, \"query_list\": []}, {\"key\": \"zNp3\", \"description\": \"\", \"is_required\": false, \"custom_name\": \"\", \"require_fill_checked\": false, \"filters\": [], \"filter_conjunction\": \"And\", \"link_filters\": [], \"link_filter_conjunction\": \"And\", \"editable\": true, \"enable_fill_default_value\": false, \"default_value\": \"\", \"enable_link_existing_records\": true, \"enable_add_new_records\": true, \"add_link_visible_column_fields\": [], \"add_link_required_column_fields\": [], \"link_existed_visible_column_fields\": [], \"enable_not_change_default_value\": false, \"options_show_type\": \"dropdown\", \"permission\": \"rw\", \"link_at_most_one_record\": false, \"existing_link_btn_name\": \"\", \"new_link_btn_name\": \"\", \"enable_customize_existing_link_btn_name\": false, \"enable_customize_new_link_btn_name\": false, \"enable_big_data\": false, \"query_list\": []}, {\"key\": \"EobK\", \"description\": \"\", \"is_required\": false, \"custom_name\": \"\", \"require_fill_checked\": false, \"filters\": [], \"filter_conjunction\": \"And\", \"link_filters\": [], \"link_filter_conjunction\": \"And\", \"editable\": true, \"enable_fill_default_value\": false, \"default_value\": \"\", \"enable_link_existing_records\": true, \"enable_add_new_records\": true, \"add_link_visible_column_fields\": [], \"add_link_required_column_fields\": [], \"link_existed_visible_column_fields\": [], \"enable_not_change_default_value\": false, \"options_show_type\": \"dropdown\", \"permission\": \"rw\", \"link_at_most_one_record\": false, \"existing_link_btn_name\": \"\", \"new_link_btn_name\": \"\", \"enable_customize_existing_link_btn_name\": false, \"enable_customize_new_link_btn_name\": false, \"enable_big_data\": false, \"query_list\": []}, {\"key\": \"6d85\", \"description\": \"\", \"is_required\": false, \"custom_name\": \"Ung\\u00fcltiges Datum, bitte pr\\u00fcfen.\", \"require_fill_checked\": false, \"filters\": [{\"column_key\": \"EobK\", \"filter_predicate\": \"is_before\", \"filter_term\": \"\", \"filter_term_modifier\": \"today\"}], \"filter_conjunction\": \"And\", \"link_filters\": [], \"link_filter_conjunction\": \"And\", \"editable\": true, \"enable_fill_default_value\": false, \"default_value\": \"\", \"enable_link_existing_records\": true, \"enable_add_new_records\": true, \"add_link_visible_column_fields\": [], \"add_link_required_column_fields\": [], \"link_existed_visible_column_fields\": [], \"enable_not_change_default_value\": false, \"options_show_type\": \"dropdown\", \"permission\": \"rw\", \"link_at_most_one_record\": false, \"existing_link_btn_name\": \"\", \"new_link_btn_name\": \"\", \"enable_customize_existing_link_btn_name\": false, \"enable_customize_new_link_btn_name\": false, \"enable_big_data\": false, \"query_list\": []}], \"trigger_workflow_option\": {\"can_trigger_workflow\": false}}, {\"id\": \"RmX8\", \"name\": \"ABC-Schutzmaske\", \"type\": \"form\", \"icon\": \"app-form\", \"table_id\": \"hq8V\", \"elements_order\": [{\"key\": \"0000\", \"type\": \"column\"}, {\"key\": \"NApB\", \"type\": \"column\"}, {\"key\": \"ofs4\", \"type\": \"column\"}, {\"key\": \"Tg1W\", \"type\": \"column\"}], \"static_elements\": [], \"form_column_description_color\": \"#999999\", \"columns\": [{\"key\": \"0000\", \"description\": \"\", \"is_required\": false, \"custom_name\": \"\", \"require_fill_checked\": false, \"filters\": [], \"filter_conjunction\": \"And\", \"link_filters\": [], \"link_filter_conjunction\": \"And\", \"editable\": true, \"enable_fill_default_value\": true, \"default_value\": \"{creator.id}\", \"enable_link_existing_records\": true, \"enable_add_new_records\": true, \"add_link_visible_column_fields\": [], \"add_link_required_column_fields\": [], \"link_existed_visible_column_fields\": [], \"enable_not_change_default_value\": true, \"options_show_type\": \"dropdown\", \"permission\": \"rw\", \"link_at_most_one_record\": false, \"existing_link_btn_name\": \"\", \"new_link_btn_name\": \"\", \"enable_customize_existing_link_btn_name\": false, \"enable_customize_new_link_btn_name\": false, \"enable_big_data\": false, \"query_list\": []}, {\"key\": \"NApB\", \"description\": \"\", \"is_required\": false, \"custom_name\": \"Inventarnummer\", \"require_fill_checked\": false, \"filters\": [], \"filter_conjunction\": \"And\", \"link_filters\": [], \"link_filter_conjunction\": \"And\", \"editable\": true, \"enable_fill_default_value\": false, \"default_value\": \"\", \"enable_link_existing_records\": true, \"enable_add_new_records\": true, \"add_link_visible_column_fields\": [], \"add_link_required_column_fields\": [], \"link_existed_visible_column_fields\": [], \"enable_not_change_default_value\": false, \"options_show_type\": \"dropdown\", \"permission\": \"rw\", \"link_at_most_one_record\": false, \"existing_link_btn_name\": \"\", \"new_link_btn_name\": \"\", \"enable_customize_existing_link_btn_name\": false, \"enable_customize_new_link_btn_name\": false, \"enable_big_data\": false, \"query_list\": []}, {\"key\": \"ofs4\", \"description\": \"\", \"is_required\": false, \"custom_name\": \"\", \"require_fill_checked\": false, \"filters\": [], \"filter_conjunction\": \"And\", \"link_filters\": [], \"link_filter_conjunction\": \"And\", \"editable\": true, \"enable_fill_default_value\": false, \"default_value\": \"\", \"enable_link_existing_records\": true, \"enable_add_new_records\": true, \"add_link_visible_column_fields\": [], \"add_link_required_column_fields\": [], \"link_existed_visible_column_fields\": [], \"enable_not_change_default_value\": false, \"options_show_type\": \"dropdown\", \"permission\": \"rw\", \"link_at_most_one_record\": false, \"existing_link_btn_name\": \"\", \"new_link_btn_name\": \"\", \"enable_customize_existing_link_btn_name\": false, \"enable_customize_new_link_btn_name\": false, \"enable_big_data\": false, \"query_list\": []}, {\"key\": \"Tg1W\", \"description\": \"\", \"is_required\": false, \"custom_name\": \"Ung\\u00fcltiges Datum, bitte pr\\u00fcfen.\", \"require_fill_checked\": false, \"filters\": [{\"column_key\": \"ofs4\", \"filter_predicate\": \"is_before\", \"filter_term\": \"\", \"filter_term_modifier\": \"today\"}], \"filter_conjunction\": \"And\", \"link_filters\": [], \"link_filter_conjunction\": \"And\", \"editable\": true, \"enable_fill_default_value\": false, \"default_value\": \"\", \"enable_link_existing_records\": true, \"enable_add_new_records\": true, \"add_link_visible_column_fields\": [], \"add_link_required_column_fields\": [], \"link_existed_visible_column_fields\": [], \"enable_not_change_default_value\": false, \"options_show_type\": \"dropdown\", \"permission\": \"rw\", \"link_at_most_one_record\": false, \"existing_link_btn_name\": \"\", \"new_link_btn_name\": \"\", \"enable_customize_existing_link_btn_name\": false, \"enable_customize_new_link_btn_name\": false, \"enable_big_data\": false, \"query_list\": []}], \"trigger_workflow_option\": {\"can_trigger_workflow\": false}}, {\"id\": \"4kJA\", \"name\": \"Brille\", \"type\": \"form\", \"icon\": \"app-form\", \"table_id\": \"5kVM\", \"elements_order\": [{\"key\": \"0000\", \"type\": \"column\"}, {\"key\": \"tbeO\", \"type\": \"column\"}, {\"key\": \"umba\", \"type\": \"column\"}, {\"key\": \"i3vf\", \"type\": \"column\"}], \"static_elements\": [], \"form_column_description_color\": \"#999999\", \"columns\": [{\"key\": \"0000\", \"description\": \"\", \"is_required\": false, \"custom_name\": \"\", \"require_fill_checked\": false, \"filters\": [], \"filter_conjunction\": \"And\", \"link_filters\": [], \"link_filter_conjunction\": \"And\", \"editable\": true, \"enable_fill_default_value\": true, \"default_value\": \"{creator.id}\", \"enable_link_existing_records\": true, \"enable_add_new_records\": true, \"add_link_visible_column_fields\": [], \"add_link_required_column_fields\": [], \"link_existed_visible_column_fields\": [], \"enable_not_change_default_value\": true, \"options_show_type\": \"dropdown\", \"permission\": \"rw\", \"link_at_most_one_record\": false, \"existing_link_btn_name\": \"\", \"new_link_btn_name\": \"\", \"enable_customize_existing_link_btn_name\": false, \"enable_customize_new_link_btn_name\": false, \"enable_big_data\": false, \"query_list\": []}, {\"key\": \"tbeO\", \"description\": \"\", \"is_required\": false, \"custom_name\": \"\", \"require_fill_checked\": false, \"filters\": [], \"filter_conjunction\": \"And\", \"link_filters\": [], \"link_filter_conjunction\": \"And\", \"editable\": true, \"enable_fill_default_value\": false, \"default_value\": \"\", \"enable_link_existing_records\": true, \"enable_add_new_records\": true, \"add_link_visible_column_fields\": [], \"add_link_required_column_fields\": [], \"link_existed_visible_column_fields\": [], \"enable_not_change_default_value\": false, \"options_show_type\": \"dropdown\", \"permission\": \"rw\", \"link_at_most_one_record\": false, \"existing_link_btn_name\": \"\", \"new_link_btn_name\": \"\", \"enable_customize_existing_link_btn_name\": false, \"enable_customize_new_link_btn_name\": false, \"enable_big_data\": false, \"query_list\": []}, {\"key\": \"umba\", \"description\": \"\", \"is_required\": false, \"custom_name\": \"\", \"require_fill_checked\": false, \"filters\": [], \"filter_conjunction\": \"And\", \"link_filters\": [], \"link_filter_conjunction\": \"And\", \"editable\": true, \"enable_fill_default_value\": false, \"default_value\": \"\", \"enable_link_existing_records\": true, \"enable_add_new_records\": true, \"add_link_visible_column_fields\": [], \"add_link_required_column_fields\": [], \"link_existed_visible_column_fields\": [], \"enable_not_change_default_value\": false, \"options_show_type\": \"dropdown\", \"permission\": \"rw\", \"link_at_most_one_record\": false, \"existing_link_btn_name\": \"\", \"new_link_btn_name\": \"\", \"enable_customize_existing_link_btn_name\": false, \"enable_customize_new_link_btn_name\": false, \"enable_big_data\": false, \"query_list\": []}, {\"key\": \"i3vf\", \"description\": \"\", \"is_required\": false, \"custom_name\": \"Ung\\u00fcltiges Datum, bitte pr\\u00fcfen.\", \"require_fill_checked\": false, \"filters\": [{\"column_key\": \"umba\", \"filter_predicate\": \"is_before\", \"filter_term\": \"\", \"filter_term_modifier\": \"today\"}], \"filter_conjunction\": \"And\", \"link_filters\": [], \"link_filter_conjunction\": \"And\", \"editable\": true, \"enable_fill_default_value\": false, \"default_value\": \"\", \"enable_link_existing_records\": true, \"enable_add_new_records\": true, \"add_link_visible_column_fields\": [], \"add_link_required_column_fields\": [], \"link_existed_visible_column_fields\": [], \"enable_not_change_default_value\": false, \"options_show_type\": \"dropdown\", \"permission\": \"rw\", \"link_at_most_one_record\": false, \"existing_link_btn_name\": \"\", \"new_link_btn_name\": \"\", \"enable_customize_existing_link_btn_name\": false, \"enable_customize_new_link_btn_name\": false, \"enable_big_data\": false, \"query_list\": []}], \"trigger_workflow_option\": {\"can_trigger_workflow\": false}}, {\"id\": \"Y1LP\", \"name\": \"Erfasste IGF Pr\\u00fcfungen\", \"type\": \"table\", \"icon\": \"app-information\", \"table_id\": \"Hxxp\", \"shown_column_keys\": [\"0000\", \"67SH\", \"a3WW\", \"fTdZ\", \"gZ5v\", \"_ctime\", \"ymBt\", \"L4ZU\"], \"filters\": [{\"column_key\": \"0000\", \"filter_predicate\": \"is_current_user_ID\", \"filter_term\": \"\"}], \"sorts\": [], \"filter_conjunction\": \"And\", \"link_columns_settings\": [{\"key\": \"aH33\", \"link_filter_conjunction\": \"And\", \"link_filters\": [], \"enable_add_new_records\": false, \"enable_link_existing_records\": true, \"add_link_visible_column_fields\": [], \"add_link_required_column_fields\": [], \"link_at_most_one_record\": true, \"link_existed_visible_column_fields\": [], \"enable_big_data\": false, \"query_list\": []}, {\"key\": \"67SH\", \"link_filter_conjunction\": \"And\", \"link_filters\": [], \"enable_add_new_records\": false, \"enable_link_existing_records\": true, \"add_link_visible_column_fields\": [], \"add_link_required_column_fields\": [], \"link_at_most_one_record\": true, \"link_existed_visible_column_fields\": [], \"enable_big_data\": false, \"query_list\": []}], \"page_permissions\": {\"add_rows_permission\": {\"permission_type\": \"none\", \"permitted_roles\": []}, \"edit_rows_permission\": {\"permission_type\": \"none\", \"permitted_roles\": []}, \"delete_rows_permission\": {\"permission_type\": \"none\", \"permitted_roles\": []}}, \"trigger_workflow_option\": {\"can_trigger_workflow\": false}}], \"navigation\": [{\"id\": \"kVC3\", \"type\": \"page\"}, {\"type\": \"folder\", \"id\": \"TH9r\", \"name\": \"Belehrungen\", \"icon\": \"app-post-sale\", \"children\": [{\"id\": \"1WN8\", \"type\": \"page\"}, {\"id\": \"23Pq\", \"type\": \"page\"}]}, {\"type\": \"folder\", \"id\": \"kkcD\", \"name\": \"IGF\", \"icon\": \"app-personnel\", \"children\": [{\"id\": \"2Z1M\", \"type\": \"page\"}, {\"id\": \"Y1LP\", \"type\": \"page\"}]}, {\"type\": \"folder\", \"id\": \"6O18\", \"name\": \"Ausr\\u00fcstung\", \"icon\": \"app-personnel\", \"children\": [{\"id\": \"ExtA\", \"type\": \"page\"}, {\"id\": \"RmX8\", \"type\": \"page\"}, {\"id\": \"4kJA\", \"type\": \"page\"}]}]}, \"use_custom_icon\": false, \"icon_class_name\": \"customer-contract-management\", \"app_icon\": \"\", \"app_theme_mode\": \"dark\", \"icon_color_index\": 0, \"app_theme_color\": \"#FF8000\"}",
-                        "role_name": "admin",
-                        "permission": "rw",
-                        "dtable_uuid": "fa445f9bd4c54eb6a23346893a28bee1",
-                        "dtable_name": "Belehrung, IGF Pr\u00fcfungen und Ausr\u00fcstung",
-                        "workspace_id": 243,
-                        "link": "https://cloud.seatable.io/external-apps/a99c7b34-30f9-4473-9658-55b9bfb94dba/",
-                        "edit_link": "https://cloud.seatable.io/dtable/external-apps-edit/a99c7b34-30f9-4473-9658-55b9bfb94dba/",
-                        "joined_at": "2023-04-03T11:39:23+00:00",
-                      },
-                      {
-                        "app_user_id": 69,
-                        "app_id": 80,
-                        "app_name": "Freigabe Belehrung und IGF (Vorg.)",
-                        "app_token": "b7509375-a988-42f0-bf2c-cee8aaf63255",
-                        "app_config": "{\"app_type\": \"universal-app\", \"app_name\": \"Freigabe Belehrung und IGF (Vorg.)\", \"settings\": {\"pages\": [{\"id\": \"xCG1\", \"name\": \"Gesamt\\u00fcbersicht\", \"type\": \"table\", \"icon\": \"app-statistics\", \"table_id\": \"14Xi\", \"shown_column_keys\": [\"0000\", \"8fDo\", \"aU9Y\", \"7siA\", \"puF2\", \"16E4\", \"37q9\", \"eH1e\", \"LhcE\", \"aXe6\", \"2j8t\", \"7FXZ\"], \"filters\": [{\"column_key\": \"dvhH\", \"filter_predicate\": \"is_current_user_ID\", \"filter_term\": \"\"}], \"sorts\": [], \"filter_conjunction\": \"And\", \"link_columns_settings\": [{\"key\": \"puF2\", \"link_filter_conjunction\": \"And\", \"link_filters\": [], \"enable_add_new_records\": true, \"enable_link_existing_records\": true, \"add_link_visible_column_fields\": [], \"add_link_required_column_fields\": [], \"link_at_most_one_record\": false, \"link_existed_visible_column_fields\": [], \"enable_big_data\": false, \"query_list\": []}, {\"key\": \"LhcE\", \"link_filter_conjunction\": \"And\", \"link_filters\": [], \"enable_add_new_records\": true, \"enable_link_existing_records\": true, \"add_link_visible_column_fields\": [], \"add_link_required_column_fields\": [], \"link_at_most_one_record\": false, \"link_existed_visible_column_fields\": [], \"enable_big_data\": false, \"query_list\": []}, {\"key\": \"aXe6\", \"link_filter_conjunction\": \"And\", \"link_filters\": [], \"enable_add_new_records\": true, \"enable_link_existing_records\": true, \"add_link_visible_column_fields\": [], \"add_link_required_column_fields\": [], \"link_at_most_one_record\": false, \"link_existed_visible_column_fields\": [], \"enable_big_data\": false, \"query_list\": []}, {\"key\": \"2j8t\", \"link_filter_conjunction\": \"And\", \"link_filters\": [], \"enable_add_new_records\": true, \"enable_link_existing_records\": true, \"add_link_visible_column_fields\": [], \"add_link_required_column_fields\": [], \"link_at_most_one_record\": false, \"link_existed_visible_column_fields\": [], \"enable_big_data\": false, \"query_list\": []}, {\"key\": \"7FXZ\", \"link_filter_conjunction\": \"And\", \"link_filters\": [], \"enable_add_new_records\": true, \"enable_link_existing_records\": true, \"add_link_visible_column_fields\": [], \"add_link_required_column_fields\": [], \"link_at_most_one_record\": false, \"link_existed_visible_column_fields\": [], \"enable_big_data\": false, \"query_list\": []}, {\"key\": \"29qU\", \"link_filter_conjunction\": \"And\", \"link_filters\": [], \"enable_add_new_records\": true, \"enable_link_existing_records\": true, \"add_link_visible_column_fields\": [], \"add_link_required_column_fields\": [], \"link_at_most_one_record\": false, \"link_existed_visible_column_fields\": [], \"enable_big_data\": false, \"query_list\": []}], \"page_permissions\": {\"add_rows_permission\": {\"permission_type\": \"none\", \"permitted_roles\": []}, \"edit_rows_permission\": {\"permission_type\": \"none\", \"permitted_roles\": []}, \"delete_rows_permission\": {\"permission_type\": \"none\", \"permitted_roles\": []}}, \"trigger_workflow_option\": {\"can_trigger_workflow\": false}}, {\"id\": \"3ml8\", \"name\": \"Belehrungen freigeben\", \"type\": \"table\", \"icon\": \"app-form\", \"table_id\": \"0000\", \"shown_column_keys\": [\"0000\", \"9euR\", \"4Ule\", \"MD4w\", \"3A3P\", \"_ctime\", \"WD90\", \"9TDI\", \"3prq\", \"08AX\", \"9P4V\", \"y4K9\", \"VPt5\"], \"filters\": [{\"column_key\": \"96QA\", \"filter_predicate\": \"is_current_user_ID\", \"filter_term\": \"\"}], \"sorts\": [], \"filter_conjunction\": \"And\", \"link_columns_settings\": [{\"key\": \"9euR\", \"link_filter_conjunction\": \"And\", \"link_filters\": [], \"enable_add_new_records\": false, \"enable_link_existing_records\": true, \"add_link_visible_column_fields\": [], \"add_link_required_column_fields\": [], \"link_at_most_one_record\": false, \"link_existed_visible_column_fields\": [], \"enable_big_data\": false, \"query_list\": []}, {\"key\": \"4Ule\", \"link_filter_conjunction\": \"And\", \"link_filters\": [], \"enable_add_new_records\": false, \"enable_link_existing_records\": true, \"add_link_visible_column_fields\": [], \"add_link_required_column_fields\": [], \"link_at_most_one_record\": false, \"link_existed_visible_column_fields\": [], \"enable_big_data\": false, \"query_list\": []}], \"page_permissions\": {\"add_rows_permission\": {\"permission_type\": \"none\", \"permitted_roles\": []}, \"edit_rows_permission\": {\"permission_type\": \"default\", \"permitted_roles\": []}, \"delete_rows_permission\": {\"permission_type\": \"none\", \"permitted_roles\": []}}, \"trigger_workflow_option\": {\"can_trigger_workflow\": false}}, {\"id\": \"zGpu\", \"name\": \"IGF freigeben\", \"type\": \"table\", \"icon\": \"app-star-mark\", \"table_id\": \"Hxxp\", \"shown_column_keys\": [\"0000\", \"aH33\", \"67SH\", \"a3WW\", \"fTdZ\", \"gZ5v\", \"_ctime\", \"ymBt\", \"L4ZU\"], \"filters\": [{\"column_key\": \"Uj9C\", \"filter_predicate\": \"is_current_user_ID\", \"filter_term\": \"\"}], \"sorts\": [], \"filter_conjunction\": \"And\", \"link_columns_settings\": [{\"key\": \"aH33\", \"link_filter_conjunction\": \"And\", \"link_filters\": [], \"enable_add_new_records\": false, \"enable_link_existing_records\": true, \"add_link_visible_column_fields\": [], \"add_link_required_column_fields\": [], \"link_at_most_one_record\": true, \"link_existed_visible_column_fields\": [], \"enable_big_data\": false, \"query_list\": []}, {\"key\": \"67SH\", \"link_filter_conjunction\": \"And\", \"link_filters\": [], \"enable_add_new_records\": false, \"enable_link_existing_records\": true, \"add_link_visible_column_fields\": [], \"add_link_required_column_fields\": [], \"link_at_most_one_record\": true, \"link_existed_visible_column_fields\": [], \"enable_big_data\": false, \"query_list\": []}], \"page_permissions\": {\"add_rows_permission\": {\"permission_type\": \"none\", \"permitted_roles\": []}, \"edit_rows_permission\": {\"permission_type\": \"default\", \"permitted_roles\": []}, \"delete_rows_permission\": {\"permission_type\": \"none\", \"permitted_roles\": []}}, \"trigger_workflow_option\": {\"can_trigger_workflow\": false}}, {\"id\": \"F4HD\", \"name\": \"Dashboard TEF\", \"type\": \"custom_page\", \"icon\": \"app-statistics\", \"content_url\": \"https://stage.seatable.io/workspace/243/asset/fa445f9b-d4c5-4eb6-a233-46893a28bee1/external-apps/80-F4HD/F4HD.json\", \"page_permissions\": {\"view_rows_permission\": {\"permission_type\": \"default\", \"permitted_roles\": []}}, \"trigger_workflow_option\": {\"can_trigger_workflow\": false}}], \"navigation\": [{\"type\": \"folder\", \"id\": \"7DF6\", \"name\": \"Dashboard\", \"icon\": \"app-form\", \"children\": [{\"id\": \"F4HD\", \"type\": \"page\"}, {\"id\": \"xCG1\", \"type\": \"page\"}]}, {\"type\": \"folder\", \"id\": \"bqp1\", \"name\": \"Eintr\\u00e4ge freigeben\", \"icon\": \"app-statistics\", \"children\": [{\"id\": \"o5lM\", \"type\": \"page\"}, {\"id\": \"v7Zp\", \"type\": \"page\"}, {\"id\": \"3ml8\", \"type\": \"page\"}, {\"id\": \"zGpu\", \"type\": \"page\"}]}]}, \"use_custom_icon\": false, \"icon_class_name\": \"customer-contract-management\", \"app_icon\": \"\", \"app_theme_mode\": \"dark\", \"icon_color_index\": 0, \"app_theme_color\": \"#FF8000\"}",
-                        "role_name": "admin",
-                        "permission": "rw",
-                        "dtable_uuid": "fa445f9bd4c54eb6a23346893a28bee1",
-                        "dtable_name": "Belehrung, IGF Pr\u00fcfungen und Ausr\u00fcstung",
-                        "workspace_id": 243,
-                        "link": "https://cloud.seatable.io/external-apps/b7509375-a988-42f0-bf2c-cee8aaf63255/",
-                        "edit_link": "https://cloud.seatable.io/dtable/external-apps-edit/b7509375-a988-42f0-bf2c-cee8aaf63255/",
-                        "joined_at": "2023-04-04T12:39:48+00:00",
-                      },
                     ],
                   "can_use_apps": [],
                 }
@@ -7783,7 +7591,8 @@ paths:
     post:
       tags:
         - Apps
-      summary: Batch import user to universal app
+      summary: Import Users to App
+      operationId: importUsersToApp
       description: Hier muss noch eine Beschreibung ergänzt werden
       security:
         - AccountTokenAuth: []
@@ -7860,7 +7669,8 @@ paths:
     get:
       tags:
         - Apps
-      summary: List Universal App Invite Links
+      summary: List App Invite Links
+      operationId: listAppInviteLinks
       description: Hier muss noch eine Beschreibung ergänzt werden
       security:
         - AccountTokenAuth: []
@@ -7894,7 +7704,8 @@ paths:
     put:
       tags:
         - Apps
-      summary: Activate/Deactivate App
+      summary: Change App Status
+      operationId: changeAppStatus
       description: Activate or deactivate a universal app. Pay attention that `true` means the app is inactive. `false` means the app is active.
       security:
         - AccountTokenAuth: []
@@ -7937,6 +7748,7 @@ paths:
     get:
       tags: [Activities & Logs]
       summary: Get Base Activities
+      operationId: getBaseActivities
       description: List the user's base activities in the past week.
       security:
         - AccountTokenAuth: []
@@ -7974,7 +7786,8 @@ paths:
   /api/v2.1/dtable-activities/detail:
     get:
       tags: [Activities & Logs]
-      summary: Get Base Activities Details
+      summary: Get Base Activity Details
+      operationId: getBaseActivityDetails
       description: List all activities of one specific base.
       security:
         - AccountTokenAuth: []

@@ -272,6 +272,7 @@ paths:
       tags:
         - Users
       summary: List Users (Team)
+      operationId: listTeamUsers
       description: List all the users in the organization, or only the admins/non-admins.
       security:
         - AccountTokenAuth: []
@@ -305,6 +306,7 @@ paths:
       tags:
         - Users
       summary: Add User
+      operationId: addUser
       description: >-
         Add a new user in the team (organization).
 
@@ -364,6 +366,7 @@ paths:
       tags:
         - Users
       summary: Update User
+      operationId: updateUser
       description: >-
         Update a user's details. See the parameter list for the detailed
         description of each entry.
@@ -414,6 +417,7 @@ paths:
       tags:
         - Users
       summary: Delete User
+      operationId: deleteUser
       description: >-
         Delete a user by their `user_id` permanently. When you delete a user,
         their bases are automatically moved into the organization's trash bin.
@@ -436,6 +440,7 @@ paths:
       tags:
         - Users
       summary: Reset User Password
+      operationId: resetUserPassword
       description: >-
         Reset the password of a user and get a new password. The new password
         will be automatically sent to the user per email.
@@ -458,6 +463,7 @@ paths:
       tags:
         - Users
       summary: Enforce 2FA
+      operationId: enforceTwofactor
       description: >-
         As the team administrator, you can force each team member to use
         2-factor authentication (2FA).
@@ -498,6 +504,7 @@ paths:
       tags:
         - Users
       summary: Disable 2FA
+      operationId: disableTwoFactor
       description: >-
         If a user in your team has lost their phone or deleted the authenticator
         App by accident, they cannot log in to SeaTable anymore if 2FA is
@@ -528,6 +535,7 @@ paths:
       tags:
         - Bases
       summary: List Bases (Team)
+      operationId: listBases
       description: >-
         List all the bases in the current organization.
 
@@ -582,6 +590,7 @@ paths:
       tags:
         - Bases
       summary: Delete Base
+      operationId: deleteBase
       description: >-
         Delete a base. This base will be put into the organization's trash bin,
         and permanently deleted automatically after 30 days.
@@ -604,6 +613,7 @@ paths:
       tags:
         - Bases
       summary: List Trash Bases
+      operationId: listTrashBases
       description: List the bases in the organization's trash bin.
       security:
         - AccountTokenAuth: []
@@ -639,6 +649,7 @@ paths:
       tags:
         - Bases
       summary: Clear Team Trash Bin
+      operationId: clearTeamTrashBin
       description: >-
         Clear the team trash bin. All the bases there will be removed
         permanently and cannot be restored any more.
@@ -660,6 +671,7 @@ paths:
       tags:
         - Bases
       summary: Restore Base from Trash
+      operationId: restoreBaseFromTrash
       description: Restore a base from the trash bin.
       security:
         - AccountTokenAuth: []
@@ -680,6 +692,7 @@ paths:
       tags:
         - Bases
       summary: Search Base
+      operationId: searchBase
       description: >-
         By giving the exact or fuzzy match of the name of a base, you can find a
         base or all the bases that fit to that search criteria. The search is
@@ -721,6 +734,7 @@ paths:
       tags:
         - Groups
       summary: List Groups (Team)
+      operationId: listGroups
       description: >-
         List all the groups existing in your team (organization). In the
         response, each group's ID, name, created time, name,creator etc. are
@@ -762,6 +776,7 @@ paths:
       tags:
         - Groups
       summary: Add Group
+      operationId: addGroup
       description: >-
         Add a group in the current organization and assign a group name, and a
         group owner.
@@ -798,6 +813,7 @@ paths:
       tags:
         - Groups
       summary: Get Group
+      operationId: getGroup
       description: Get the specific information of one group by its ID.
       security:
         - AccountTokenAuth: []
@@ -822,6 +838,7 @@ paths:
       tags:
         - Groups
       summary: Update Group
+      operationId: updateGroup
       description: >-
         Use this request to rename, and/or change owner of a group.
 
@@ -871,6 +888,7 @@ paths:
       tags:
         - Groups
       summary: Delete Group
+      operationId: deleteGroup
       description: Delete a group with its ID.
       security:
         - AccountTokenAuth: []
@@ -891,6 +909,7 @@ paths:
       tags:
         - Groups
       summary: List Group Bases
+      operationId: listGroupBases
       description: List all the bases in a specific group in your team.
       security:
         - AccountTokenAuth: []
@@ -922,16 +941,15 @@ paths:
       tags:
         - Groups
       summary: Re-order Your Groups
+      operationId: orderGroups
       description: >-
         On the **web user interface**, you can have an overview of all the
         groups you are currently in on the left-hand side navigation when you
         click on "Bases".
 
-
         Perhaps you'd like to re-order these groups. Besides moving them
         manually with your mouse on the interface, you can also use this API
         request to do the same job.
-
 
         Here's how it works: In the request form, give the `group_id` of the
         group you'd like to move and tell the system where to move it to: under
@@ -965,6 +983,7 @@ paths:
       tags:
         - Groups
       summary: List Group Members
+      operationId: listGroupMembers
       description: List the members of a group in the current team (organization).
       security:
         - AccountTokenAuth: []
@@ -1002,6 +1021,7 @@ paths:
       tags:
         - Groups
       summary: Add Group Members
+      operationId: addGroupMembers
       description: Add multiple members to a group in one call.
       requestBody:
         content:
@@ -1041,6 +1061,7 @@ paths:
       tags:
         - Groups
       summary: Remove Group Members
+      operationId: removeGroupMembers
       description: Move a member out of a group. The group's owner cannot be removed.
       security:
         - AccountTokenAuth: []
@@ -1062,6 +1083,7 @@ paths:
       tags:
         - Bases
       summary: List Base Sharings
+      operationId: listBaseSharings
       description: >-
         Use this request to list all the users and groups that a base is being
         shared with.
@@ -1082,6 +1104,7 @@ paths:
       tags:
         - Sharing Links
       summary: List Base External Links
+      operationId: listBaseExternalLinks
       description: >-
         Use this request to list all the external links generated in the current
         team (organization).
@@ -1117,6 +1140,7 @@ paths:
       tags:
         - Sharing Links
       summary: Delete External Link
+      operationId: deleteExternalLink
       description: Delete an external link with its token.
       security:
         - AccountTokenAuth: []
@@ -1137,6 +1161,7 @@ paths:
       tags:
         - Sharing Links
       summary: List View External Links
+      operationId: listViewExternalLinks
       description: >-
         Use this request to list all the view external links generated in the
         current team (organization).
@@ -1187,6 +1212,7 @@ paths:
       tags:
         - Sharing Links
       summary: Delete View External Link
+      operationId: deleteViewExternalLink
       description: >-
         Use this request to delete an existing view external link with its
         token.
@@ -1209,6 +1235,7 @@ paths:
       tags:
         - Sharing Links
       summary: List Invite Links
+      operationId: listInviteLinks
       description: >-
         As administrator of your team, you can use this request to gain a
         overview of all the invite links currently generated in your team,
@@ -1252,6 +1279,7 @@ paths:
       tags:
         - Sharing Links
       summary: Update Invite Link
+      operationId: updateInviteLink
       description: "You as team admin can also update an invite link. In the request body:\r\n\r\n- `permission` is the read/write permission of the new invite link, with `r` as read-only and `rw` as read-and-write;\r\n- `password` is the new password of your invite link;\r\n- `expire_days` is the number of days after which the invite link will expire."
       requestBody:
         content:
@@ -1291,6 +1319,7 @@ paths:
       tags:
         - Sharing Links
       summary: Delete Invite Link
+      operationId: deleteInviteLink
       description: >-
         Delete an invite link with this request. The `invite_link_token` can be
         retrieved from the previous calls, or simply from the URL of the invite
@@ -1333,6 +1362,7 @@ paths:
       tags:
         - Info & Settings
       summary: Get Team Info
+      operationId: getTeamInfo
       description: >-
         Get the basic information (e.g. ID, name, storage quota etc. see example
         response for details) of your team (organization).
@@ -1365,6 +1395,7 @@ paths:
       tags:
         - Info & Settings
       summary: Update Team
+      operationId: updateTeam
       description: Update the infos (e.g. name) of the organization
       requestBody:
         content:
@@ -1390,6 +1421,7 @@ paths:
       tags:
         - Info & Settings
       summary: Get Team Settings
+      operationId: getTeamSettings
       description: >-
         List the current organization settings.
 
@@ -1428,6 +1460,7 @@ paths:
       tags:
         - Info & Settings
       summary: Update Team Settings
+      operationId: updateTeamSettings
       description: Update the settings of the organization.
       requestBody:
         content:
@@ -1462,6 +1495,7 @@ paths:
       tags:
         - Activities & Logs
       summary: List Team Operations
+      operationId: listTeamOperationLog
       description: Retrieves the operation log of all team members.
       security:
         - AccountTokenAuth: []
@@ -1522,6 +1556,7 @@ paths:
       tags:
         - Activities & Logs
       summary: List Team Logins
+      operationId: listTeamLogins
       description: Retrieves the login activities of all team members.
       security:
         - AccountTokenAuth: []
@@ -1570,6 +1605,7 @@ paths:
       tags:
         - Activities & Logs
       summary: List User Logins
+      operationId: listUserLogins
       description: Returns the login activities of one specific team member.
       security:
         - AccountTokenAuth: []
@@ -1611,6 +1647,7 @@ paths:
       tags:
         - Customizing
       summary: Update Team Logo
+      operationId: updateTeamLogo
       description: Replace the current team logo by uploading a new one.
       security:
         - AccountTokenAuth: []
@@ -1635,6 +1672,7 @@ paths:
       tags:
         - Customizing
       summary: Get Team Logo
+      operationId: getTeamLogo
       description: Get the path to the custom team logo.
       security:
         - AccountTokenAuth: []
@@ -1654,6 +1692,7 @@ paths:
       tags:
         - Customizing
       summary: Delete Team Logo
+      operationId: deleteTeamLogo
       description: Restore the team logo to SeaTable's original default by removing the current logo."
       security:
         - AccountTokenAuth: []
@@ -1671,6 +1710,7 @@ paths:
       tags:
         - SAML
       summary: Get SAML Config
+      operationId: getSamlConfig
       description: Retrieve the current configuration details of the team's SAML (Single Sign-On) account.
       security:
         - AccountTokenAuth: []
@@ -1706,6 +1746,7 @@ paths:
     put:
       tags: [SAML]
       summary: Update SAML Config
+      operationId: updateSamlConfig
       description: Update the current team's SAML (Single Sign-On) account. You have to provide at least one of the parameter `metadata_url`, `domain` or `idp_certificate`.
       security:
         - AccountTokenAuth: []
@@ -1746,6 +1787,7 @@ paths:
     put:
       tags: [SAML]
       summary: Verify SAML domain
+      operationId: verifySamlDomain
       description: Check for the "seatable-site-verification" value in the DNS entries of the selected domain.
       security:
         - AccountTokenAuth: []
