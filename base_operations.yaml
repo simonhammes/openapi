@@ -322,20 +322,15 @@ components:
     sql_query_response:
       type: object
       properties:
-        base_metadata:
-          $ref: "#/components/schemas/base_metadata"
+        metadata:
+          type: object
+          additionalProperties: true
+          # $ref: "#/components/schemas/base_metadata"
         results:
           type: object
-          description: abc
-          properties:
-            _id:
-              type: string
-            all_other_columns:
-              type: string
-              description: All other columns
+          additionalProperties: true
         success:
-          type: string
-          description: success or error message
+          type: boolean
       example:
         metadata:
           - key: "0000"
@@ -2628,6 +2623,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/sql_query_response"
+
   /dtable-server/api/v1/dtables/{base_uuid}/rows/:
     get:
       tags:
