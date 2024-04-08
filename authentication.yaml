@@ -190,6 +190,7 @@ paths:
       tags:
         - Account-Token
       summary: Get Account-Token with Username and Password
+      operationId: getAccountTokenfromUsername
       description: |
         Generate an *Account-Token* with your username and password. This Account-Token is necessary for all the following account operations.
         Use the optional paramater if two-factor-authentication (2FA) is activated for your account.
@@ -233,6 +234,7 @@ paths:
       tags:
         - API-Token
       summary: List API-Tokens
+      operationId: listApiTokens
       description: |
         List all *API-Tokens* of a base with additional informations like permission, generation date and last access time.
       security:
@@ -251,6 +253,7 @@ paths:
       tags:
         - API-Token
       summary: Create API-Token
+      operationId: createApiToken
       description: >
         Create an *API-Token* for a base.
       requestBody:
@@ -286,6 +289,7 @@ paths:
       tags:
         - API-Token
       summary: Create API-Token (temporary)
+      operationId: createTempApiToken
       description: Create a *temporary API-Token* for a base that expires after one hour.
       security:
         - AccountTokenAuth: []
@@ -305,6 +309,7 @@ paths:
       tags:
         - API-Token
       summary: Update API-Token
+      operationId: updateApiToken
       description: Update the permission of an existing *API-Token*.
       requestBody:
         content:
@@ -334,6 +339,7 @@ paths:
       tags:
         - API-Token
       summary: Delete API-Token
+      operationId: deleteApiToken
       description: >-
         Delete one specific API token from a base. The token is identified by his *app_name*.
       security:
@@ -357,6 +363,7 @@ paths:
       tags:
         - Base-Token
       summary: Get Base-Token with API-Token
+      operationId: getBaseTokenWithApiToken
       description: >-
         Generate a Base-Token with an API-Token. The API-Token grants either read or write permission to this base, depending of the permission of the API-Token.
       security:
@@ -392,6 +399,7 @@ paths:
       tags:
         - Base-Token
       summary: Get Base-Token with Account-Token
+      operationId: getBaseTokenWithAccountToken
       description: >-
         Generate a Base-Token using the user's Account-Token. The read/write permission depends on the user's access permissions to the base.
       security:
@@ -422,6 +430,7 @@ paths:
       tags:
         - Base-Token
       summary: Get Base-Token with External-Link
+      operationId: getBaseTokenWithExternLink
       description: >-
         Generate a Base-Token from an external link to this base. Because external links always grant read-only permissions, the Base-Token generated from a external link will only grant read permissions to the base.
       parameters:
