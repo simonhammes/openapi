@@ -134,6 +134,23 @@ components:
       required: false
       description: Number of rows that should be returned. 1000 by default.
       example: 100
+    listRowLinkLimit:
+      name: limit
+      in: query
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+      required: false
+      description: Limit the number of links you want to receive. 10 by default.
+      example: 10
+    listRowLinkOffset:
+      name: offset
+      in: query
+      schema:
+        type: integer
+      description: |
+        offset is the beginning number of your query. If your record is linked to multiple records, use e.g. 0 to start quering from the 1st element or e.g. 5 to start querying from the 6th element, etc. **Attention:** The returned list of linked rows is not ordered by its original order on the web interface, but rather by created time (ctime).
     days:
       name: days
       in: query
@@ -156,7 +173,7 @@ components:
         minimum: 4
         maximum: 4
       required: true
-      description: This is the key of the link column. Do not use the `link_id` of the link column here.
+      description: This is the key of the link column. **Do not** use the `link_id` of the link column here.
 
     #=======================Path parameters=======================#
     base_uuid:
@@ -2894,14 +2911,10 @@ paths:
 
         - `table_id` is the ID of the table you are querying;
 
-        - `link_column` is the `key` of the "Link to other records" column.
+        - `link_column_key` is the `key` of the "Link to other records" column.
         **Attention**: do not use the `link_id` of the link column here.
 
-        - `rows` is an array. Include the following details of each row you are
-        querying in every object:
-            - `row_id` is the ID of the row you are querying;
-            - `offset` is the beginning number of your query. If your record is linked to multiple records, use e.g. `0` to start quering from the 1st element or e.g. `5` to start querying from the 6th element, etc. **Attention**: The returned list of linked rows is not ordered by its original order on the web interface, but rather by created time (`ctime`).
-            - `limit` lets you to set a limit to the number of records returned. Use e.g. `10` to return no more than 10 records.
+        - `row_id` is the ID of the row you are querying;
 
         In the response:
         - `row_id` is the ID of each linked record;
@@ -2912,11 +2925,6 @@ paths:
         ```
         SELECT * FROM Table2 WHERE _id IN (row_id1, row_id2, ...);
         ```
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/list_row_links"
       security:
         - BaseTokenAuth: []
       parameters:
@@ -2924,6 +2932,8 @@ paths:
         - $ref: "#/components/parameters/table_id"
         - $ref: "#/components/parameters/link_column_key"
         - $ref: "#/components/parameters/row_id"
+        - $ref: "#/components/parameters/listRowLinkLimit"
+        - $ref: "#/components/parameters/listRowLinkOffset"
       responses:
         "200":
           description: OK
@@ -2932,9 +2942,8 @@ paths:
               schema:
                 type: object
               example:
-                Qtf7xPmoRaiFyQPO1aENTjb:
-                  - row_id: G5rbgqudTKKfAm1-cjnjbQ
-                    display_value: Orson
+                row_id: G5rbgqudTKKfAm1-cjnjbQ
+                display_value: Orson
 
     put:
       tags:
