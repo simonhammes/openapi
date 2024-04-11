@@ -3650,7 +3650,7 @@ paths:
   /api-gateway/api/v2/dtables/{base_uuid}/insert-archived-rows/:
     post:
       tags:
-        - Big Data
+        - Rows
       summary: Add Rows into Big Data Backend
       operationId: addBigDataRows
       description: >-
@@ -3700,7 +3700,7 @@ paths:
                 error_message: ""
   /api-gateway/api/v2/dtables/{base_uuid}/send/:
     post:
-      tags: [BigData]
+      tags: [Big Data]
       summary: Move Rows to Normal Backend
       operationId: moveRowsToNormalBackend
       description: Moves the seleted rows into the big data backend.
