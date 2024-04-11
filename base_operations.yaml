@@ -71,7 +71,7 @@ components:
       schema:
         type: string
         pattern: "^[A-Za-z0-9]{4}$"
-      description: "The id of the table. The id of a table is unique inside a base and is often used to identify a table. **Important: the table_id is not the table_name**."
+      description: "The id of the table. The id of a table is unique inside a base and is often used to identify a table."
       example: "0000"
       required: true
     table_name:
@@ -558,7 +558,7 @@ components:
 
     table_id:
       type: string
-      description: "The id of the table. The id of a table is unique inside a base and is often used to identify a table. **Important: the table_id is not the table_name**."
+      description: "The id of the table. The id of a table is unique inside a base and is often used to identify a table. In most calls it is possible to replace the `table_id` with the `table_name`."
       pattern: "^[a-zA-Z0-9]{4}$"
       example: "0000"
 
@@ -569,7 +569,7 @@ components:
       maxLength: 4
       example: jYc7
 
-    create_row_links:
+    row_link_create_update_delete:
       type: object
       properties:
         table_id:
@@ -580,12 +580,11 @@ components:
           $ref: "#/components/schemas/link_id"
         other_rows_ids_map:
           type: object
-          description: ID of the rows
+          description: Provide an object where each key is a `row_id` and each value is an array of other row_ids.
           additionalProperties:
             type: array
             items:
-              type: string
-
+              $ref: "#/components/schemas/row_id"
       required:
         - link_id
         - table_id
@@ -2951,15 +2950,41 @@ paths:
     post:
       tags:
         - Links
-      summary: Create Row Links
-      operationId: createRowLinks
+      summary: Create Row Link(s)
+      operationId: createRowLink
       description: |
         Creates multiple links between one column and many others (1:n relation). It is not possible to create a link twice. This will result in an error.
       requestBody:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/create_row_links"
+              $ref: "#/components/schemas/row_link_create_update_delete"
+      security:
+        - BaseTokenAuth: []
+      parameters:
+        - $ref: "#/components/parameters/base_uuid"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                success: true
+    # ???
+    put:
+      tags:
+        - Links
+      summary: Update Row Link(s)
+      operationId: createRowLink
+      description: |
+        ...,,,
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/row_link_create_update_delete"
       security:
         - BaseTokenAuth: []
       parameters:
@@ -2976,14 +3001,19 @@ paths:
     delete:
       tags:
         - Links
-      summary: Delete Row Link
+      summary: Delete Row Link(s)
       operationId: deleteRowLink
       description: Delete an existing link between two rows.
       requestBody:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/delete_row_link"
+              $ref: "#/components/schemas/row_link_create_update_delete"
+      #requestBody:
+      #  content:
+      #    application/json:
+      #      schema:
+      #        $ref: "#/components/schemas/delete_row_link"
       security:
         - BaseTokenAuth: []
       parameters:
@@ -2997,6 +3027,7 @@ paths:
                 type: object
               example:
                 deleted_links_count: 1
+
   /api-gateway/api/v2/dtables/{base_uuid}/batch-add-links/:
     post:
       deprecated: true
