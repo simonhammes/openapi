@@ -150,7 +150,8 @@ components:
       schema:
         type: integer
       description: |
-        offset is the beginning number of your query. If your record is linked to multiple records, use e.g. 0 to start quering from the 1st element or e.g. 5 to start querying from the 6th element, etc. **Attention:** The returned list of linked rows is not ordered by its original order on the web interface, but rather by created time (ctime).
+        offset is the beginning number of your query. 0 by default. If your record is linked to multiple records, use e.g. 0 to start quering from the 1st element or e.g. 5 to start querying from the 6th element, etc. **Attention:** The returned list of linked rows is not ordered by its original order on the web interface, but rather by created time (ctime).
+      example: 0
     days:
       name: days
       in: query
@@ -576,18 +577,17 @@ components:
           $ref: "#/components/schemas/link_id"
         row_id:
           $ref: "#/components/schemas/row_id"
-        other_rows_ids:
+        other_rows_ids_map:
           type: array
           description: ID of the rows
           items:
             type: string
             example: "GconSYtETlWLyRs5xqkHLQ"
       required:
-        - row_id
         - link_id
         - table_id
         - other_table_id
-        - other_rows_id
+        - other_rows_ids_map
 
     update_links:
       type: object
@@ -2897,6 +2897,7 @@ paths:
 
   # Links
   /api-gateway/api/v2/dtables/{base_uuid}/links/:
+    # getestet: ok.
     get:
       tags:
         - Links
@@ -2910,13 +2911,11 @@ paths:
         In the request body (see example request for demonstration):
 
         - `table_id` is the ID of the table you are querying;
-
-        - `link_column_key` is the `key` of the "Link to other records" column.
-        **Attention**: do not use the `link_id` of the link column here.
-
-        - `row_id` is the ID of the row you are querying;
+        - `link_column_key` is the `key` of the "Link to other records" column. **Attention**: do not use the `link_id` of the link column here.
+        - `row_id` is the ID of the row you are querying
 
         In the response:
+
         - `row_id` is the ID of each linked record;
         - `display_value` is how this record is displayed on the web interface.
             
@@ -2942,16 +2941,16 @@ paths:
               schema:
                 type: object
               example:
-                row_id: G5rbgqudTKKfAm1-cjnjbQ
-                display_value: Orson
+                - row_id: G5rbgqudTKKfAm1-cjnjbQ
+                  display_value: Orson
 
-    put:
+    post:
       tags:
         - Links
       summary: Create Row Links
       operationId: createRowLinks
       description: |
-        Creates multiple links between one column and many others (1:n relation).
+        Creates multiple links between one column and many others (1:n relation). It is not possible to create a link twice. This will result in an error.
       requestBody:
         content:
           application/json:
