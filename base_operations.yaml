@@ -71,12 +71,18 @@ components:
       schema:
         type: string
         pattern: "^[A-Za-z0-9]{4}$"
-      description: "The id of the table. The id of a table is unique inside a base and is often used to identify a table."
+      description: |
+        The id of the table. The id of a table is unique inside a base and is often used to identify a table.
       example: "0000"
       required: true
     table_name:
       name: table_name
-      description: The name of the table.
+      description: |
+        The name of the table to perform the operation on. Alternatively, you can use the table_id instead of table_name. If using table_id, ensure that the key in the request body is replaced accordingly.
+        ```# Examples:
+        table_name: Table1
+        table_id: 0000
+        ```
       in: query
       schema:
         type: string
@@ -2562,8 +2568,7 @@ paths:
 
         > 📘 `INSERT` and big data
         > 
-        > New rows (INSERT statement) are always added to the normal backend. To add new rows to Big data you first have
-        to add them and then [move them to the big data backend](/reference/moverowstobigdata).
+        > New rows (INSERT statement) are always added to the normal backend. There is a separate call to add rows to big data](/reference/insertbigdatarows). Alternatively you can add new rows and then [move them to the big data backend](/reference/moverowstobigdata).
 
         The complete [SQL Reference](https://developer.seatable.io/scripts/sql/reference/) can be found documentation in the developer manual. 
 
@@ -3848,10 +3853,10 @@ paths:
     post:
       tags:
         - Big Data
-      summary: Insert Rows into Big Data
-      operationId: insertBigDataRows
+      summary: Add Rows into Big Data Backend
+      operationId: addBigDataRows
       description: >-
-        Insert rows into the big data backend.
+        Insert rows directly into the big data backend.
       requestBody:
         content:
           application/json:
