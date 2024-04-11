@@ -2528,22 +2528,23 @@ paths:
       operationId: querySQL
       description: |
         SeaTable offers a SQL like interface that supports `SELECT`, `INSERT`, `UPDATE` and `DELETE` statements. 
+
         If you are familiar with SQL, you will have no difficulties to use this endpoint because typical SQL-statements are supported.
                 
-        This endpoint is the most powerful one that SeaTable can offer and it does not differentiate between the two SeaTable backend
-        (normal and big data). Also the metadata of the table is returned. 
+        This endpoint is the **most powerful** one that SeaTable can offer and it does not differentiate between the two SeaTable backend (normal and big data). Also the metadata of the table is returned. 
 
         > 📘 `INSERT` and big data
         > 
-        > New rows (INSERT statement) are always added to the normal backend. 
+        > New rows (INSERT statement) are always added to the normal backend. To add new rows to Big data you first have
+        to add them and then [move them to the big data backend](/reference/moverowstobigdata-1).
 
         The complete [SQL Reference](https://developer.seatable.io/scripts/sql/reference/) can be found documentation in the developer manual. 
 
-        Here are some example requests for a fictitious table *Participants* with the columns *name*, *age*, *birthday* and *gender*:
+        Here are some example requests for a fictitious table *Family* with the columns *name*, *age* and *birthday*:
 
-        - `SELECT name, age, birthday, gender FROM Participants`<br/>
-        - `SELECT name, surname FROM Participants ORDER BY name`<br/>
-        - `SELECT * FROM Participants LIMIT 25`
+        - `SELECT * FROM Family LIMIT 3`
+        - `SELECT name, age, birthday FROM Family`
+        - `SELECT name, age FROM Family ORDER BY name`
 
         > 🚧 Max return limit
         >
@@ -2574,14 +2575,14 @@ paths:
       operationId: listRows
       description: |
         Returns a list of rows contained in a table (or in a view if provided), ordered according to the filter conditions and sort criteria provided in the request. 
+
         The usage of a view in SeaTable could be much more convenient then the usage of the complex SQL-syntax of the [SQL query endpoint](/reference/querysql-1).
 
         > 👍 Big Data support added
         > 
         > Since Version 4.4 this endpoint also supports the big data backend.
 
-        Every row consists of the columns, you defined in your base but also *hidden* informations like `_id`, `_mtime`, `_ctime`, `_creator` and so on. 
-        Get more details about these information in the [Models](/reference/models) area.
+        Every row consists of the columns, you defined in your base but also *hidden* informations like `_id`, `_mtime`, `_ctime`, `_creator` and so on. Get more details about these information in the [Models](/reference/models) area.
 
       security:
         - BaseTokenAuth: []
@@ -2611,13 +2612,14 @@ paths:
                     _mtime: "2021-03-10T16:11:11.176+00:00"
                     Name: Matcha
                     link: []
+    # question: how to add multiple rows????
     post:
       tags:
         - Rows
       summary: Add Row
       operationId: addRow
       description: |
-        Either insert or append a row. If you want to insert the row at a desired position, you need to provide the id of an anchor row.
+        Either insert or append a row to the normal backend. If you want to insert the row at a desired position, you need to provide the id of an anchor row.
 
         > 📘 How to define the row object
         > 
@@ -2651,7 +2653,7 @@ paths:
       summary: Update Row
       operationId: updateRow
       description: |
-        Change the values in an existing row by defining the new values for necessary columns in the row object.
+        Change the values in an existing row by defining the new values for necessary columns in the row object. Both SeaTable backends are supported.
 
         > 📘 Structure of the row object
         > 
@@ -2681,7 +2683,7 @@ paths:
       summary: Delete Row
       operationId: deleteRow
       description: |
-        Deletes one row from the table, identified by its row id.
+        Deletes one row from the table, identified by its row id no matter if the row is stored in big data or normal backend.
       security:
         - BaseTokenAuth: []
       parameters:
@@ -2729,7 +2731,9 @@ paths:
                 Content: "111"
                 link: []
   /api-gateway/api/v2/dtables/{base_uuid}/batch-append-rows/:
+    # question: are these "batch" calls merged with the normal rows command?
     post:
+      deprecated: true
       tags:
         - Rows
       summary: Append Rows
@@ -2757,6 +2761,7 @@ paths:
                 inserted_row_count: 3
   /api-gateway/api/v2/dtables/{base_uuid}/batch-update-rows/:
     put:
+      deprecated: true
       tags:
         - Rows
       summary: Update Rows
@@ -2782,6 +2787,7 @@ paths:
                 success: true
   /api-gateway/api/v2/dtables/{base_uuid}/batch-delete-rows/:
     delete:
+      deprecated: true
       tags:
         - Rows
       summary: Delete Rows
@@ -2812,7 +2818,7 @@ paths:
       summary: Lock Rows
       operationId: lockRows
       description: |
-        Locks one or more rows. It is ok to include rows that were already locked.
+        Locks one or more rows. It is ok to include rows that were already locked. Rows in big data backend can not be locked.
 
         > 📘 Advanced feature
         > 
@@ -2998,6 +3004,7 @@ paths:
                 deleted_links_count: 1
   /api-gateway/api/v2/dtables/{base_uuid}/batch-add-links/:
     post:
+      deprecated: true
       tags: [Links]
       summary: Create Row Links (Batch)
       operationId: createRowLinks-batch
@@ -3030,6 +3037,7 @@ paths:
                 success: true
   /api-gateway/api/v2/dtables/{base_uuid}/batch-update-links/:
     put:
+      deprecated: true
       tags: [Links]
       summary: Update Row Links (Batch)
       operationId: updateRowsLinks-batch
@@ -3066,6 +3074,7 @@ paths:
                 success: true
   /api-gateway/api/v2/dtables/{base_uuid}/batch-delete-links/:
     delete:
+      deprecated: true
       tags: [Links]
       summary: Delete Row Links (Batch)
       operationId: deleteRowLinks-batch
