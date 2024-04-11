@@ -2400,38 +2400,6 @@ paths:
                     contact_email: jasmintee@example.com
                     avatar_url: https://cloud.seatable.io/media/avatars/default.png
 
-  /api-gateway/api/v2/dtables/{base_uuid}/send/:
-    post:
-      tags: [Rows]
-      summary: send from bigdata to normal
-      description: ...
-      requestBody:
-        description: description des requestBody
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                table_id:
-                  type: string
-                  description: The unique identifier of the table.
-                  example: "0000"
-                row_ids:
-                  type: array
-                  items:
-                    type: string
-                  description: An array containing the identifiers of the rows.
-                  example:
-                    - "m-AlR40gSTGSxZvJN6ktaA"
-
-      security:
-        - BaseTokenAuth: []
-      parameters:
-        - $ref: "#/components/parameters/base_uuid"
-      responses:
-        "200":
-          description: OK
-
   # Rows
   # question: shows only up to 10 linked records. Base Info shows all. Is there any reason?
   /api-gateway/api/v2/dtables/{base_uuid}/sql:
@@ -2463,7 +2431,6 @@ paths:
         >
         > The request returns a maximum of 10 000 rows, even if you specify a higher limit in your SQL-statement.
       requestBody:
-        description: description des requestBody
         content:
           application/json:
             schema:
@@ -3759,9 +3726,9 @@ paths:
   /api-gateway/api/v2/dtables/{base_uuid}/archive-view/:
     post:
       tags: [Big Data]
-      summary: Move Rows to Big Data
+      summary: Move Rows to Big Data Backend
       operationId: moveRowsToBigData
-      description: Use an sql-like where clause to select the rows that should be moved into the big data backend.
+      description: Use an sql-like where clause to select the rows that should be moved into the big data backend. Big data backend has to be activated in this base.
       security:
         - BaseTokenAuth: []
       requestBody:
@@ -3781,6 +3748,36 @@ paths:
               example:
                 success: true
                 error_message: ""
+  /api-gateway/api/v2/dtables/{base_uuid}/send/:
+    post:
+      tags: [BigData]
+      summary: Move Rows to Normal Backend
+      operationId: moveRowsToNormalBackend
+      description: Moves the seleted rows into the big data backend.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                table_id:
+                  type: string
+                  description: The unique identifier of the table.
+                  example: "0000"
+                row_ids:
+                  type: array
+                  items:
+                    type: string
+                  description: An array containing the row_ids of the rows you want to move from big data backend to normal.
+                  example:
+                    - "m-AlR40gSTGSxZvJN6ktaA"
+      security:
+        - BaseTokenAuth: []
+      parameters:
+        - $ref: "#/components/parameters/base_uuid"
+      responses:
+        "200":
+          description: OK
 
   # Row Comments
   /api-gateway/api/v2/dtables/{base_uuid}/comments/:
