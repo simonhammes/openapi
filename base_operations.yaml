@@ -544,8 +544,14 @@ components:
           $ref: "#/components/schemas/link_id"
         table_row_id:
           $ref: "#/components/schemas/row_id"
-        other_table_row_id:
-          $ref: "#/components/schemas/row_id"
+        other_rows_ids_map:
+          type: object
+          description: Map of IDs of the target rows which you'd like to link your source rows to.
+          items:
+            type: array
+            description: ID of the rows
+            items:
+              $ref: "#/components/schemas/row_id"
       required:
         - table_id
         - other_table_id
