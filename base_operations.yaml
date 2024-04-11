@@ -2417,7 +2417,7 @@ paths:
 
         > 📘 `INSERT` and big data
         > 
-        > New rows (INSERT statement) are always added to the normal backend. There is a separate call to add rows to big data](/reference/insertbigdatarows). Alternatively you can add new rows and then [move them to the big data backend](/reference/moverowstobigdata).
+        > New rows (INSERT statement) are always added to the normal backend. There is a separate call to [add rows to big data](/reference/insertbigdatarows). Alternatively you can add new rows and then [move them to the big data backend](/reference/moverowstobigdata).
 
         The complete [SQL Reference](https://developer.seatable.io/scripts/sql/reference/) can be found documentation in the developer manual. 
 
@@ -4185,18 +4185,32 @@ paths:
                     op_app: null
 
   # Snapshots
-  # tested: ok
+  # tested create: ok
+  # others: open
   # questions: in dtable-web, two more calls: api-v2.1-dtable-snapshot and api-v2.1-dtable-snapshot-content. What's that?
   /api-gateway/api/v2/dtables/{base_uuid}/snapshot/:
+    get:
+      tags: [Snapshots]
+      summary: List Snapshots
+      operationId: listSnapshots
+      description: Returns all available snapshots of this base.
+      security:
+        - BaseTokenAuth: []
+      parameters:
+        - $ref: "#/components/parameters/base_uuid"
+        - $ref: "#/components/parameters/page"
+        - $ref: "#/components/parameters/per_page"
+      responses:
+        "200":
+          description: OK
+
     post:
-      tags:
-        - Snapshots
+      tags: [Snapshots]
       summary: Create Snapshot
       operationId: createSnapshot
       description: |
         Creates a snapshot for the current base. The pre-conditions are, that there's at least one change since the last snapshot and at least 10 minutes have passed. 
         To get a list of already existing snapshots, use the the request [List Snapshots](/reference/listsnapshots).
-
       requestBody:
         content:
           application/json:
