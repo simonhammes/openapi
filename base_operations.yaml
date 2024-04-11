@@ -2527,13 +2527,14 @@ paths:
                 _id: Bko1e60YT-egit2SljWSZA
                 _creator: 123456786569491ba42905bf1647fd3f@auth.local
                 _last_modifier: 123456786569491ba42905bf1647fd3f@auth.local
+
     put:
       tags:
         - Rows
-      summary: Update Row
+      summary: Update Row(s)
       operationId: updateRow
       description: |
-        Change the values in an existing row by defining the new values for necessary columns in the row object. Both SeaTable backends are supported.
+        Change the values in one or multiple existing row(s) by defining the new values for necessary columns in the row object. Both SeaTable backends are supported.
 
         > 📘 Structure of the row object
         > 
@@ -2543,7 +2544,6 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/update_row"
-
       security:
         - BaseTokenAuth: []
       parameters:
@@ -2560,10 +2560,10 @@ paths:
     delete:
       tags:
         - Rows
-      summary: Delete Row
+      summary: Delete Row(s)
       operationId: deleteRow
       description: |
-        Deletes one row from the table, identified by its row id no matter if the row is stored in big data or normal backend.
+        Deletes one or multiple rows from the table, identified by its row id no matter if the row is stored in big data or normal backend.
       security:
         - BaseTokenAuth: []
       parameters:
@@ -2582,6 +2582,7 @@ paths:
                 type: object
               example:
                 success: true
+
   /api-gateway/api/v2/dtables/{base_uuid}/rows/{row_id}/:
     get:
       tags:
@@ -2639,58 +2640,7 @@ paths:
                 type: object
               example:
                 inserted_row_count: 3
-  /api-gateway/api/v2/dtables/{base_uuid}/batch-update-rows/:
-    put:
-      deprecated: true
-      tags:
-        - Rows
-      summary: Update Rows
-      operationId: updateRows
-      description: Update the values of multiple rows in one request.
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/update_rows"
-      security:
-        - BaseTokenAuth: []
-      parameters:
-        - $ref: "#/components/parameters/base_uuid"
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-              example:
-                success: true
-  /api-gateway/api/v2/dtables/{base_uuid}/batch-delete-rows/:
-    delete:
-      deprecated: true
-      tags:
-        - Rows
-      summary: Delete Rows
-      operationId: deleteRows
-      description: Delete multiple rows in one request.
-      security:
-        - BaseTokenAuth: []
-      parameters:
-        - $ref: "#/components/parameters/base_uuid"
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/delete_rows"
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-              example:
-                success: true
+
   /api-gateway/api/v2/dtables/{base_uuid}/lock-rows/:
     put:
       tags:
