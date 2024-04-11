@@ -4186,24 +4186,7 @@ paths:
 
   # Snapshots
   # tested create: ok
-  # others: open
-  # questions: in dtable-web, two more calls: api-v2.1-dtable-snapshot and api-v2.1-dtable-snapshot-content. What's that?
   /api-gateway/api/v2/dtables/{base_uuid}/snapshot/:
-    get:
-      tags: [Snapshots]
-      summary: List Snapshots
-      operationId: listSnapshots
-      description: Returns all available snapshots of this base.
-      security:
-        - BaseTokenAuth: []
-      parameters:
-        - $ref: "#/components/parameters/base_uuid"
-        - $ref: "#/components/parameters/page"
-        - $ref: "#/components/parameters/per_page"
-      responses:
-        "200":
-          description: OK
-
     post:
       tags: [Snapshots]
       summary: Create Snapshot
