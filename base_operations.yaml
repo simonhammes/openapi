@@ -2301,13 +2301,17 @@ components:
 
 paths:
   # Base Info
+  # question: super powerful call. extension of metadata?!? Contains all links (even more than 10?), statistics
+  # it does not contain apps, forms. Collaborators are always empty. What is the purpose of this call?
+  # question: collaborators always empty?
+  # question: why does this call contains data? But it is difficult to get the full picture => link formula columns are not shown
   /api-gateway/api/v2/dtables/{base_uuid}:
     get:
-      tags:
-        - Base Info
+      tags: [Base Info]
       summary: Get Base Info
       operationId: getBaseInfo
-      description: Get the basic information of a base.
+      description: |
+        Get various information of a base like the tables, (normal and big data) views, links, data statistics and collaborators (currently always empty).
       security:
         - BaseTokenAuth: []
       parameters:
@@ -2320,10 +2324,12 @@ paths:
               schema:
                 type: object
               example:
-                version: 20
-                format_version: 7
+                version: 33
+                format_version: 9
                 statistics: []
                 links: []
+                settings:
+                  enable_archive: true
                 tables:
                   - _id: "0000"
                     name: Table1
@@ -2378,6 +2384,9 @@ paths:
                           format: YYYY-MM-DD
                         permission_type: ""
                         permitted_users: []
+                    view_structure:
+                      - folders: []
+                      - view_ids: ["0000"]
                     views:
                       - _id: "0000"
                         name: "Default\r\n> View"
@@ -2393,6 +2402,7 @@ paths:
                         groupbys: []
                         groups: []
                     id_row_map: {}
+                collaborators: []
   /api-gateway/api/v2/dtables/{base_uuid}/metadata/:
     get:
       tags:
@@ -2478,6 +2488,7 @@ paths:
                         can_copy: false
                         can_export: false
                         can_print: false
+  # question: internal server error??
   /api-gateway/api/v2/dtables/{base_uuid}/related-users/:
     get:
       tags:
@@ -2508,29 +2519,35 @@ paths:
                     avatar_url: https://cloud.seatable.io/media/avatars/default.png
 
   # Rows
+  # question: shows only up to 10 linked records. Base Info shows all. Is there any reason?
   /api-gateway/api/v2/dtables/{base_uuid}/sql:
     post:
       tags:
         - Rows
-      summary: List Rows (with SQL)
+      summary: Query SeaTable with SQL
       operationId: querySQL
       description: |
-        Gets a list or rows contained in a table, according to the `select` SQL-query provided in the request. Also the metadata of the table is returned.
+        SeaTable offers a SQL like interface that supports `SELECT`, `INSERT`, `UPDATE` and `DELETE` statements. 
+        If you are familiar with SQL, you will have no difficulties to use this endpoint because typical SQL-statements are supported.
+                
+        This endpoint is the most powerful one that SeaTable can offer and it does not differentiate between the two SeaTable backend
+        (normal and big data). Also the metadata of the table is returned. 
 
-        Typical SQL-statements are supported. For more details, check the [SQL-syntax supported by SeaTable](https://seatable.github.io/seatable-scripts/python/sql/).
-
-        Here are some basic examples how to use this request for a fictitious table *Participants* with the columns *name*, *age*, *birthday* and *gender*:
-        `SELECT name, age, birthday, gender FROM Participants`<br/>
-        `SELECT name, surname FROM Participants ORDER BY name`<br/>
-        `SELECT * FROM Participants LIMIT 25`
-
-        > 📘 Returns also data from the big data backend
+        > 📘 `INSERT` and big data
         > 
-        > This request is the only available endpoint that can return rows stored in the big data backend. 
+        > New rows (INSERT statement) are always added to the normal backend. 
 
-        > 🚧 Returns at most 10 000 rows
+        The complete [SQL Reference](https://developer.seatable.io/scripts/sql/reference/) can be found documentation in the developer manual. 
+
+        Here are some example requests for a fictitious table *Participants* with the columns *name*, *age*, *birthday* and *gender*:
+
+        - `SELECT name, age, birthday, gender FROM Participants`<br/>
+        - `SELECT name, surname FROM Participants ORDER BY name`<br/>
+        - `SELECT * FROM Participants LIMIT 25`
+
+        > 🚧 Max return limit
         >
-        > The request returns a maximum of 10 000 rows regardless of the limit specified in the SQL-statement.
+        > The request returns a maximum of 10 000 rows, even if you specify a higher limit in your SQL-statement.
       requestBody:
         description: description des requestBody
         content:
@@ -2556,12 +2573,16 @@ paths:
       summary: List Rows
       operationId: listRows
       description: |
-        Gets a list of rows contained in a table (or in a view if provided), ordered according to the filter conditions and sort criteria provided in the request. 
-        The response contains a maximum of 1.000 rows regardless of the specified limit.
+        Returns a list of rows contained in a table (or in a view if provided), ordered according to the filter conditions and sort criteria provided in the request. 
+        The usage of a view in SeaTable could be much more convenient then the usage of the complex SQL-syntax of the [SQL query endpoint](/reference/querysql-1).
 
-        > 📘 Returns no data from the big data backend
+        > 👍 Big Data support added
         > 
-        > This request does not return rows stored in the big data backend. To query the big data backend, use the request [List Rows (with SQL)](/reference/list-rows-with-sql) instead.
+        > Since Version 4.4 this endpoint also supports the big data backend.
+
+        Every row consists of the columns, you defined in your base but also *hidden* informations like `_id`, `_mtime`, `_ctime`, `_creator` and so on. 
+        Get more details about these information in the [Models](/reference/models) area.
+
       security:
         - BaseTokenAuth: []
       parameters:
@@ -2579,7 +2600,6 @@ paths:
           content:
             application/json:
               schema:
-                #$ref: "#/components/schema/rows"
                 type: object
               example:
                 rows:
@@ -4378,6 +4398,8 @@ paths:
                     op_app: null
 
   # Snapshots
+  # tested: ok
+  # questions: in dtable-web, two more calls: api-v2.1-dtable-snapshot and api-v2.1-dtable-snapshot-content. What's that?
   /api-gateway/api/v2/dtables/{base_uuid}/snapshot/:
     post:
       tags:
@@ -4386,7 +4408,7 @@ paths:
       operationId: createSnapshot
       description: |
         Creates a snapshot for the current base. The pre-conditions are, that there's at least one change since the last snapshot and at least 10 minutes have passed. 
-        To get a list of already existing snapshots, use the the request [List Snapshots](/reference/list-snapshots).
+        To get a list of already existing snapshots, use the the request [List Snapshots](/reference/listsnapshots).
 
       requestBody:
         content:
