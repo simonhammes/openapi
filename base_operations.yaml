@@ -373,6 +373,11 @@ components:
         Birthday: "2023-02-18"
         Checkbox: true
 
+    apply_default:
+      type: boolean
+      description: Use the column default values to populate new rows during creation. False by default.
+      example: false
+
     table_name:
       type: string
       description: The name of the table to perform the operation on. Alternatively, you can use the `table_id` instead of `table_name`. If using `table_id`, ensure that the key in the request body is replaced accordingly.
@@ -401,6 +406,8 @@ components:
           $ref: "#/components/schemas/table_name"
         row:
           $ref: "#/components/schemas/row"
+        apply_default:
+          $ref: "#/components/schemas/apply_default"
       required:
         - table_name
         - row
@@ -422,6 +429,8 @@ components:
           enum: ["", "insert_above", "insert_below"]
         row:
           $ref: "#/components/schemas/row"
+        apply_default:
+          $ref: "#/components/schemas/apply_default"
       required:
         - table_name
         - row
