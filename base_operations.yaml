@@ -2977,7 +2977,7 @@ paths:
       tags:
         - Links
       summary: Update Row Link(s)
-      operationId: createRowLink
+      operationId: updateRowLink
       description: |
         ...,,,
       requestBody:
