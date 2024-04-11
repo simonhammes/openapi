@@ -148,6 +148,15 @@ components:
         type: boolean
       description: If 'true', the column's id will be converted to column names.
       example: true
+    link_column_key:
+      name: link_column_key
+      in: query
+      schema:
+        type: string
+        minimum: 4
+        maximum: 4
+      required: true
+      description: This is the key of the link column. Do not use the `link_id` of the link column here.
 
     #=======================Path parameters=======================#
     base_uuid:
@@ -2871,7 +2880,7 @@ paths:
 
   # Links
   /api-gateway/api/v2/dtables/{base_uuid}/links/:
-    post:
+    get:
       tags:
         - Links
       summary: List Row Links
@@ -2912,6 +2921,9 @@ paths:
         - BaseTokenAuth: []
       parameters:
         - $ref: "#/components/parameters/base_uuid"
+        - $ref: "#/components/parameters/table_id"
+        - $ref: "#/components/parameters/link_column_key"
+        - $ref: "#/components/parameters/row_id"
       responses:
         "200":
           description: OK
