@@ -2400,6 +2400,38 @@ paths:
                     contact_email: jasmintee@example.com
                     avatar_url: https://cloud.seatable.io/media/avatars/default.png
 
+  /api-gateway/api/v2/dtables/{base_uuid}/send/:
+    post:
+      tags: [Rows]
+      summary: send from bigdata to normal
+      description: ...
+      requestBody:
+        description: description des requestBody
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                table_id:
+                  type: string
+                  description: The unique identifier of the table.
+                  example: "0000"
+                row_ids:
+                  type: array
+                  items:
+                    type: string
+                  description: An array containing the identifiers of the rows.
+                  example:
+                    - "m-AlR40gSTGSxZvJN6ktaA"
+
+      security:
+        - BaseTokenAuth: []
+      parameters:
+        - $ref: "#/components/parameters/base_uuid"
+      responses:
+        "200":
+          description: OK
+
   # Rows
   # question: shows only up to 10 linked records. Base Info shows all. Is there any reason?
   /api-gateway/api/v2/dtables/{base_uuid}/sql:
