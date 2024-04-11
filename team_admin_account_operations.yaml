@@ -133,71 +133,71 @@ components:
       example: 123456789f1e4c8d8e1c31415867317c@auth.local
 
   schemas:
-    permission:
+    team_admin_permission:
       type: string
       enum: ["", "r", "rw"]
-    password:
+    team_admin_password:
       type: string
       description: User's password to login.
       example: "pw12345678"
-    expire_days:
+    team_admin_expire_days:
       type: integer
       example: 20
-    group_name:
+    team_admin_group_name:
       type: string
       description: The name of the group.
       example: "Sample Group"
       required:
         - group_name
-    group_owner:
+    team_admin_group_owner:
       type: string
       description: >-
         The `user_id` of the owner of the group. Optional. If left
         blank, the newly added group will not be visible to anyone
         but still operatable.
       example: "123abc456def789ghi123jkl456mno789@auth.local"
-    user_id:
+    team_admin_user_id:
       type: string
       description: The `user_id`
       example: "123abc456def789ghi123jkl456mno789@auth.local"
-    user_ids:
+    team_admin_user_ids:
       type: string
       example: "123abc456def789ghi123jkl456mno789@auth.local, mno789ghi123jkl456mno789pqr123stu@auth.local"
-    email:
+    team_admin_email:
       type: string
       description: User's contact email to login.
       example: mai@example.com
-    name:
+    team_admin_name:
       type: string
       description: User's full name.
       example: Mai Thai
-    contact_email:
+    team_admin_contact_email:
       type: string
       description: User's contact email.
       example: mai@example.com
-    is_active:
+    team_admin_is_active:
       type: boolean
       description: Determines the current status of this account. An inactive account can not login anymore.
-    is_staff:
+    team_admin_is_staff:
       type: boolean
       description: Determines if the user account has access to the system administration area.
-    with_workspace:
+    team_admin_with_workspace:
       type: boolean
       description: >-
         If a workspace should be automatically created for the user.
         Optional. `false` by default.
       example: "true"
-    id_in_org:
+    team_admin_id_in_org:
       type: string
       description: >-
         The team ID of the user, could be a student's ID or employee
         ID. String.
       example: Student001
-    quota_total:
+    team_admin_quota_total:
       type: integer
       description: Update their total quota in MB.
       example: "3"
-    group_id:
+    team_admin_group_id:
       type: string
       description: The ID of the group you'd like to move.
       example: "1"
@@ -331,13 +331,13 @@ paths:
               type: object
               properties:
                 email:
-                  $ref: "#/components/schemas/email"
+                  $ref: "#/components/schemas/team_admin_email"
                 name:
-                  $ref: "#/components/schemas/name"
+                  $ref: "#/components/schemas/team_admin_name"
                 password:
-                  $ref: "#/components/schemas/password"
+                  $ref: "#/components/schemas/team_admin_password"
                 with_workspace:
-                  $ref: "#/components/schemas/with_workspace"
+                  $ref: "#/components/schemas/team_admin_with_workspace"
       security:
         - AccountTokenAuth: []
       parameters:
@@ -377,17 +377,17 @@ paths:
               type: object
               properties:
                 name:
-                  $ref: "#/components/schemas/name"
+                  $ref: "#/components/schemas/team_admin_name"
                 contact_email:
-                  $ref: "#/components/schemas/contact_email"
+                  $ref: "#/components/schemas/team_admin_contact_email"
                 is_staff:
-                  $ref: "#/components/schemas/is_staff"
+                  $ref: "#/components/schemas/team_admin_is_staff"
                 is_active:
-                  $ref: "#/components/schemas/is_active"
+                  $ref: "#/components/schemas/team_admin_is_active"
                 quota_total:
-                  $ref: "#/components/schemas/quota_total"
+                  $ref: "#/components/schemas/team_admin_quota_total"
                 id_in_org:
-                  $ref: "#/components/schemas/id_in_org"
+                  $ref: "#/components/schemas/team_admin_id_in_org"
       security:
         - AccountTokenAuth: []
       parameters:
@@ -787,9 +787,9 @@ paths:
               type: object
               properties:
                 group_name:
-                  $ref: "#/components/schemas/group_name"
+                  $ref: "#/components/schemas/team_admin_group_name"
                 group_owner:
-                  $ref: "#/components/schemas/group_owner"
+                  $ref: "#/components/schemas/team_admin_group_owner"
       security:
         - AccountTokenAuth: []
       parameters:
@@ -861,9 +861,9 @@ paths:
               type: object
               properties:
                 new_owner:
-                  $ref: "#/components/schemas/user_id"
+                  $ref: "#/components/schemas/team_admin_user_id"
                 new_group_name:
-                  $ref: "#/components/schemas/group_name"
+                  $ref: "#/components/schemas/team_admin_group_name"
       security:
         - AccountTokenAuth: []
       parameters:
@@ -962,7 +962,7 @@ paths:
               type: object
               properties:
                 group_id:
-                  $ref: "#/components/schemas/group_id"
+                  $ref: "#/components/schemas/team_admin_group_id"
                 anchor_group_id:
                   $ref: "#/components/schemas/anchor_group_id"
                 to_last:
@@ -1030,7 +1030,7 @@ paths:
               type: object
               properties:
                 user_id:
-                  $ref: "#/components/schemas/user_id"
+                  $ref: "#/components/schemas/team_admin_user_id"
       security:
         - AccountTokenAuth: []
       parameters:
@@ -1288,11 +1288,11 @@ paths:
               type: object
               properties:
                 permission:
-                  $ref: "#/components/schemas/permission"
+                  $ref: "#/components/schemas/team_admin_permission"
                 password:
-                  $ref: "#/components/schemas/password"
+                  $ref: "#/components/schemas/team_admin_password"
                 expire_days:
-                  $ref: "#/components/schemas/expire_days"
+                  $ref: "#/components/schemas/team_admin_expire_days"
       security:
         - AccountTokenAuth: []
       parameters:

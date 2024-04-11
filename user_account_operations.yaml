@@ -414,7 +414,7 @@ components:
       example: 20
 
   schemas:
-    name:
+    user_account_name:
       type: string
       example: Example
     user_id:
@@ -436,7 +436,7 @@ components:
     operation:
       type: string
       default: "password_unset"
-    password:
+    user_account_password:
       type: string
       example: "654321"
     is_sync_periodically:
@@ -2090,7 +2090,7 @@ components:
       type: string
       description: "`r` for read only or `rw` for read and write"
       example: rw
-    email:
+    user_account_email:
       type: string
       description: The user ID ending with @auth.local
       example: 123abc456def789ghi123jkl456mno789@auth.local
@@ -2601,7 +2601,7 @@ paths:
               type: object
               properties:
                 name:
-                  $ref: "#/components/schemas/name"
+                  $ref: "#/components/schemas/user_account_name"
                 workspace_id:
                   $ref: "#/components/schemas/workspace_id"
                 icon:
@@ -2700,6 +2700,7 @@ paths:
       tags:
         - Bases
       summary: List Favorites
+      operationId: listFavorites
       description: List all the starred (favorite) bases in my library.
       security:
         - AccountTokenAuth: []
@@ -3844,6 +3845,7 @@ paths:
       tags:
         - Attachment
       summary: Delete Base Asset
+      operationId: deleteBaseAsset
       description: Delete a directory, a file or an image from a base.
       security:
         - AccountTokenAuth: []
@@ -4297,7 +4299,7 @@ paths:
                 permission:
                   $ref: "#/components/schemas/permission"
                 email:
-                  $ref: "#/components/schemas/email"
+                  $ref: "#/components/schemas/user_account_email"
       security:
         - AccountTokenAuth: []
       parameters:
@@ -4329,7 +4331,7 @@ paths:
                 permission:
                   $ref: "#/components/schemas/permission"
                 email:
-                  $ref: "#/components/schemas/email"
+                  $ref: "#/components/schemas/user_account_email"
       security:
         - AccountTokenAuth: []
       parameters:
@@ -4860,7 +4862,7 @@ paths:
                 permission:
                   $ref: "#/components/schemas/permission"
                 to_user:
-                  $ref: "#/components/schemas/email"
+                  $ref: "#/components/schemas/user_account_email"
                 table_id:
                   $ref: "#/components/schemas/table_id"
                 view_id:
@@ -5075,7 +5077,7 @@ paths:
               type: object
               properties:
                 password:
-                  $ref: "#/components/schemas/password"
+                  $ref: "#/components/schemas/user_account_password"
                 expire_days:
                   $ref: "#/components/schemas/expire_days"
                 token:
@@ -5180,7 +5182,7 @@ paths:
                 token:
                   $ref: "#/components/schemas/token"
                 password:
-                  $ref: "#/components/schemas/password"
+                  $ref: "#/components/schemas/user_account_password"
                 expire_days:
                   $ref: "#/components/schemas/expire_days"
       security:
@@ -5269,7 +5271,7 @@ paths:
                 permission:
                   $ref: "#/components/schemas/permission"
                 password:
-                  $ref: "#/components/schemas/password"
+                  $ref: "#/components/schemas/user_account_password"
                 expire_days:
                   $ref: "#/components/schemas/expire_days"
       security:
@@ -5879,7 +5881,7 @@ paths:
                 workspace_id:
                   $ref: "#/components/schemas/workspace_id"
                 name:
-                  $ref: "#/components/schemas/name"
+                  $ref: "#/components/schemas/user_account_name"
                 form_config:
                   $ref: "#/components/schemas/form_config"
       security:
@@ -7635,6 +7637,7 @@ paths:
       tags:
         - Apps
       summary: List Universal App Users
+      operationId: listUniversalAppUsers
       description: Hier muss noch eine Beschreibung ergänzt werden
       security:
         - AccountTokenAuth: []

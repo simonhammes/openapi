@@ -359,18 +359,18 @@ components:
     username:
       type: string
       example: "123abc456def789ghi123jkl456mno789@auth.local"
-    force_2fa:
-      type: integer
-      enum: [0, 1]
+    system_admin_force_2fa:
+      type: boolean
+      description: Enforce Two Factor for all accounts
     email:
       type: string
       description: Login email of the user.
       example: username_test
-    password:
+    system_admin_password:
       type: string
       description: Login password of the user.
       example: password_test
-    name:
+    system_admin_name:
       type: string
       description: Full name of the user.
       example: Example User
@@ -378,7 +378,7 @@ components:
       type: boolean
       description: "`true` or `false` if the user will be an (system) admin. `false` by default."
       default: false
-    is_admin:
+    system_admin_is_admin:
       type: boolean
       description: "`true` or `false` if the user will be an (team) admin. `false` by default."
       default: false
@@ -453,7 +453,7 @@ components:
     max_user_number:
       type: string
       description: The maximum user number.
-    group_name:
+    system_admin_group_name:
       type: string
       description: The name of the new department.
       example: Test department
@@ -657,16 +657,16 @@ paths:
       description: Add a new user with desired details.
       requestBody:
         content:
-          multipart/form-data:
+          application/json:
             schema:
               type: object
               properties:
                 email:
                   $ref: "#/components/schemas/email"
                 password:
-                  $ref: "#/components/schemas/password"
+                  $ref: "#/components/schemas/system_admin_password"
                 name:
-                  $ref: "#/components/schemas/name"
+                  $ref: "#/components/schemas/system_admin_name"
                 is_staff:
                   $ref: "#/components/schemas/is_staff"
                 is_active:
@@ -718,7 +718,7 @@ paths:
         description of each entry.
       requestBody:
         content:
-          multipart/form-data:
+          application/json:
             schema:
               type: object
               properties:
@@ -729,7 +729,7 @@ paths:
                 role:
                   $ref: "#/components/schemas/role"
                 name:
-                  $ref: "#/components/schemas/name"
+                  $ref: "#/components/schemas/system_admin_name"
                 login_id:
                   $ref: "#/components/schemas/login_id"
                 contact_email:
@@ -739,7 +739,7 @@ paths:
                 unit:
                   $ref: "#/components/schemas/unit"
                 password:
-                  $ref: "#/components/schemas/password"
+                  $ref: "#/components/schemas/system_admin_password"
                 institution:
                   $ref: "#/components/schemas/institution"
                 row_limit:
@@ -937,7 +937,7 @@ paths:
         for details.
       requestBody:
         content:
-          multipart/form-data:
+          application/json:
             schema:
               $ref: "#/components/schemas/update_admins_role"
       security:
@@ -1002,7 +1002,7 @@ paths:
               type: object
               properties:
                 force_2fa:
-                  $ref: "#/components/schemas/force_2fa"
+                  $ref: "#/components/schemas/system_admin_force_2fa"
       security:
         - AccountTokenAuth: []
       parameters:
@@ -1597,7 +1597,7 @@ paths:
               type: object
               properties:
                 group_name:
-                  $ref: "#/components/schemas/group_name"
+                  $ref: "#/components/schemas/system_admin_group_name"
                 group_owner:
                   $ref: "#/components/schemas/username"
       responses:
@@ -1744,7 +1744,7 @@ paths:
         SeaTable web interface for the first time.
       requestBody:
         content:
-          multipart/form-data:
+          application/json:
             schema:
               type: object
               properties:
@@ -1753,7 +1753,7 @@ paths:
                 admin_email:
                   $ref: "#/components/schemas/admin_email"
                 password:
-                  $ref: "#/components/schemas/password"
+                  $ref: "#/components/schemas/system_admin_password"
                 admin_name:
                   $ref: "#/components/schemas/admin_name"
                 with_workspace:
@@ -1862,7 +1862,7 @@ paths:
       description: Change an organization's attributes.
       requestBody:
         content:
-          multipart/form-data:
+          application/json:
             schema:
               type: object
               properties:
@@ -2037,16 +2037,16 @@ paths:
         they login for the first time.
       requestBody:
         content:
-          multipart/form-data:
+          application/json:
             schema:
               type: object
               properties:
                 email:
                   $ref: "#/components/schemas/email"
                 password:
-                  $ref: "#/components/schemas/password"
+                  $ref: "#/components/schemas/system_admin_password"
                 name:
-                  $ref: "#/components/schemas/name"
+                  $ref: "#/components/schemas/system_admin_name"
                 with_workspace:
                   $ref: "#/components/schemas/with_workspace"
       security:
@@ -2086,20 +2086,20 @@ paths:
         - $ref: "#/components/parameters/user_id"
       requestBody:
         content:
-          multipart/form-data:
+          application/json:
             schema:
               type: object
               properties:
                 is_staff:
                   $ref: "#/components/schemas/is_staff"
                 is_admin:
-                  $ref: "#/components/schemas/is_admin"
+                  $ref: "#/components/schemas/system_admin_is_admin"
                 is_active:
                   $ref: "#/components/schemas/is_active"
                 role:
                   $ref: "#/components/schemas/role"
                 name:
-                  $ref: "#/components/schemas/name"
+                  $ref: "#/components/schemas/system_admin_name"
                 login_id:
                   $ref: "#/components/schemas/login_id"
                 contact_email:
@@ -2109,7 +2109,7 @@ paths:
                 unit:
                   $ref: "#/components/schemas/unit"
                 password:
-                  $ref: "#/components/schemas/password"
+                  $ref: "#/components/schemas/system_admin_password"
                 institution:
                   $ref: "#/components/schemas/institution"
                 row_limit:
@@ -2439,12 +2439,12 @@ paths:
         department.
       requestBody:
         content:
-          multipart/form-data:
+          application/json:
             schema:
               type: object
               properties:
                 group_name:
-                  $ref: "#/components/schemas/group_name"
+                  $ref: "#/components/schemas/system_admin_group_name"
                 parent_group:
                   $ref: "#/components/schemas/parent_group"
       security:
@@ -3226,7 +3226,7 @@ paths:
         call to list abuse reports.
       requestBody:
         content:
-          multipart/form-data:
+          application/json:
             schema:
               type: object
               properties:
@@ -3910,7 +3910,7 @@ paths:
         Manual](https://manual.seatable.io/config/dtable_web_settings/#user-management-options).
       requestBody:
         content:
-          multipart/form-data:
+          application/json:
             schema:
               type: object
               properties:

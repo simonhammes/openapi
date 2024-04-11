@@ -80,6 +80,7 @@ paths:
       tags:
         - Ping
       summary: Ping Server (with authentication)
+      operationId: pingServerWithAuth
       description: |
         Executes two checks against SeaTable server:
         - check the validity of the Account-Token 

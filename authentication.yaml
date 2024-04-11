@@ -176,7 +176,7 @@ components:
         workspace_id: 127
         dtable_name: Test Base
 
-    permission:
+    authentication_permission:
       type: string
       description: |
         - rw for read-write 
@@ -267,7 +267,7 @@ paths:
                   description: The name of your app. Every API-Token has a name to identify the purpose. The name of the app must be unique for every base.
                   example: My App
                 permission:
-                  $ref: "#/components/schemas/permission"
+                  $ref: "#/components/schemas/authentication_permission"
               required:
                 - app_name
                 - permission
@@ -318,7 +318,7 @@ paths:
               type: object
               properties:
                 permission:
-                  $ref: "#/components/schemas/permission"
+                  $ref: "#/components/schemas/authentication_permission"
               required:
                 - permission
 
