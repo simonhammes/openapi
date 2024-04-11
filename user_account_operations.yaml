@@ -2052,6 +2052,10 @@ components:
       type: integer
       description: Destination workspace's ID.
       example: "80"
+    is_copy_dataset_syncs:
+      type: boolean
+      description: Select whether common datasets should be synchronous too. False by default.
+      example: false
     link:
       type: string
       description: Source external link.
@@ -3692,11 +3696,9 @@ paths:
       description: >-
         Copy a base from a workspace to the destination workspace.
 
-
         A workspace could be your own "My library", or a group's workspace.
         Therefore you need to define the `src_workspace_id` and
         `dst_workspace_id` in the call. 
-
 
         For the source workspace, you at least have to have the read permission
         of the base; for the source workspace, you must have write permission.
@@ -3712,6 +3714,8 @@ paths:
                   $ref: "#/components/schemas/base_name"
                 dst_workspace_id:
                   $ref: "#/components/schemas/dst_workspace_id"
+                is_copy_dataset_syncs:
+                  $ref: "#/components/schemas/is_copy_dataset_syncs"
               required:
                 - src_workspace_id
                 - name
