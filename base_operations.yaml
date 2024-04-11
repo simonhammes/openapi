@@ -548,10 +548,7 @@ components:
           type: object
           description: Map of IDs of the target rows which you'd like to link your source rows to.
           items:
-            type: array
-            description: ID of the rows
-            items:
-              $ref: "#/components/schemas/row_id"
+            type: string
       required:
         - table_id
         - other_table_id
@@ -582,11 +579,10 @@ components:
         link_id:
           $ref: "#/components/schemas/link_id"
         other_rows_ids_map:
-          type: array
+          type: object
           description: ID of the rows
           items:
-            type: string
-            example: "GconSYtETlWLyRs5xqkHLQ"
+            type: array
       required:
         - link_id
         - table_id
@@ -2948,7 +2944,7 @@ paths:
                 - row_id: G5rbgqudTKKfAm1-cjnjbQ
                   display_value: Orson
 
-    # getestet: ok. (big data???)
+    # getestet: ok. (big data???) -> Eingabe ???
     post:
       tags:
         - Links
