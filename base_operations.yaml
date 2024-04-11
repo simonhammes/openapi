@@ -581,8 +581,11 @@ components:
         other_rows_ids_map:
           type: object
           description: ID of the rows
-          items:
+          additionalProperties:
             type: array
+            items:
+              type: string
+
       required:
         - link_id
         - table_id
