@@ -564,7 +564,7 @@ components:
 
     link_id:
       type: string
-      description: Every *link column* has a `key` and `link_id` in the column object. Use [Get Metadata](/reference/get-metadata) or [Get Base Info](/reference/get-base-info) to get this `link_id`. Don't use the `key` of the link column.
+      description: Every *link column* has a `key` and `link_id` in the column object. Use [Get Metadata](/reference/getmetadata) or [Get Base Info](/reference/getbaseinfo) to get this `link_id`. Don't use the `key` of the link column.
       minLength: 4
       maxLength: 4
       example: jYc7
@@ -2563,7 +2563,7 @@ paths:
         > 📘 `INSERT` and big data
         > 
         > New rows (INSERT statement) are always added to the normal backend. To add new rows to Big data you first have
-        to add them and then [move them to the big data backend](/reference/moverowstobigdata-1).
+        to add them and then [move them to the big data backend](/reference/moverowstobigdata).
 
         The complete [SQL Reference](https://developer.seatable.io/scripts/sql/reference/) can be found documentation in the developer manual. 
 
@@ -2603,7 +2603,7 @@ paths:
       description: |
         Returns a list of rows contained in a table (or in a view if provided), ordered according to the filter conditions and sort criteria provided in the request. 
 
-        The usage of a view in SeaTable could be much more convenient then the usage of the complex SQL-syntax of the [SQL query endpoint](/reference/querysql-1).
+        The usage of a view in SeaTable could be much more convenient then the usage of the complex SQL-syntax of the [SQL query endpoint](/reference/querysql).
 
         > 👍 Big Data support added
         > 
@@ -3288,7 +3288,7 @@ paths:
       description: Create a new view in the current table.
 
         In the **request body**, use `name` for the name of the new view. After
-        creating the new view, use the request [Update View](/reference/update-view) to further
+        creating the new view, use the request [Update View](/reference/updateview) to further
         define your view.
       requestBody:
         content:
@@ -3498,7 +3498,7 @@ paths:
       description: >-
         Create a new column. You can only add one new column at the end of a table.
       requestBody:
-        description: Choose which column type you want to add. If you want to add multiple columns, use the request [Append Columns](/reference/append-columns).
+        description: Choose which column type you want to add. If you want to add multiple columns, use the request [Append Columns](/reference/appendcolumns).
         content:
           application/json:
             schema:
@@ -3637,7 +3637,7 @@ paths:
       operationId: appendColumns
       description: >-
         Use this request to append multiple columns to your table at once. As
-        for the request body, refer to the previous call, [Insert Column](/reference/insert-column),
+        for the request body, refer to the previous call, [Insert Column](/reference/insertcolumn),
         for a detailed list of column formats.
 
         These requested and optional params can be used in the request body:
@@ -3650,7 +3650,7 @@ paths:
         *   `column_name` is the name of your new column, required;
         *   `column_type` is the type of your new column, required;
         *   `data` is the format setting of a special column, required in case.
-        For details, refer to the call [Insert Column](/reference/insert-column).
+        For details, refer to the call [Insert Column](/reference/insertcolumn).
       requestBody:
         content:
           application/json:
