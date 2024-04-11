@@ -5004,7 +5004,7 @@ paths:
       tags:
         - Sharing
       summary: List Collaborators
-      operationId: listCollaborators
+      operationId: listCollaboratorsAsUser
       description: >-
         List all the collaborators (related users who have read&write
         permission) to a base.

@@ -78,7 +78,7 @@ components:
     table_name:
       name: table_name
       description: |
-        The name of the table to perform the operation on. Alternatively, you can use the table_id instead of table_name. If using table_id, ensure that the key in the request body is replaced accordingly.
+        The name of the table to perform the operation on. Alternatively, you can use the `table_id` instead of `table_name`. If using `table_id`, ensure that the key in the request body is replaced accordingly.
         ```# Examples:
         table_name: Table1
         table_id: 0000
@@ -94,7 +94,7 @@ components:
       schema:
         type: string
       required: false
-      description: The name of the view.
+      description: The name of the view to perform the operation on. Alternatively, you can use the `view_id` instead of `view_name`. If using `view_id`, ensure that the key in the request body is replaced accordingly.
       example: "Default View"
     convert_link_id:
       name: convert_link_id
@@ -120,7 +120,7 @@ components:
         enum: ["", "asc", "desc"]
         default: ""
       required: false
-      description: The direction of the sort, ascending `asc` or descending `desc`. asc by default. Works only if start and limit are set, too.
+      description: The direction of the sort, ascending `asc` or descending `desc`. asc by default. **Works only if start and limit are set, too**.
       example: "desc"
     start:
       name: start
@@ -375,7 +375,7 @@ components:
 
     table_name:
       type: string
-      description: The name of the table.
+      description: The name of the table to perform the operation on. Alternatively, you can use the `table_id` instead of `table_name`. If using `table_id`, ensure that the key in the request body is replaced accordingly.
       example: "Table1"
 
     table_name_object:
@@ -527,7 +527,7 @@ components:
           $ref: "#/components/schemas/table_name"
         row_ids:
           type: array
-          description: ID of the rows
+          description: ID of the rows to perform the requested operation.
           items:
             $ref: "#/components/schemas/row_id"
       example:
@@ -537,30 +537,6 @@ components:
       required:
         - table_name
         - row_ids
-
-    create_row_link:
-      type: object
-      description: create row link
-      properties:
-        table_id:
-          $ref: "#/components/schemas/table_id"
-        other_table_id:
-          $ref: "#/components/schemas/table_id"
-        link_id:
-          $ref: "#/components/schemas/link_id"
-        table_row_id:
-          $ref: "#/components/schemas/row_id"
-        other_rows_ids_map:
-          type: object
-          description: Map of IDs of the target rows which you'd like to link your source rows to.
-          items:
-            type: string
-      required:
-        - table_id
-        - other_table_id
-        - link_id
-        - table_row_id
-        - other_table_row_id
 
     table_id:
       type: string
@@ -596,133 +572,6 @@ components:
         - table_id
         - other_table_id
         - other_rows_ids_map
-
-    update_links:
-      type: object
-      description: update row links (batch)
-      properties:
-        table_id:
-          $ref: "#/components/schemas/table_id"
-        other_table_id:
-          $ref: "#/components/schemas/table_id"
-        link_id:
-          $ref: "#/components/schemas/link_id"
-        row_id_list:
-          type: array
-          description: List of the source rows IDs whose links you'd like to update.
-          items:
-            $ref: "#/components/schemas/row_id"
-        other_rows_ids_map:
-          type: object
-          description: Map of IDs of the target rows which you'd like to link your source rows to.
-          items:
-            type: string
-      required:
-        - link_id
-        - table_id
-        - other_table_id
-        - row_id_list
-        - other_rows_ids_map
-
-    add_del_links:
-      type: object
-      description: update row links (batch)
-      properties:
-        table_id:
-          $ref: "#/components/schemas/table_id"
-        other_table_id:
-          $ref: "#/components/schemas/table_id"
-        link_id:
-          $ref: "#/components/schemas/link_id"
-        other_rows_ids_map:
-          type: object
-          description: Map of IDs of the target rows which you'd like to link your source rows to.
-          items:
-            type: string
-      required:
-        - link_id
-        - table_id
-        - other_table_id
-        - row_id_list
-        - other_rows_ids_map
-
-    archived_row_links:
-      type: object
-      description: handle row links of archived data (batch)
-      properties:
-        table_id:
-          $ref: "#/components/schemas/table_id"
-        other_table_id:
-          $ref: "#/components/schemas/table_id"
-        link_id:
-          $ref: "#/components/schemas/link_id"
-        other_rows_ids_map:
-          type: object
-          description: |
-            Map of IDs of the target rows which you'd like to link your source rows. Use a key-to-list like:
-            ```
-            "other_rows_ids_map": {
-              "SDRktTOjR7mCLPINvBYU6g": ["HU1eSwCiQRiqOhcXPtR7qQ", "KNsPc7TnTqqqI5glSOun7w"],
-              "YujPlptaTzGrGmzyJaKm0Q": ["bcBZbuc0S_im0RPdVKRYfg"]
-            }
-            ```
-          items:
-            type: string
-      required:
-        - link_id
-        - table_id
-        - other_table_id
-        - other_rows_ids_map
-
-    delete_row_link:
-      type: object
-      properties:
-        table_id:
-          $ref: "#/components/schemas/table_id"
-        other_table_id:
-          $ref: "#/components/schemas/table_id"
-        link_id:
-          $ref: "#/components/schemas/link_id"
-        table_row_id:
-          $ref: "#/components/schemas/table_id"
-        other_table_row_id:
-          $ref: "#/components/schemas/table_id"
-      required:
-        - table_id
-        - other_table_id
-        - link_id
-        - table_row_id
-        - other_table_row_id
-
-    list_row_links:
-      type: object
-      properties:
-        table_id:
-          $ref: "#/components/schemas/table_id"
-        link_column:
-          type: string
-          description: This is the key of the link column. Do not use the `link_id` of the link column here.
-          minLength: 4
-          maxLength: 4
-        rows:
-          type: array
-          description: the rows you want to get the links for.
-          items:
-            type: object
-            properties:
-              row_id:
-                $ref: "#/components/schemas/row_id"
-              offset:
-                type: integer
-                description: "offset is the beginning number of your query. If your record is linked to multiple records, use e.g. 0 to start quering from the 1st element or e.g. 5 to start querying from the 6th element, etc. Attention: The returned list of linked rows is not ordered by its original order on the web interface, but rather by created time (ctime)."
-              limit:
-                type: integer
-                description: "limit lets you to set a limit to the number of records returned. Use e.g. 10 to return no more than 10 records."
-      required:
-        - table_id
-        - link_column
-        - row_id
-        - rows_id
 
     rename_table:
       type: object
@@ -2624,9 +2473,9 @@ paths:
         - $ref: "#/components/parameters/view_name"
         - $ref: "#/components/parameters/convert_link_id"
         - $ref: "#/components/parameters/order_by"
-        - $ref: "#/components/parameters/direction"
         - $ref: "#/components/parameters/start"
         - $ref: "#/components/parameters/limit"
+        - $ref: "#/components/parameters/direction"
       responses:
         "200":
           description: OK
@@ -2985,7 +2834,7 @@ paths:
                 type: object
               example:
                 success: true
-    # ???
+    # getestet: ok
     put:
       tags:
         - Links
