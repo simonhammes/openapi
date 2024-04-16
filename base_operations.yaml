@@ -613,7 +613,6 @@ components:
         - row_id
         - rows_id
 
-
     rename_table:
       type: object
       description: Rename Table
@@ -2458,7 +2457,7 @@ paths:
 
         > 📘 `INSERT` and big data
         > 
-        > New rows (INSERT statement) are always added to the big data backend. There is a separate call to [add rows to big data](/reference/addbigdatarows). Alternatively you can add new rows and then [move them to the big data backend](/reference/moverowstobigdata).
+        > New rows (INSERT statement) are always added to the **big data backend**. An error message will be returned, if the big data backend is not activated for the target base.
 
         The complete [SQL Reference](https://developer.seatable.io/scripts/sql/reference/) can be found documentation in the developer manual. 
 
@@ -2467,6 +2466,7 @@ paths:
         - `SELECT * FROM Family LIMIT 3`
         - `SELECT name, age, birthday FROM Family`
         - `SELECT name, age FROM Family ORDER BY name`
+        - `INSERT INTO Family (Name,Age) VALUES ('Name', 23)`
 
         > 🚧 Max return limit
         >
@@ -2644,7 +2644,7 @@ paths:
                 Date: "2020-08-01"
                 Content: "111"
                 link: []
-    
+
   /api-gateway/api/v2/dtables/{base_uuid}/lock-rows/:
     put:
       tags:
@@ -2760,9 +2760,7 @@ paths:
                   - row_id: G5rbgqudTKKfAm1-cjnjbQ
                     display_value: Orson
 
-    
   /api-gateway/api/v2/dtables/{base_uuid}/links/:
-
     # getestet: ok. (big data???) -> Eingabe ???
     post:
       tags:
