@@ -2716,27 +2716,17 @@ paths:
         have created some links to the current or another table, you can use
         this request to query each row's linked records' IDs and display values.
 
-        In the request body (see example request for demonstration):
-
-        - `table_id / table_name` is the ID or name of the table you are querying;
-
-        - `link_column_key / link_column_name` is the `key` or `name` of the "Link to other records" column.
-        **Attention**: do not use the `link_id` of the link column here.
-
-        - `rows` is an array. Include the following details of each row you are
-        querying in every object:
-            - `row_id` is the ID of the row you are querying;
-            - `offset` is the beginning number of your query. If your record is linked to multiple records, use e.g. `0` to start quering from the 1st element or e.g. `5` to start querying from the 6th element, etc. **Attention**: The returned list of linked rows is not ordered by its original order on the web interface, but rather by created time (`ctime`).
-            - `limit` lets you to set a limit to the number of records returned. Use e.g. `10` to return no more than 10 records.
-
-        In the response:
-        - `row_id` is the ID of each linked record;
-        - `display_value` is how this record is displayed on the web interface.
+        > 📘 id or name
+        > 
+        > In the request body you can as keys either:
+        > - `table_id` or `table_name`
+        > - `link_column_key` or `link_column_name`
             
         To get more information about each linked record, retrieve their
-        `row_id` and use the **Query with SQL** request, for example:
+        `row_id` and use the [Query SeaTable with SQL](/reference/querysql) request, for example:
+
         ```
-        SELECT * FROM Table2 WHERE _id IN (row_id1, row_id2, ...);
+        SELECT * FROM Table1 WHERE _id IN (row_id1, row_id2, ...);
         ```
       requestBody:
         content:
