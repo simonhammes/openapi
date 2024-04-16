@@ -582,6 +582,38 @@ components:
         - other_table_id
         - other_rows_ids_map
 
+    list_row_links:
+      type: object
+      properties:
+        table_id / table_name:
+          type: string
+          description: The id or of the table. The id of a table is unique inside a base and is often used to identify a table. In most calls it is possible to replace the table_id with the table_name.
+        link_column_key / link_column_name:
+          type: string
+          description: This is the key or name of the link column. Do not use the `link_id` of the link column here.
+          minLength: 4
+          maxLength: 4
+        rows:
+          type: array
+          description: the rows you want to get the links for.
+          items:
+            type: object
+            properties:
+              row_id:
+                $ref: "#/components/schemas/row_id"
+              offset:
+                type: integer
+                description: "offset is the beginning number of your query. If your record is linked to multiple records, use e.g. 0 to start quering from the 1st element or e.g. 5 to start querying from the 6th element, etc. Attention: The returned list of linked rows is not ordered by its original order on the web interface, but rather by created time (ctime)."
+              limit:
+                type: integer
+                description: "limit lets you to set a limit to the number of records returned. Use e.g. 10 to return no more than 10 records."
+      required:
+        - table_id / table_name
+        - link_column_key / link_column_name
+        - row_id
+        - rows_id
+
+
     rename_table:
       type: object
       description: Rename Table
@@ -2426,7 +2458,7 @@ paths:
 
         > 📘 `INSERT` and big data
         > 
-        > New rows (INSERT statement) are always added to the normal backend. There is a separate call to [add rows to big data](/reference/insertbigdatarows). Alternatively you can add new rows and then [move them to the big data backend](/reference/moverowstobigdata).
+        > New rows (INSERT statement) are always added to the big data backend. There is a separate call to [add rows to big data](/reference/addbigdatarows). Alternatively you can add new rows and then [move them to the big data backend](/reference/moverowstobigdata).
 
         The complete [SQL Reference](https://developer.seatable.io/scripts/sql/reference/) can be found documentation in the developer manual. 
 
@@ -2505,21 +2537,16 @@ paths:
     post:
       tags:
         - Rows
-      summary: Add Row
-      operationId: addRow
-      description: |
-        Either insert or append a row to the normal backend. If you want to insert the row at a desired position, you need to provide the id of an anchor row.
-
-        > 📘 How to define the row object
-        > 
-        > The row object contains key:value pairs with the column name as key and the desired values. Check the page [Models](/reference/models) to get a better understanding of the row object.
+      summary: Append Row(s)
+      operationId: appendRows
+      description: |-
+        Append multiple rows to a table. Define the column:values pairs of each column in the [rows object](/reference/models).
       requestBody:
         content:
           application/json:
             schema:
-              oneOf:
-                - $ref: "#/components/schemas/append_row"
-                - $ref: "#/components/schemas/insert_row"
+              $ref: "#/components/schemas/append_rows"
+
       security:
         - BaseTokenAuth: []
       parameters:
@@ -2532,10 +2559,7 @@ paths:
               schema:
                 type: object
               example:
-                "0000": Second new row
-                _id: Bko1e60YT-egit2SljWSZA
-                _creator: 123456786569491ba42905bf1647fd3f@auth.local
-                _last_modifier: 123456786569491ba42905bf1647fd3f@auth.local
+                inserted_row_count: 3
 
     put:
       tags:
@@ -2620,36 +2644,7 @@ paths:
                 Date: "2020-08-01"
                 Content: "111"
                 link: []
-  /api-gateway/api/v2/dtables/{base_uuid}/batch-append-rows/:
-    # question: are these "batch" calls merged with the normal rows command?
-    post:
-      deprecated: true
-      tags:
-        - Rows
-      summary: Append Rows
-      operationId: appendRows
-      description: |-
-        Append multiple rows to a table. Define the column:values pairs of each column in the [rows object](/reference/models).
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/append_rows"
-
-      security:
-        - BaseTokenAuth: []
-      parameters:
-        - $ref: "#/components/parameters/base_uuid"
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-              example:
-                inserted_row_count: 3
-
+    
   /api-gateway/api/v2/dtables/{base_uuid}/lock-rows/:
     put:
       tags:
@@ -2710,9 +2705,9 @@ paths:
                 success: true
 
   # Links
-  /api-gateway/api/v2/dtables/{base_uuid}/links/:
+  /api-gateway/api/v2/dtables/{base_uuid}/query-links/:
     # getestet: ok.
-    get:
+    post:
       tags:
         - Links
       summary: List Row Links
@@ -2724,12 +2719,18 @@ paths:
 
         In the request body (see example request for demonstration):
 
-        - `table_id` is the ID of the table you are querying;
-        - `link_column_key` is the `key` of the "Link to other records" column. **Attention**: do not use the `link_id` of the link column here.
-        - `row_id` is the ID of the row you are querying
+        - `table_id / table_name` is the ID or name of the table you are querying;
+
+        - `link_column_key / link_column_name` is the `key` or `name` of the "Link to other records" column.
+        **Attention**: do not use the `link_id` of the link column here.
+
+        - `rows` is an array. Include the following details of each row you are
+        querying in every object:
+            - `row_id` is the ID of the row you are querying;
+            - `offset` is the beginning number of your query. If your record is linked to multiple records, use e.g. `0` to start quering from the 1st element or e.g. `5` to start querying from the 6th element, etc. **Attention**: The returned list of linked rows is not ordered by its original order on the web interface, but rather by created time (`ctime`).
+            - `limit` lets you to set a limit to the number of records returned. Use e.g. `10` to return no more than 10 records.
 
         In the response:
-
         - `row_id` is the ID of each linked record;
         - `display_value` is how this record is displayed on the web interface.
             
@@ -2738,15 +2739,15 @@ paths:
         ```
         SELECT * FROM Table2 WHERE _id IN (row_id1, row_id2, ...);
         ```
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/list_row_links"
       security:
         - BaseTokenAuth: []
       parameters:
         - $ref: "#/components/parameters/base_uuid"
-        - $ref: "#/components/parameters/table_id"
-        - $ref: "#/components/parameters/link_column_key"
-        - $ref: "#/components/parameters/row_id"
-        - $ref: "#/components/parameters/listRowLinkLimit"
-        - $ref: "#/components/parameters/listRowLinkOffset"
       responses:
         "200":
           description: OK
@@ -2755,8 +2756,12 @@ paths:
               schema:
                 type: object
               example:
-                - row_id: G5rbgqudTKKfAm1-cjnjbQ
-                  display_value: Orson
+                Qtf7xPmoRaiFyQPO1aENTjb:
+                  - row_id: G5rbgqudTKKfAm1-cjnjbQ
+                    display_value: Orson
+
+    
+  /api-gateway/api/v2/dtables/{base_uuid}/links/:
 
     # getestet: ok. (big data???) -> Eingabe ???
     post:
@@ -3656,10 +3661,9 @@ paths:
                 success: true
 
   # Big Data
-  /api-gateway/api/v2/dtables/{base_uuid}/insert-archived-rows/:
+  /api-gateway/api/v2/dtables/{base_uuid}/add-archived-rows/:
     post:
-      tags:
-        - Rows
+      tags: [Big Data]
       summary: Add Rows into Big Data Backend
       operationId: addBigDataRows
       description: >-
@@ -3707,7 +3711,7 @@ paths:
               example:
                 success: true
                 error_message: ""
-  /api-gateway/api/v2/dtables/{base_uuid}/send/:
+  /api-gateway/api/v2/dtables/{base_uuid}/unarchive/:
     post:
       tags: [Big Data]
       summary: Move Rows to Normal Backend
