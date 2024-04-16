@@ -589,8 +589,6 @@ components:
         link_column_name:
           type: string
           description: The name of the link-column. Alternatively, you can use `link_column_key` instead. Do not use the `link_id` of the link column here.
-          minLength: 4
-          maxLength: 4
         rows:
           type: array
           description: The rows (identified by their ids) you want to get the links for.
@@ -604,7 +602,7 @@ components:
                 description: "Offset is the beginning number of your query. If your record is linked to multiple records, use e.g. 0 to start quering from the 1st element or e.g. 5 to start querying from the 6th element, etc. Attention: The returned list of linked rows is not ordered by its original order on the web interface, but rather by created time (ctime). Default is 0."
               limit:
                 type: integer
-                description: "Limit the number of records returned. Use e.g. 5 to return no more than 5 records. Default is 10."
+                description: "Specify the maximum number of records to be returned. For example, use 20 to retrieve more than the default 10 records."
             required:
               - row_id
       required:
