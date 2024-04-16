@@ -32,7 +32,7 @@ components:
       in: query
       schema:
         type: string
-        pattern: ^[A-Za-z0-9]{22}$
+        pattern: ^[A-Za-z0-9\-\_]{22}$
       example: YMIviMeERQCUiQhPPqo6Gw
       required: true
     page:
@@ -79,10 +79,7 @@ components:
       name: table_name
       description: |
         The name of the table to perform the operation on. Alternatively, you can use the `table_id` instead of `table_name`. If using `table_id`, ensure that the key in the request body is replaced accordingly.
-        ```# Examples:
-        table_name: Table1
-        table_id: 0000
-        ```
+        **Example:** Instead of `table_name: Table1` you can use `table_id: 0000`.
       in: query
       schema:
         type: string
@@ -94,7 +91,9 @@ components:
       schema:
         type: string
       required: false
-      description: The name of the view to perform the operation on. Alternatively, you can use the `view_id` instead of `view_name`. If using `view_id`, ensure that the key in the request body is replaced accordingly.
+      description: |
+        The name of the view to perform the operation on. Alternatively, you can use the `view_id` instead of `view_name`. If using `view_id`, ensure that the key in the request body is replaced accordingly.
+        **Example:** Instead of `view_name: Default View` you an use `view_id: 0000`.
       example: "Default View"
     convert_link_id:
       name: convert_link_id
@@ -232,7 +231,7 @@ components:
   schemas:
     row_id:
       type: string
-      pattern: '^[a-zA-Z0-9\-]{22}$'
+      pattern: '^[a-zA-Z0-9\-\_]{22}$'
       description: The id of the row. The id of a row is unique inside a base and is often used to identify one specific row.
       example: "Qtf7xPmoRaiFyQPO1aENTjb"
     base:
@@ -585,16 +584,16 @@ components:
     list_row_links:
       type: object
       properties:
-        table_id:
-          $ref: "#/components/schemas/table_id"
-        link_column_key:
+        table_name:
+          $ref: "#/components/schemas/table_name"
+        link_column_name:
           type: string
-          description: This is the key or name of the link column. Do not use the `link_id` of the link column here.
+          description: The name of the link-column. Alternatively, you can use `link_column_key` instead. Do not use the `link_id` of the link column here.
           minLength: 4
           maxLength: 4
         rows:
           type: array
-          description: the rows you want to get the links for.
+          description: The rows (identified by their ids) you want to get the links for.
           items:
             type: object
             properties:
@@ -602,15 +601,15 @@ components:
                 $ref: "#/components/schemas/row_id"
               offset:
                 type: integer
-                description: "offset is the beginning number of your query. If your record is linked to multiple records, use e.g. 0 to start quering from the 1st element or e.g. 5 to start querying from the 6th element, etc. Attention: The returned list of linked rows is not ordered by its original order on the web interface, but rather by created time (ctime)."
+                description: "Offset is the beginning number of your query. If your record is linked to multiple records, use e.g. 0 to start quering from the 1st element or e.g. 5 to start querying from the 6th element, etc. Attention: The returned list of linked rows is not ordered by its original order on the web interface, but rather by created time (ctime). Default is 0."
               limit:
                 type: integer
-                description: "limit lets you to set a limit to the number of records returned. Use e.g. 10 to return no more than 10 records."
+                description: "Limit the number of records returned. Use e.g. 5 to return no more than 5 records. Default is 10."
             required:
               - row_id
       required:
-        - table_id
-        - link_column_key
+        - table_name
+        - link_column_name
         - rows
 
     rename_table:
@@ -2499,7 +2498,7 @@ paths:
 
         The usage of a view in SeaTable could be much more convenient then the usage of the complex SQL-syntax of the [SQL query endpoint](/reference/querysql).
 
-        > 👍 Big Data support added
+        > 👍 Big Data support added 
         > 
         > Since Version 4.4 this endpoint also supports the big data backend.
 
