@@ -585,10 +585,9 @@ components:
     list_row_links:
       type: object
       properties:
-        table_id / table_name:
-          type: string
-          description: The id or of the table. The id of a table is unique inside a base and is often used to identify a table. In most calls it is possible to replace the table_id with the table_name.
-        link_column_key / link_column_name:
+        table_id:
+          $ref: "#/components/schemas/table_id"
+        link_column_key:
           type: string
           description: This is the key or name of the link column. Do not use the `link_id` of the link column here.
           minLength: 4
@@ -607,11 +606,12 @@ components:
               limit:
                 type: integer
                 description: "limit lets you to set a limit to the number of records returned. Use e.g. 10 to return no more than 10 records."
+            required:
+              - row_id
       required:
-        - table_id / table_name
-        - link_column_key / link_column_name
-        - row_id
-        - rows_id
+        - table_id
+        - link_column_key
+        - rows
 
     rename_table:
       type: object
