@@ -489,6 +489,8 @@ components:
           title: Row Object X
           items:
             $ref: "#/components/schemas/row"
+        apply_default:
+          $ref: "#/components/schemas/apply_default"
       required:
         - table_name
         - rows
@@ -2557,6 +2559,14 @@ paths:
                 type: object
               example:
                 inserted_row_count: 3
+                row_ids:
+                  - _id: Bko1e60YT-egit2SljWSZA 
+                  - _id: RzeUwIhFSp-iNi81-bZvpA
+                first_row: 
+                  "0000": Second new row
+                  _id: Bko1e60YT-egit2SljWSZA
+                  _creator: 123456786569491ba42905bf1647fd3f@auth.local
+                  _last_modifier: 123456786569491ba42905bf1647fd3f@auth.local
 
     put:
       tags:
@@ -2573,7 +2583,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/update_row"
+              $ref: "#/components/schemas/update_rows"
       security:
         - BaseTokenAuth: []
       parameters:
