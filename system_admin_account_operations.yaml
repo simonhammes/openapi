@@ -388,6 +388,12 @@ components:
         `true` or `false` if the user could log in. `true` by
         default.
       default: true
+    active:
+      type: boolean
+      description: >-
+        `true` or `false` if the user could log in. `true` by
+        default.
+      default: true
     role:
       type: string
       description: >-
@@ -2090,34 +2096,16 @@ paths:
             schema:
               type: object
               properties:
-                is_staff:
-                  $ref: "#/components/schemas/is_staff"
                 is_admin:
                   $ref: "#/components/schemas/system_admin_is_admin"
                 is_active:
-                  $ref: "#/components/schemas/is_active"
-                role:
-                  $ref: "#/components/schemas/role"
+                  $ref: "#/components/schemas/active"
                 name:
                   $ref: "#/components/schemas/system_admin_name"
-                login_id:
-                  $ref: "#/components/schemas/login_id"
                 contact_email:
                   $ref: "#/components/schemas/contact_email"
-                id_in_org:
-                  $ref: "#/components/schemas/id_in_org"
-                unit:
-                  $ref: "#/components/schemas/unit"
-                password:
-                  $ref: "#/components/schemas/system_admin_password"
-                institution:
-                  $ref: "#/components/schemas/institution"
-                row_limit:
-                  $ref: "#/components/schemas/row_limit"
                 quota_total:
                   $ref: "#/components/schemas/quota_total"
-                asset_quota_mb:
-                  $ref: "#/components/schemas/asset_quota_mb"
       responses:
         "200":
           description: OK
