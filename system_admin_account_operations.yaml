@@ -2098,7 +2098,7 @@ paths:
               properties:
                 is_admin:
                   $ref: "#/components/schemas/system_admin_is_admin"
-                is_active:
+                active:
                   $ref: "#/components/schemas/active"
                 name:
                   $ref: "#/components/schemas/system_admin_name"
