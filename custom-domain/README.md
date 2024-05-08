@@ -2,8 +2,6 @@
 
 The following setup allows to reach api documentation via custom subdomain. A nginx webserver redirects all traffic to the readme.com page. The sitemap is generated every day and delivered by nginx.
 
-It is important to change to add a header, otherwise google crawling bots deny crawling the page.
-
 ## Project settings at readme.com
 
 - PROJECT NAME: SeaTable API Reference
@@ -17,6 +15,7 @@ It is important to change to add a header, otherwise google crawling bots deny c
 ### nginx configuration
 
 This is the nginx configuration to redirect the traffic from a subdomain to readme.com.
+It is important to add any header in the nginx configuration, otherwise the google crawling bots deny crawling the page.
 
 ```bash
 server {
@@ -73,7 +72,7 @@ Disallow: /logout
 
 ### Cronjob to create a sitemap.xml
 
-The following script runs every day one via cronjob.
+The following script runs every day one via cronjob in the directory `/var/www/api.seatable.io` and generates a `sitemap.xml`.
 
 ```bash
 #!/bin/bash
@@ -84,7 +83,6 @@ OUTPUT_FILE_NAME="sitemap.xml"
 echo "Generate a new sitemap for ${SOURCE_URL}"
 curl ${SOURCE_URL} | grep -o 'href="/reference/[^"]*">' | cut -c7- | rev | cut -c3- | rev > ./found_links.txt
 sort ./found_links.txt | uniq > found_links_cleaned.txt
-
 
 # Create the XML header
 echo '<?xml version="1.0" encoding="UTF-8"?>' > ${OUTPUT_FILE_NAME}
