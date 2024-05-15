@@ -14,18 +14,20 @@ slug: changelog
 
 Listed below are all the changes to the SeaTable API. Each date corresponds to a new version of SeaTable Server Enterprise Edition. If you’re looking for changes beyond the API, see the SeaTable [Changelog](https://seatable.io/docs/changelog) or check out the [SeaTable Blog](https://seatable.io/blog) for detailed release notes.
 
-## Version 4.4 (xx.04.2024)
+## Version 4.4 (15.04.2024)
 
 > 🚧 Breaking changes
 >
-> data collection table calls (user) removed
-> operationId added for all calls
-> old "base operations" replaced with two new sections "base operations (NEW)" & "File operations"
-> api-gateway
-> new "minute" limit für dtable-db operations
-> add how to check how many requests left at "limits"
+> - data collection table calls (user) removed
+> - operationId added for all calls
+> - old "base operations" replaced with two new sections "base operations (NEW)" & "File operations"
+> - api-gateway
+> - new "minute" limit für dtable-db operations
+> - add how to check how many requests left at "limits"
 
 ## Version 4.3 (08.02.2024)
+
+You can access the SeaTable API Reference for version 4.3 via this link: [SeaTable API Reference - Version 4.3](https://seatable.readme.io/v4.3/reference/introduction).
 
 > 📘 New requests
 >
@@ -56,7 +58,7 @@ Listed below are all the changes to the SeaTable API. Each date corresponds to a
 
 ## Version 4.2 (22.11.2023)
 
-You can access the SeaTable API Reference for version 4.1 via this link: [SeaTable API Reference - Version 4.2](https://seatable.readme.io/v4.2/reference/introduction).
+The SeaTable API Reference for version 4.2 is no longer accessible here. However, you can find it on [Github](https://github.com/seatable/openapi/tree/v4.2).
 
 > 📘 New requests
 >
@@ -75,7 +77,7 @@ You can access the SeaTable API Reference for version 4.1 via this link: [SeaTab
 
 ## Version 4.1 (23.08.2023)
 
-You can access the SeaTable API Reference for version 4.1 via this link: [SeaTable API Reference - Version 4.1](https://seatable.readme.io/v4.1/reference/introduction).
+The SeaTable API Reference for version 4.1 is no longer accessible here. However, you can find it on [Github](https://github.com/seatable/openapi/tree/v4.1).
 
 > 📘 New requests
 >
