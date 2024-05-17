@@ -316,9 +316,13 @@ components:
         convert_keys:
           type: boolean
           description: Determines if the columns are returned as their keys (true) or their names (false by default).
+        server_only:
+          type: boolean
+          description: Show rows from normal and Big Data backend (false by default) or limit the output only to the normal backend (true).
       example:
         sql: "SELECT Name, Status FROM Table1 LIMIT 3"
         convert_keys: true
+        server_only: false
       required:
         - sql
         - convert_keys
