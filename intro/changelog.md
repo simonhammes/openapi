@@ -16,14 +16,24 @@ Listed below are all the changes to the SeaTable API. Each date corresponds to a
 
 ## Version 4.4 (15.05.2024)
 
+> 📘 New requests
+>
+> **Base Operations (from 4.4)**
+>
+> Starting with version 4.4, SeaTable introduced a new component to SeaTable Server: the API Gateway. It introduces several new API endpoints and improvements to existing ones, creating a more streamlined experience for all base operations. You can identify the new endpoints by their URLs, which include `/api-gateway/`. The old API endpoints for `dtable-server` and `dtable-db` are still valid and could be used.
+>
+> For optimized performance of SeaTable, three of the _old_ requests are redirected with Status Code 302 to the API Gateway. The redirect calls are [List Rows with SQL](/reference/querysqldeprecated), [List Rows](/reference/listrowsdeprecated) and [Get Row](/reference/getrowdeprecated).
+
 > 🚧 Breaking changes
 >
-> - data collection table calls (user) removed
-> - operationId added for all calls
-> - old "base operations" replaced with two new sections "base operations (NEW)" & "File operations"
-> - api-gateway
-> - new "minute" limit für dtable-db operations
-> - add how to check how many requests left at "limits"
+> - data collection table calls (user) were removed. This was done because data collection tables will be disabled in general with version 5.0. In SeaTable Cloud this feature was never available.
+> - [List Rows](/reference/listrowsdeprecated): `Link Formula` returns now an array instead of a string. This is to harmonize the output with `Get Row` and `List Rows with SQL`.
+> - [Get Row](/reference/getrowdeprecated): `_mtime` and `_ctime` are not returned if these column types are defined in this base. This is to harmonize the output with `List Rows` and `List Rows with SQL`.
+
+> 👍 Other changes
+>
+> - [List Rows](/reference/listrowsdeprecated): The options `order_by` and `direction` were removed to avoid conflict situations with a selected view.
+> - API-Gateway calls now return the current api usage and limits via X-header.
 
 ## Version 4.3 (08.02.2024)
 

@@ -28,11 +28,12 @@ The access counter is not reset at a specific time, but the relevant period is a
 
 ### General rate limits
 
-| Endpoints                                          | SeaTable Cloud       | SeaTable Dedicated and Server |
-| :------------------------------------------------- | :------------------- | :---------------------------- |
-| All web operations<br/>`/api/v2.1/*`               | 300/min              | unlimited                     |
-| All base operations<br/>`/dtable-server/api/v1/*`  | 300/min<br/>5000/day | 600/min<br/>5000/day          |
-| All dtable-db operations<br/>`/dtable-db/api/v1/*` | 300/min<br/>5000/day | unlimited                     |
+| Endpoints                                              | SeaTable Cloud       | SeaTable Dedicated and Server |
+| :----------------------------------------------------- | :------------------- | :---------------------------- |
+| All web operations<br/>`/api/v2.1/*`                   | 300/min              | unlimited                     |
+| All base operations<br/>`/dtable-server/api/v1/*`      | 300/min<br/>5000/day | 600/min<br/>5000/day          |
+| All dtable-db operations<br/>`/dtable-db/api/v1/*`     | 300/min<br/>5000/day | unlimited                     |
+| All api-gateway operations<br/>`/api-gateway/api/v2/*` | 300/min<br/>5000/day | unlimited                     |
 
 ### Authentication rate limits
 
