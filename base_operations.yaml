@@ -2510,11 +2510,8 @@ paths:
         - $ref: "#/components/parameters/base_uuid"
         - $ref: "#/components/parameters/table_name"
         - $ref: "#/components/parameters/view_name"
-        - $ref: "#/components/parameters/convert_link_id"
-        - $ref: "#/components/parameters/order_by"
         - $ref: "#/components/parameters/start"
         - $ref: "#/components/parameters/limit"
-        - $ref: "#/components/parameters/direction"
       responses:
         "200":
           description: OK
@@ -2636,7 +2633,6 @@ paths:
         - $ref: "#/components/parameters/base_uuid"
         - $ref: "#/components/parameters/row_id_path"
         - $ref: "#/components/parameters/table_name"
-        - $ref: "#/components/parameters/convert"
       responses:
         "200":
           description: OK
