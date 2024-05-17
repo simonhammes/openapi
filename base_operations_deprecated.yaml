@@ -2618,7 +2618,7 @@ paths:
       summary: List Rows
       operationId: listRowsDeprecated
       description: |
-        Lists rows in a table (or in a view if provided), ordered according to the filter conditions and sort criteria provided in the request. 
+        Lists rows in a table (or in a view if provided). If no view is selected, all columns (even hidden one) are returned. If a view is selected, only visible columns of that view are returned.
 
         > 📘 Returns no data from the big data backend
         > 

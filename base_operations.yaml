@@ -2486,7 +2486,7 @@ paths:
       summary: List Rows
       operationId: listRows
       description: |
-        Returns a list of rows contained in a table (or in a view if provided), ordered according to the filter conditions and sort criteria provided in the request. 
+        Returns a list of rows contained in a table (or in a view if provided).
 
         The usage of a view in SeaTable could be much more convenient then the usage of the complex SQL-syntax of the [SQL query endpoint](/reference/querysql).
 
@@ -2495,6 +2495,10 @@ paths:
         > Since Version 4.4 this endpoint also supports the big data backend.
 
         Every row consists of the columns, you defined in your base but also *hidden* informations like `_id`, `_mtime`, `_ctime`, `_creator` and so on. Get more details about these information in the [Models](/reference/models) area.
+
+        > 📘 Hidden Columns 
+        >
+        > If no view is selected, all columns (even hidden one) are returned. If a view is selected, only the visible columns of that view are returned with the request.
 
       security:
         - BaseTokenAuth: []
