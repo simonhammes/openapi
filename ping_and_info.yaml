@@ -127,3 +127,18 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ping_response"
+
+  /api-gateway/api/v2/ping:
+    get:
+      tags:
+        - Ping
+      summary: Ping API Gateway
+      operationId: pingApiGateway
+      description: Check the status of the API gateway.
+      responses:
+        "200":
+          description: Service is available and running
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ping_response"
