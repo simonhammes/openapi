@@ -95,14 +95,6 @@ components:
         The name of the view to perform the operation on. Alternatively, you can use the `view_id` instead of `view_name`. If using `view_id`, ensure that the key in the request body is replaced accordingly.
         **Example:** Instead of `view_name: Default View` you an use `view_id: 0000`.
       example: "Default View"
-    convert_link_id:
-      name: convert_link_id
-      description: Whether the link column in the returned row is the ID (false) of the linked row or the name (true) of the linked row. If no value is provided, false is the default.
-      in: query
-      schema:
-        type: boolean
-      example: false
-      required: false
     order_by:
       name: order_by
       in: query
@@ -2510,11 +2502,8 @@ paths:
         - $ref: "#/components/parameters/base_uuid"
         - $ref: "#/components/parameters/table_name"
         - $ref: "#/components/parameters/view_name"
-        - $ref: "#/components/parameters/convert_link_id"
-        - $ref: "#/components/parameters/order_by"
         - $ref: "#/components/parameters/start"
         - $ref: "#/components/parameters/limit"
-        - $ref: "#/components/parameters/direction"
       responses:
         "200":
           description: OK
@@ -2527,7 +2516,13 @@ paths:
                   - _id: Bko1e60YT-egit2SljWSZA
                     _mtime: "2021-03-10T16:06:48.981+00:00"
                     Name: Second new row
-                    link: []
+                    link:
+                      [
+                        {
+                          "display_value": "1",
+                          "row_id": "XzdZfL2oS-aILnhfagTWEg",
+                        },
+                      ]
                   - _id: RzeUwIhFSp-iNi81-bZvpA
                     _mtime: "2021-03-10T16:11:11.176+00:00"
                     Name: Matcha
@@ -2560,9 +2555,9 @@ paths:
               example:
                 inserted_row_count: 3
                 row_ids:
-                  - _id: Bko1e60YT-egit2SljWSZA 
+                  - _id: Bko1e60YT-egit2SljWSZA
                   - _id: RzeUwIhFSp-iNi81-bZvpA
-                first_row: 
+                first_row:
                   "0000": Second new row
                   _id: Bko1e60YT-egit2SljWSZA
                   _creator: 123456786569491ba42905bf1647fd3f@auth.local
