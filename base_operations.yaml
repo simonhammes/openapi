@@ -2722,7 +2722,7 @@ paths:
         - Links
       summary: List Row Links
       operationId: listRowLinks
-      description: >-
+      description: |
         When you have a "Link to other records" column in your table and you
         have created some links to the current or another table, you can use
         this request to query each row's linked records' IDs and display values.
