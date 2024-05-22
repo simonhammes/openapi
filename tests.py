@@ -332,10 +332,7 @@ def test_list_rows_with_sql(base: Base):
 
     actual_rows = response.json()['results']
 
-    # Compare each row on its own since pytest does not handle unittest.mock.ANY properly if you compare lists
-    # https://github.com/pytest-dev/pytest/issues/3638
-    for actual_row, expected_row in zip(actual_rows, EXPECTED_ROWS):
-        assert actual_row == expected_row
+    assert actual_rows == EXPECTED_ROWS
 
 def create_table(base: Base, table_name: str, columns: list[dict]):
     path_parameters = {'base_uuid': base.uuid}
