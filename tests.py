@@ -50,22 +50,6 @@ def account_token() -> str:
     return account_token
 
 @pytest.fixture(scope='module')
-def base_token(account_token, base_uuid) -> str:
-    path_parameters = {'workspace_id': WORKSPACE_ID, 'base_name': BASE_NAME}
-    headers = {'Authorization': f'Bearer {account_token}'}
-
-    operation = authentication_schema.get_operation_by_id('getBaseTokenWithAccountToken')
-    case: Case = operation.make_case(path_parameters=path_parameters, headers=headers)
-    response = case.call_and_validate()
-
-    assert response.status_code == 200
-
-    token = response.json()['access_token']
-    assert isinstance(token, str)
-
-    return token
-
-@pytest.fixture(scope='module')
 def base_uuid(account_token: str):
     body = {"workspace_id": WORKSPACE_ID, "name": BASE_NAME}
     case: Case = schema.get_operation_by_id('createBase').make_case(body=body)
@@ -88,6 +72,22 @@ def base_uuid(account_token: str):
     response = case.call_and_validate(headers={"Authorization": f"Bearer {account_token}"})
 
     assert response.status_code == 200
+
+@pytest.fixture(scope='module')
+def base_token(account_token, base_uuid) -> str:
+    path_parameters = {'workspace_id': WORKSPACE_ID, 'base_name': BASE_NAME}
+    headers = {'Authorization': f'Bearer {account_token}'}
+
+    operation = authentication_schema.get_operation_by_id('getBaseTokenWithAccountToken')
+    case: Case = operation.make_case(path_parameters=path_parameters, headers=headers)
+    response = case.call_and_validate()
+
+    assert response.status_code == 200
+
+    token = response.json()['access_token']
+    assert isinstance(token, str)
+
+    return token
 
 COLUMNS = [
     {
