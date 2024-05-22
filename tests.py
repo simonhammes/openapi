@@ -138,17 +138,28 @@ COLUMNS = [
             'format': 'DD.MM.YYYY HH:mm'
         }
     },
-    # TODO: single-select + multiple-select
-    #{
-        #'column_name': 'single-select',
-        #'column_type': 'single-select',
-        #'column_data': {
-            #'options': [
-             #   {'id': 1, 'name': 'Option 1'},
-            #    {'id': 2, 'name': 'Option 2'},
-            #]
-        #}
-    #},
+    {
+        'column_name': 'single-select',
+        'column_type': 'single-select',
+        'column_data': {
+            'options': [
+               {'id': 1, 'name': 'option-1', 'color': '#9860E5'},
+               {'id': 2, 'name': 'option-2', 'color': '#89D2EA'},
+               {'id': 3, 'name': 'option-3', 'color': '#59CB74'},
+            ]
+        }
+    },
+    {
+        'column_name': 'multiple-select',
+        'column_type': 'multiple-select',
+        'column_data': {
+            'options': [
+               {'id': 1, 'name': 'option-1', 'color': '#9860E5'},
+               {'id': 2, 'name': 'option-2', 'color': '#89D2EA'},
+               {'id': 3, 'name': 'option-3', 'color': '#59CB74'},
+            ]
+        }
+    },
     {
         'column_name': 'checkbox',
         'column_type': 'checkbox',
@@ -183,6 +194,8 @@ ROWS = [
         'date-iso-hours-minutes': '2030/06/20 23:55',
         'date-german': '20.06.2030',
         'date-german-hours-minutes': '20.06.2030 23:55',
+        'single-select': 'option-1',
+        'multiple-select': ['option-1', 'option-2'],
         'checkbox': True,
     },
     {
@@ -195,6 +208,8 @@ ROWS = [
         'date-iso-hours-minutes': '2030/06/20 23:55',
         'date-german': '20.06.2030',
         'date-german-hours-minutes': '20.06.2030 23:55',
+        'single-select': 'option-2',
+        'multiple-select': ['option-2', 'option-3'],
         'checkbox': False,
     },
     {
@@ -207,6 +222,8 @@ ROWS = [
         'date-iso-hours-minutes': '2030/06/20 23:55',
         'date-german': '20.06.2030',
         'date-german-hours-minutes': '20.06.2030 23:55',
+        'single-select': 'option-3',
+        'multiple-select': ['option-1', 'option-2', 'option-3'],
         'checkbox': True,
     },
     {
@@ -265,9 +282,9 @@ def test_get_row(base: Base):
 
 # Expected rows for test_list_rows and test_list_rows_with_sql
 EXPECTED_ROWS = [
-    {'_id': mock.ANY, '_mtime': mock.ANY, '_ctime': mock.ANY, 'text': 'ABC', 'long-text': '## Heading\n- Item 1\n- Item 2', 'number': 499.99, 'date-iso': '2030-06-20', 'date-iso-hours-minutes': '2030-06-20 23:55', 'date-german': '2030-06-20', 'date-german-hours-minutes': '2030-06-20 23:55', 'checkbox': True, 'formula': '2031-06-20'},
-    {'_id': mock.ANY, '_mtime': mock.ANY, '_ctime': mock.ANY, 'text': 'D', 'long-text': '## Heading\n- Item 1\n- Item 2', 'number': 500, 'date-iso': '2030-06-20', 'date-iso-hours-minutes': '2030-06-20 23:55', 'date-german': '2030-06-20', 'date-german-hours-minutes': '2030-06-20 23:55', 'checkbox': False, 'formula': '2031-06-20'},
-    {'_id': mock.ANY, '_mtime': mock.ANY, '_ctime': mock.ANY, 'text': 'E', 'long-text': '## Heading\n- Item 1\n- Item 2', 'number': -10, 'date-iso': '2030-06-20', 'date-iso-hours-minutes': '2030-06-20 23:55', 'date-german': '2030-06-20', 'date-german-hours-minutes': '2030-06-20 23:55', 'checkbox': True, 'formula': '2031-06-20'},
+    {'_id': mock.ANY, '_mtime': mock.ANY, '_ctime': mock.ANY, 'text': 'ABC', 'long-text': '## Heading\n- Item 1\n- Item 2', 'number': 499.99, 'date-iso': '2030-06-20', 'date-iso-hours-minutes': '2030-06-20 23:55', 'date-german': '2030-06-20', 'date-german-hours-minutes': '2030-06-20 23:55', 'single-select': 'option-1', 'multiple-select': ['option-1', 'option-2'], 'checkbox': True, 'formula': '2031-06-20'},
+    {'_id': mock.ANY, '_mtime': mock.ANY, '_ctime': mock.ANY, 'text': 'D', 'long-text': '## Heading\n- Item 1\n- Item 2', 'number': 500, 'date-iso': '2030-06-20', 'date-iso-hours-minutes': '2030-06-20 23:55', 'date-german': '2030-06-20', 'date-german-hours-minutes': '2030-06-20 23:55', 'single-select': 'option-2', 'multiple-select': ['option-2', 'option-3'], 'checkbox': False, 'formula': '2031-06-20'},
+    {'_id': mock.ANY, '_mtime': mock.ANY, '_ctime': mock.ANY, 'text': 'E', 'long-text': '## Heading\n- Item 1\n- Item 2', 'number': -10, 'date-iso': '2030-06-20', 'date-iso-hours-minutes': '2030-06-20 23:55', 'date-german': '2030-06-20', 'date-german-hours-minutes': '2030-06-20 23:55', 'single-select': 'option-3', 'multiple-select': ['option-1', 'option-2', 'option-3'], 'checkbox': True, 'formula': '2031-06-20'},
     # Make sure that empty values are not returned
     # Regression test for https://forum.seatable.io/t/python-modification-in-rows-data-since-4-4/4254
     {'_id': mock.ANY, '_mtime': mock.ANY, '_ctime': mock.ANY, 'text': 'row-with-empty-values', 'formula': '#VALUE!'}
