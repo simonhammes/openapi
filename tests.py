@@ -1,6 +1,7 @@
 import os
 import pytest
 import schemathesis
+from requests import Response
 from schemathesis import Case
 from unittest import mock
 
@@ -24,6 +25,11 @@ schema = schemathesis.from_path('./user_account_operations.yaml', base_url=BASE_
 authentication_schema = schemathesis.from_path('./authentication.yaml', base_url=BASE_URL, validate_schema=True)
 # TODO: Use non-deprecated version?
 base_operations_schema = schemathesis.from_path('./base_operations_deprecated.yaml', base_url=BASE_URL, validate_schema=True)
+
+@schemathesis.hook
+def after_call(context, case, response: Response):
+    # Log all request URLs. You have to run pytest with '-rA' in order to see these for successful tests.
+    print(response.request.url)
 
 # scope='module' ensures that this functions runs only once for all tests in this module
 @pytest.fixture(scope='module')
