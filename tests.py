@@ -26,6 +26,8 @@ authentication_schema = schemathesis.from_path('./authentication.yaml', base_url
 # TODO: Use non-deprecated version?
 base_operations_schema = schemathesis.from_path('./base_operations_deprecated.yaml', base_url=BASE_URL, validate_schema=True)
 
+# TODO: Disable redirects for all tests? (to prevent issues like https://forum.seatable.io/t/seatable-4-4-out-now/4237/4)
+
 @schemathesis.hook
 def after_call(context, case, response: Response):
     # Log all request URLs. You have to run pytest with '-rA' in order to see these for successful tests.
