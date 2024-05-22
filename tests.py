@@ -1,6 +1,7 @@
 import os
 import pytest
 import schemathesis
+from dataclasses import dataclass
 from requests import Response
 from schemathesis import Case
 from unittest import mock
@@ -33,6 +34,12 @@ def after_call(context, case, response: Response):
     # Log all request URLs. You have to run pytest with '-rA' in order to see these for successful tests.
     print(response.request.url)
 
+@dataclass
+class Base:
+    """Class for storing base info"""
+    uuid: str
+    token: str
+
 # scope='module' ensures that this functions runs only once for all tests in this module
 @pytest.fixture(scope='module')
 def account_token() -> str:
@@ -50,7 +57,7 @@ def account_token() -> str:
     return account_token
 
 @pytest.fixture(scope='module')
-def base_uuid(account_token: str):
+def base(account_token: str):
     body = {"workspace_id": WORKSPACE_ID, "name": BASE_NAME}
     case: Case = schema.get_operation_by_id('createBase').make_case(body=body)
     response = case.call_and_validate(headers={"Authorization": f"Bearer {account_token}"})
@@ -62,19 +69,6 @@ def base_uuid(account_token: str):
     base_uuid = response.json()["table"]["uuid"]
     assert isinstance(base_uuid, str)
 
-    yield base_uuid
-
-    # Delete base to not cause any issues on future test runs
-    path_parameters = {'workspace_id': WORKSPACE_ID}
-    body = {'name': BASE_NAME}
-
-    case: Case = schema.get_operation_by_id('deleteBase').make_case(path_parameters=path_parameters, body=body)
-    response = case.call_and_validate(headers={"Authorization": f"Bearer {account_token}"})
-
-    assert response.status_code == 200
-
-@pytest.fixture(scope='module')
-def base_token(account_token, base_uuid) -> str:
     path_parameters = {'workspace_id': WORKSPACE_ID, 'base_name': BASE_NAME}
     headers = {'Authorization': f'Bearer {account_token}'}
 
@@ -84,10 +78,19 @@ def base_token(account_token, base_uuid) -> str:
 
     assert response.status_code == 200
 
-    token = response.json()['access_token']
-    assert isinstance(token, str)
+    base_token = response.json()['access_token']
+    assert isinstance(base_token, str)
 
-    return token
+    yield Base(base_uuid, base_token)
+
+    # Delete base to not cause any issues on future test runs
+    path_parameters = {'workspace_id': WORKSPACE_ID}
+    body = {'name': BASE_NAME}
+
+    case: Case = schema.get_operation_by_id('deleteBase').make_case(path_parameters=path_parameters, body=body)
+    response = case.call_and_validate(headers={"Authorization": f"Bearer {account_token}"})
+
+    assert response.status_code == 200
 
 COLUMNS = [
     {
@@ -212,10 +215,10 @@ ROWS = [
     }
 ]
 
-def test_get_row(base_token: str, base_uuid: str):
+def test_get_row(base: Base):
     table_name = 'test_get_row'
 
-    create_table(base_token, base_uuid, table_name, COLUMNS)
+    create_table(base, table_name, COLUMNS)
 
     row = {
         'text': 'ABC',
@@ -229,11 +232,11 @@ def test_get_row(base_token: str, base_uuid: str):
         'date-german-hours-minutes': '20.06.2030 23:55',
         'checkbox': True,
     }
-    row_id = add_row(base_token, base_uuid, table_name, row)
+    row_id = add_row(base, table_name, row)
 
-    path_parameters = {'base_uuid': base_uuid, 'row_id': row_id}
+    path_parameters = {'base_uuid': base.uuid, 'row_id': row_id}
     query = {'table_name': table_name}
-    headers = {'Authorization': f'Bearer {base_token}'}
+    headers = {'Authorization': f'Bearer {base.token}'}
 
     operation = base_operations_schema.get_operation_by_id('getRowDeprecated')
     case: Case = operation.make_case(path_parameters=path_parameters, query=query, headers=headers)
@@ -270,15 +273,15 @@ EXPECTED_ROWS = [
     {'_id': mock.ANY, '_mtime': mock.ANY, '_ctime': mock.ANY, 'text': 'row-with-empty-values', 'formula': '#VALUE!'}
 ]
 
-def test_list_rows(base_token: str, base_uuid: str):
+def test_list_rows(base: Base):
     table_name = 'test_list_rows'
 
-    create_table(base_token, base_uuid, table_name, COLUMNS)
-    append_rows(base_token, base_uuid, table_name, ROWS)
+    create_table(base, table_name, COLUMNS)
+    append_rows(base, table_name, ROWS)
 
-    path_parameters = {'base_uuid': base_uuid}
+    path_parameters = {'base_uuid': base.uuid}
     query = {'table_name': table_name}
-    headers = {'Authorization': f'Bearer {base_token}'}
+    headers = {'Authorization': f'Bearer {base.token}'}
 
     operation = base_operations_schema.get_operation_by_id('listRowsDeprecated')
     case: Case = operation.make_case(path_parameters=path_parameters, query=query, headers=headers)
@@ -292,15 +295,15 @@ def test_list_rows(base_token: str, base_uuid: str):
     assert actual_rows == EXPECTED_ROWS
 
 @pytest.mark.xfail(reason='Differences between listRowsDeprecated and querySQLDeprecated endpoints (e.g. date format)')
-def test_list_rows_with_sql(base_token: str, base_uuid: str):
+def test_list_rows_with_sql(base: Base):
     table_name = 'test_list_rows_with_sql'
 
-    create_table(base_token, base_uuid, table_name, COLUMNS)
-    append_rows(base_token, base_uuid, table_name, ROWS)
+    create_table(base, table_name, COLUMNS)
+    append_rows(base, table_name, ROWS)
 
-    path_parameters = {'base_uuid': base_uuid}
+    path_parameters = {'base_uuid': base.uuid}
     body = {'sql': f'SELECT * FROM {table_name}', 'convert_keys': True}
-    headers = {'Authorization': f'Bearer {base_token}'}
+    headers = {'Authorization': f'Bearer {base.token}'}
 
     operation = base_operations_schema.get_operation_by_id('querySQLDeprecated')
     case: Case = operation.make_case(path_parameters=path_parameters, body=body, headers=headers)
@@ -317,10 +320,10 @@ def test_list_rows_with_sql(base_token: str, base_uuid: str):
     for actual_row, expected_row in zip(actual_rows, EXPECTED_ROWS):
         assert actual_row == expected_row
 
-def create_table(base_token: str, base_uuid: str, table_name: str, columns: list[dict]):
-    path_parameters = {'base_uuid': base_uuid}
+def create_table(base: Base, table_name: str, columns: list[dict]):
+    path_parameters = {'base_uuid': base.uuid}
     body = {'table_name': table_name, 'columns': columns}
-    headers = {'Authorization': f'Bearer {base_token}'}
+    headers = {'Authorization': f'Bearer {base.token}'}
 
     operation = base_operations_schema.get_operation_by_id('createTableDeprecated')
     case: Case = operation.make_case(path_parameters=path_parameters, body=body, headers=headers)
@@ -330,10 +333,10 @@ def create_table(base_token: str, base_uuid: str, table_name: str, columns: list
 
     assert response.status_code == 200
 
-def add_row(base_token: str, base_uuid: str, table_name: str, row: dict) -> str:
-    path_parameters = {'base_uuid': base_uuid}
+def add_row(base: Base, table_name: str, row: dict) -> str:
+    path_parameters = {'base_uuid': base.uuid}
     body = {'table_name': table_name, 'row': row}
-    headers = {'Authorization': f'Bearer {base_token}'}
+    headers = {'Authorization': f'Bearer {base.token}'}
 
     operation = base_operations_schema.get_operation_by_id('addRowDeprecated')
     case: Case = operation.make_case(path_parameters=path_parameters, body=body, headers=headers)
@@ -344,10 +347,10 @@ def add_row(base_token: str, base_uuid: str, table_name: str, row: dict) -> str:
 
     return row_id
 
-def append_rows(base_token: str, base_uuid: str, table_name: str, rows: list[dict]):
-    path_parameters = {'base_uuid': base_uuid}
+def append_rows(base: Base, table_name: str, rows: list[dict]):
+    path_parameters = {'base_uuid': base.uuid}
     body = {'table_name': table_name, 'rows': rows}
-    headers = {'Authorization': f'Bearer {base_token}'}
+    headers = {'Authorization': f'Bearer {base.token}'}
 
     operation = base_operations_schema.get_operation_by_id('appendRowsDeprecated')
     case: Case = operation.make_case(path_parameters=path_parameters, body=body, headers=headers)
