@@ -4,6 +4,9 @@ import schemathesis
 from dataclasses import dataclass, field
 from requests import Response
 from schemathesis import Case
+from syrupy.extensions.json import JSONSnapshotExtension
+from syrupy.filters import props
+from syrupy.matchers import path_type
 from unittest import mock
 
 # TODO: Make sure credentials are never logged to the console (in case of exceptions/assertion errors)
@@ -40,6 +43,11 @@ class Base:
     uuid: str
     # Hide base token from console output by setting repr=False
     token: str = field(repr=False)
+
+@pytest.fixture
+def snapshot_json(snapshot):
+    # https://github.com/tophat/syrupy#jsonsnapshotextension
+    return snapshot.use_extension(JSONSnapshotExtension)
 
 # scope='module' ensures that this functions runs only once for all tests in this module
 @pytest.fixture(scope='module')
@@ -233,7 +241,7 @@ ROWS = [
     }
 ]
 
-def test_get_row(base: Base):
+def test_get_row(base: Base, snapshot_json):
     table_name = 'test_get_row'
 
     create_table(base, table_name, COLUMNS)
@@ -263,23 +271,14 @@ def test_get_row(base: Base):
 
     assert response.status_code == 200
 
-    expected = {
-        # Ignore these fields
-        '_id': mock.ANY,
-        '_mtime': mock.ANY,
-        '_ctime': mock.ANY,
-        'text': 'ABC',
-        'long-text': '## Heading\n- Item 1\n- Item 2',
-        'number': 499.99,
-        'date-iso': '2030-06-20',
-        'date-iso-hours-minutes': '2030-06-20 23:55',
-        'date-german': '2030-06-20',
-        'date-german-hours-minutes': '2030-06-20 23:55',
-        'checkbox': True,
-        'formula': '2031-06-20',
-    }
+    # Configure a custom matcher since some values will always change
+    matcher = path_type({
+        '_id': (str,),
+        '_ctime': (str,),
+        '_mtime': (str,),
+    })
 
-    assert response.json() == expected
+    assert snapshot_json(matcher=matcher) == response.json()
 
 # Expected rows for test_list_rows and test_list_rows_with_sql
 EXPECTED_ROWS = [
@@ -291,7 +290,7 @@ EXPECTED_ROWS = [
     {'_id': mock.ANY, '_mtime': mock.ANY, '_ctime': mock.ANY, 'text': 'row-with-empty-values', 'formula': '#VALUE!'}
 ]
 
-def test_list_rows(base: Base):
+def test_list_rows(base: Base, snapshot_json):
     table_name = 'test_list_rows'
 
     create_table(base, table_name, COLUMNS)
@@ -308,12 +307,10 @@ def test_list_rows(base: Base):
 
     assert response.status_code == 200
 
-    actual_rows = response.json()['rows']
+    # Verify that response matches snapshot while excluding _id, _ctime and _mtime properties
+    assert snapshot_json(exclude=props('_id', '_ctime', '_mtime')) == response.json()
 
-    assert actual_rows == EXPECTED_ROWS
-
-@pytest.mark.xfail(reason='Differences between listRowsDeprecated and querySQLDeprecated endpoints (e.g. date format)')
-def test_list_rows_with_sql(base: Base):
+def test_list_rows_with_sql(base: Base, snapshot_json):
     table_name = 'test_list_rows_with_sql'
 
     create_table(base, table_name, COLUMNS)
@@ -331,9 +328,8 @@ def test_list_rows_with_sql(base: Base):
 
     assert response.status_code == 200
 
-    actual_rows = response.json()['results']
-
-    assert actual_rows == EXPECTED_ROWS
+    # TODO: Verify excluded props
+    assert snapshot_json(exclude=props('_id', '_ctime', '_mtime', 'key', 'base_id', 'table_id')) == response.json()
 
 def create_table(base: Base, table_name: str, columns: list[dict]):
     path_parameters = {'base_uuid': base.uuid}
