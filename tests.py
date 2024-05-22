@@ -1,6 +1,5 @@
 import os
 import pytest
-import requests
 import schemathesis
 from schemathesis import Case
 from unittest import mock
@@ -29,17 +28,11 @@ base_operations_schema = schemathesis.from_path('./base_operations_deprecated.ya
 # scope='module' ensures that this functions runs only once for all tests in this module
 @pytest.fixture(scope='module')
 def account_token() -> str:
-    data = {
-        "username": USERNAME,
-        "password": PASSWORD,
-    }
-    headers = {
-        "accept": "application/json",
-        "content-type": "application/x-www-form-urlencoded"
-    }
+    body = {"username": USERNAME, "password": PASSWORD}
 
-    # TODO: Use schemathesis for this request
-    response = requests.post(f'{BASE_URL}/api2/auth-token/', data=data, headers=headers)
+    operation = authentication_schema.get_operation_by_id('getAccountTokenfromUsername')
+    case: Case = operation.make_case(body=body)
+    response = case.call_and_validate()
 
     assert response.status_code == 200
 
