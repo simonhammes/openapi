@@ -1,0 +1,20 @@
+name: Tests
+
+on: push
+
+jobs:
+  tests:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      - run: pip install -r requirements.txt
+      - name: Pytest
+        run: pytest tests.py
+        env:
+          SEATABLE_USERNAME: 'hulk'
+          SEATABLE_PASSWORD: ${{ secrets.SEATABLE_PASSWORD }}
