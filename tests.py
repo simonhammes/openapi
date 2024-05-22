@@ -197,6 +197,10 @@ ROWS = [
         'date-german': '20.06.2030',
         'date-german-hours-minutes': '20.06.2030 23:55',
         'checkbox': True,
+    },
+    {
+        # Regression test for https://forum.seatable.io/t/python-modification-in-rows-data-since-4-4/4254
+        'text': 'row-with-empty-values'
     }
 ]
 
@@ -253,6 +257,9 @@ EXPECTED_ROWS = [
     {'_id': mock.ANY, '_mtime': mock.ANY, '_ctime': mock.ANY, 'text': 'ABC', 'long-text': '## Heading\n- Item 1\n- Item 2', 'number': 499.99, 'date-iso': '2030-06-20', 'date-iso-hours-minutes': '2030-06-20 23:55', 'date-german': '2030-06-20', 'date-german-hours-minutes': '2030-06-20 23:55', 'checkbox': True, 'formula': '2031-06-20'},
     {'_id': mock.ANY, '_mtime': mock.ANY, '_ctime': mock.ANY, 'text': 'D', 'long-text': '## Heading\n- Item 1\n- Item 2', 'number': 500, 'date-iso': '2030-06-20', 'date-iso-hours-minutes': '2030-06-20 23:55', 'date-german': '2030-06-20', 'date-german-hours-minutes': '2030-06-20 23:55', 'checkbox': False, 'formula': '2031-06-20'},
     {'_id': mock.ANY, '_mtime': mock.ANY, '_ctime': mock.ANY, 'text': 'E', 'long-text': '## Heading\n- Item 1\n- Item 2', 'number': -10, 'date-iso': '2030-06-20', 'date-iso-hours-minutes': '2030-06-20 23:55', 'date-german': '2030-06-20', 'date-german-hours-minutes': '2030-06-20 23:55', 'checkbox': True, 'formula': '2031-06-20'},
+    # Make sure that empty values are not returned
+    # Regression test for https://forum.seatable.io/t/python-modification-in-rows-data-since-4-4/4254
+    {'_id': mock.ANY, '_mtime': mock.ANY, '_ctime': mock.ANY, 'text': 'row-with-empty-values', 'formula': '#VALUE!'}
 ]
 
 def test_list_rows(base_token: str, base_uuid: str):
