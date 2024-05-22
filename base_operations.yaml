@@ -156,8 +156,8 @@ components:
         type: integer
         minimum: 1
       example: 7
-    convert:
-      name: convert
+    convert_keys:
+      name: convert_keys
       in: query
       schema:
         type: boolean
@@ -2512,6 +2512,7 @@ paths:
         - $ref: "#/components/parameters/view_name"
         - $ref: "#/components/parameters/start"
         - $ref: "#/components/parameters/limit"
+        - $ref: "#/components/parameters/convert_keys"
       responses:
         "200":
           description: OK
@@ -2639,7 +2640,7 @@ paths:
         - $ref: "#/components/parameters/base_uuid"
         - $ref: "#/components/parameters/row_id_path"
         - $ref: "#/components/parameters/table_name"
-        - $ref: "#/components/parameters/convert"
+        - $ref: "#/components/parameters/convert_keys"
       responses:
         "200":
           description: OK
