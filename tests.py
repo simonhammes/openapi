@@ -272,6 +272,16 @@ def test_list_rows(base_token: str, base_uuid: str):
 
     assert response.status_code == 200
 
+    actual_rows = response.json()['rows']
+
+    expected_rows = [
+        {'_id': mock.ANY, '_mtime': mock.ANY, '_ctime': mock.ANY, 'text': 'ABC', 'long-text': '## Heading\n- Item 1\n- Item 2', 'number': 499.99, 'date-iso': '2030-06-20', 'date-iso-hours-minutes': '2030-06-20 23:55', 'date-german': '2030-06-20', 'date-german-hours-minutes': '2030-06-20 23:55', 'checkbox': True, 'formula': '2031-06-20'},
+        {'_id': mock.ANY, '_mtime': mock.ANY, '_ctime': mock.ANY, 'text': 'D', 'long-text': '## Heading\n- Item 1\n- Item 2', 'number': 500, 'date-iso': '2030-06-20', 'date-iso-hours-minutes': '2030-06-20 23:55', 'date-german': '2030-06-20', 'date-german-hours-minutes': '2030-06-20 23:55', 'checkbox': False, 'formula': '2031-06-20'},
+        {'_id': mock.ANY, '_mtime': mock.ANY, '_ctime': mock.ANY, 'text': 'E', 'long-text': '## Heading\n- Item 1\n- Item 2', 'number': -10, 'date-iso': '2030-06-20', 'date-iso-hours-minutes': '2030-06-20 23:55', 'date-german': '2030-06-20', 'date-german-hours-minutes': '2030-06-20 23:55', 'checkbox': True, 'formula': '2031-06-20'},
+    ]
+
+    assert actual_rows == expected_rows
+
 def create_table(base_token: str, base_uuid: str, table_name: str, columns: list[dict]):
     path_parameters = {'base_uuid': base_uuid}
     body = {'table_name': table_name, 'columns': columns}
