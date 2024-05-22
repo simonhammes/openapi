@@ -1,7 +1,7 @@
 import os
 import pytest
 import schemathesis
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from requests import Response
 from schemathesis import Case
 from unittest import mock
@@ -38,7 +38,8 @@ def after_call(context, case, response: Response):
 class Base:
     """Class for storing base info"""
     uuid: str
-    token: str
+    # Hide base token from console output by setting repr=False
+    token: str = field(repr=False)
 
 # scope='module' ensures that this functions runs only once for all tests in this module
 @pytest.fixture(scope='module')
