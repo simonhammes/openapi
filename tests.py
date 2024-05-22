@@ -41,7 +41,7 @@ def account_token() -> str:
 
     return account_token
 
-@pytest.fixture
+@pytest.fixture(scope='module')
 def base_token(account_token, base_uuid) -> str:
     path_parameters = {'workspace_id': WORKSPACE_ID, 'base_name': BASE_NAME}
     headers = {'Authorization': f'Bearer {account_token}'}
