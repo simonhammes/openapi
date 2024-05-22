@@ -248,6 +248,13 @@ def test_get_row(base_token: str, base_uuid: str):
 
     assert response.json() == expected
 
+# Expected rows for test_list_rows and test_list_rows_with_sql
+EXPECTED_ROWS = [
+    {'_id': mock.ANY, '_mtime': mock.ANY, '_ctime': mock.ANY, 'text': 'ABC', 'long-text': '## Heading\n- Item 1\n- Item 2', 'number': 499.99, 'date-iso': '2030-06-20', 'date-iso-hours-minutes': '2030-06-20 23:55', 'date-german': '2030-06-20', 'date-german-hours-minutes': '2030-06-20 23:55', 'checkbox': True, 'formula': '2031-06-20'},
+    {'_id': mock.ANY, '_mtime': mock.ANY, '_ctime': mock.ANY, 'text': 'D', 'long-text': '## Heading\n- Item 1\n- Item 2', 'number': 500, 'date-iso': '2030-06-20', 'date-iso-hours-minutes': '2030-06-20 23:55', 'date-german': '2030-06-20', 'date-german-hours-minutes': '2030-06-20 23:55', 'checkbox': False, 'formula': '2031-06-20'},
+    {'_id': mock.ANY, '_mtime': mock.ANY, '_ctime': mock.ANY, 'text': 'E', 'long-text': '## Heading\n- Item 1\n- Item 2', 'number': -10, 'date-iso': '2030-06-20', 'date-iso-hours-minutes': '2030-06-20 23:55', 'date-german': '2030-06-20', 'date-german-hours-minutes': '2030-06-20 23:55', 'checkbox': True, 'formula': '2031-06-20'},
+]
+
 def test_list_rows(base_token: str, base_uuid: str):
     table_name = 'test_list_rows'
 
@@ -267,13 +274,33 @@ def test_list_rows(base_token: str, base_uuid: str):
 
     actual_rows = response.json()['rows']
 
-    expected_rows = [
-        {'_id': mock.ANY, '_mtime': mock.ANY, '_ctime': mock.ANY, 'text': 'ABC', 'long-text': '## Heading\n- Item 1\n- Item 2', 'number': 499.99, 'date-iso': '2030-06-20', 'date-iso-hours-minutes': '2030-06-20 23:55', 'date-german': '2030-06-20', 'date-german-hours-minutes': '2030-06-20 23:55', 'checkbox': True, 'formula': '2031-06-20'},
-        {'_id': mock.ANY, '_mtime': mock.ANY, '_ctime': mock.ANY, 'text': 'D', 'long-text': '## Heading\n- Item 1\n- Item 2', 'number': 500, 'date-iso': '2030-06-20', 'date-iso-hours-minutes': '2030-06-20 23:55', 'date-german': '2030-06-20', 'date-german-hours-minutes': '2030-06-20 23:55', 'checkbox': False, 'formula': '2031-06-20'},
-        {'_id': mock.ANY, '_mtime': mock.ANY, '_ctime': mock.ANY, 'text': 'E', 'long-text': '## Heading\n- Item 1\n- Item 2', 'number': -10, 'date-iso': '2030-06-20', 'date-iso-hours-minutes': '2030-06-20 23:55', 'date-german': '2030-06-20', 'date-german-hours-minutes': '2030-06-20 23:55', 'checkbox': True, 'formula': '2031-06-20'},
-    ]
+    assert actual_rows == EXPECTED_ROWS
 
-    assert actual_rows == expected_rows
+@pytest.mark.xfail(reason='Differences between listRowsDeprecated and querySQLDeprecated endpoints (e.g. date format)')
+def test_list_rows_with_sql(base_token: str, base_uuid: str):
+    table_name = 'test_list_rows_with_sql'
+
+    create_table(base_token, base_uuid, table_name, COLUMNS)
+    append_rows(base_token, base_uuid, table_name, ROWS)
+
+    path_parameters = {'base_uuid': base_uuid}
+    body = {'sql': f'SELECT * FROM {table_name}', 'convert_keys': True}
+    headers = {'Authorization': f'Bearer {base_token}'}
+
+    operation = base_operations_schema.get_operation_by_id('querySQLDeprecated')
+    case: Case = operation.make_case(path_parameters=path_parameters, body=body, headers=headers)
+
+    # TODO: case.call_and_validate() causes a schema violation error (expected object; the API returned an array)
+    response = case.call()
+
+    assert response.status_code == 200
+
+    actual_rows = response.json()['results']
+
+    # Compare each row on its own since pytest does not handle unittest.mock.ANY properly if you compare lists
+    # https://github.com/pytest-dev/pytest/issues/3638
+    for actual_row, expected_row in zip(actual_rows, EXPECTED_ROWS):
+        assert actual_row == expected_row
 
 def create_table(base_token: str, base_uuid: str, table_name: str, columns: list[dict]):
     path_parameters = {'base_uuid': base_uuid}
