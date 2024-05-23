@@ -2686,6 +2686,14 @@ paths:
       summary: Delete Base
       operationId: deleteBase
       description: Delete an existing base.
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                name:
+                  $ref: "#/components/schemas/user_account_name"
       security:
         - AccountTokenAuth: []
       parameters:
