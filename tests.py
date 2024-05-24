@@ -255,6 +255,25 @@ ROWS = [
     }
 ]
 
+def test_append_rows(base: Base, snapshot_json: SnapshotAssertion):
+    table_name = 'test_append_rows'
+
+    create_table(base, table_name, COLUMNS)
+
+    path_parameters = {'base_uuid': base.uuid}
+    body = {'table_name': table_name, 'rows': ROWS}
+    headers = {'Authorization': f'Bearer {base.token}'}
+
+    operation = base_operations_schema.get_operation_by_id('appendRowsDeprecated')
+    case: Case = operation.make_case(path_parameters=path_parameters, body=body, headers=headers)
+    response = case.call_and_validate()
+
+    assert response.status_code == 200
+
+    data = response.json()
+
+    assert snapshot_json == data
+
 def test_get_row(base: Base, snapshot_json):
     table_name = 'test_get_row'
 
