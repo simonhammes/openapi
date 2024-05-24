@@ -329,7 +329,8 @@ def test_list_rows_with_sql(base: Base, snapshot_json):
     assert response.status_code == 200
 
     # TODO: Verify excluded props
-    assert snapshot_json(exclude=props('_id', '_ctime', '_mtime', 'key', 'base_id', 'table_id')) == response.json()
+    # _creator and _last_modifier are not stable since seatable-demo.de is rebuilt each day
+    assert snapshot_json(exclude=props('_id', '_ctime', '_mtime', '_creator', '_last_modifier', 'key', 'base_id', 'table_id')) == response.json()
 
 def create_table(base: Base, table_name: str, columns: list[dict]):
     path_parameters = {'base_uuid': base.uuid}

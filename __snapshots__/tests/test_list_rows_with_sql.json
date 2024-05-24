@@ -192,8 +192,6 @@
   "results": [
     {
       "_archived": false,
-      "_creator": "e3b6490785784d26a469b5f3969789b9@auth.local",
-      "_last_modifier": "e3b6490785784d26a469b5f3969789b9@auth.local",
       "_locked": null,
       "_locked_by": null,
       "checkbox": true,
@@ -211,8 +209,6 @@
     },
     {
       "_archived": false,
-      "_creator": "e3b6490785784d26a469b5f3969789b9@auth.local",
-      "_last_modifier": "e3b6490785784d26a469b5f3969789b9@auth.local",
       "_locked": null,
       "_locked_by": null,
       "checkbox": false,
@@ -230,8 +226,6 @@
     },
     {
       "_archived": false,
-      "_creator": "e3b6490785784d26a469b5f3969789b9@auth.local",
-      "_last_modifier": "e3b6490785784d26a469b5f3969789b9@auth.local",
       "_locked": null,
       "_locked_by": null,
       "checkbox": true,
@@ -249,8 +243,6 @@
     },
     {
       "_archived": false,
-      "_creator": "e3b6490785784d26a469b5f3969789b9@auth.local",
-      "_last_modifier": "e3b6490785784d26a469b5f3969789b9@auth.local",
       "_locked": null,
       "_locked_by": null,
       "checkbox": null,
