@@ -311,9 +311,7 @@ def test_list_rows(base: Base, snapshot_json):
     # are strings without storing their actual value since they are not stable
     matcher = path_type(
         {
-            r"rows\..*\._id": (str,),
-            r"rows\..*\._ctime": (str,),
-            r"rows\..*\._mtime": (str,),
+            r"rows\..*\.(_id|_ctime|_mtime)": (str,),
         },
         regex=True,
     )
@@ -342,14 +340,8 @@ def test_list_rows_with_sql(base: Base, snapshot_json: SnapshotAssertion):
     matcher = path_type(
         {
             # Exclude unstable props from value comparison and just store their types
-            r"metadata\..*\.base_id": (str,),
-            r"metadata\..*\.key": (str,),
-            r"metadata\..*\.table_id": (str,),
-            r"results\..*\._id": (str,),
-            r"results\..*\._ctime": (str,),
-            r"results\..*\._mtime": (str,),
-            r"results\..*\._creator": (str,),
-            r"results\..*\._last_modifier": (str,),
+            r"metadata\..*\.(base_id|key|table_id)": (str,),
+            r"results\..*\.(_id|_ctime|_mtime|_creator|_last_modifier)": (str,),
         },
         regex=True,
     )
