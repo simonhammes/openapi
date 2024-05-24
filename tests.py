@@ -4,8 +4,8 @@ import schemathesis
 from dataclasses import dataclass, field
 from requests import Response
 from schemathesis import Case
+from syrupy.assertion import SnapshotAssertion
 from syrupy.extensions.json import JSONSnapshotExtension
-from syrupy.filters import props
 from syrupy.matchers import path_type
 from unittest import mock
 
@@ -307,10 +307,21 @@ def test_list_rows(base: Base, snapshot_json):
 
     assert response.status_code == 200
 
-    # Verify that response matches snapshot while excluding _id, _ctime and _mtime properties
-    assert snapshot_json(exclude=props('_id', '_ctime', '_mtime')) == response.json()
+    # Create a custom matcher to validate that _id, _ctime and _mtime
+    # are strings without storing their actual value since they are not stable
+    matcher = path_type(
+        {
+            r"rows\..*\._id": (str,),
+            r"rows\..*\._ctime": (str,),
+            r"rows\..*\._mtime": (str,),
+        },
+        regex=True,
+    )
 
-def test_list_rows_with_sql(base: Base, snapshot_json):
+    # Verify that response matches snapshot
+    assert snapshot_json(matcher=matcher) == response.json()
+
+def test_list_rows_with_sql(base: Base, snapshot_json: SnapshotAssertion):
     table_name = 'test_list_rows_with_sql'
 
     create_table(base, table_name, COLUMNS)
@@ -328,9 +339,22 @@ def test_list_rows_with_sql(base: Base, snapshot_json):
 
     assert response.status_code == 200
 
-    # TODO: Verify excluded props
-    # _creator and _last_modifier are not stable since seatable-demo.de is rebuilt each day
-    assert snapshot_json(exclude=props('_id', '_ctime', '_mtime', '_creator', '_last_modifier', 'key', 'base_id', 'table_id')) == response.json()
+    matcher = path_type(
+        {
+            # Exclude unstable props from value comparison and just store their types
+            r"metadata\..*\.base_id": (str,),
+            r"metadata\..*\.key": (str,),
+            r"metadata\..*\.table_id": (str,),
+            r"results\..*\._id": (str,),
+            r"results\..*\._ctime": (str,),
+            r"results\..*\._mtime": (str,),
+            r"results\..*\._creator": (str,),
+            r"results\..*\._last_modifier": (str,),
+        },
+        regex=True,
+    )
+
+    assert snapshot_json(matcher=matcher) == response.json()
 
 def create_table(base: Base, table_name: str, columns: list[dict]):
     path_parameters = {'base_uuid': base.uuid}
