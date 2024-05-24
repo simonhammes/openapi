@@ -409,8 +409,7 @@ def create_table(base: Base, table_name: str, columns: list[dict]):
     operation = base_operations_deprecated_schema.get_operation_by_id('createTableDeprecated')
     case: Case = operation.make_case(path_parameters=path_parameters, body=body, headers=headers)
 
-    # TODO: case.call_and_validate() causes a schema violation error (expected object; the API returned an array)
-    response = case.call()
+    response = case.call_and_validate()
 
     assert response.status_code == 200
 
