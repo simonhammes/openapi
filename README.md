@@ -14,6 +14,8 @@ The repository is organized into version branches.
 This repository contains automated tests to detect possible regressions. The tests use [Schemathesis](https://schemathesis.readthedocs.io/en/stable/)
 to extract information from the OpenAPI files and [pytest](https://docs.pytest.org/en/8.2.x/) to run the actual tests.
 
+Snapshots are stored and compared using [syrupy](https://github.com/tophat/syrupy) to detect possible regressions.
+
 ### Prerequisites
 
 - Python 3.11
@@ -44,3 +46,10 @@ pytest tests.py
 # Deactivate virtual environment (optional)
 deactivate
 ```
+
+### Update Snapshots
+
+If you add a new test which uses snapshots or want to update any existing snapshots (after carefully examining the changes!),
+you can run pytest with the `--snapshot-update` flag to instruct syrupy to generate and update all snapshot files.
+
+Make sure to commit new snapshot files or any changes you made to them.
