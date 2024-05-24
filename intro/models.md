@@ -109,7 +109,7 @@ A rows object consists of key:value pairs. The keys are the column_names (or the
     "Cover": [
         "https://cloud.seatable.io/workspace/9463/asset/91a1ec23-2db0-4812-bbf5-5772352a4d63/images/2023-03/book-cover.png"
       ],
-    "Selling Price": 48
+    "Selling Price": 48,
     "Summary": "In my younger and more vulnerable years my father gave me some advice that I’ve been turning over in my mind ever since.\n\n‘Whenever you feel like criticizing any one,’ he told me, ‘just remember that all the people in this world haven’t had the advantages that you’ve had.’\n\n",
 }
 ```
@@ -139,7 +139,7 @@ A rows object consists of key:value pairs. The keys are the column_names (or the
     "d9W1": [
         "https://cloud.seatable.io/workspace/9463/asset/91a1ec23-2db0-4812-bbf5-5772352a4d63/images/2023-03/book-cover.png"
       ],
-    "38WE": 48
+    "38WE": 48,
     "Summary": "In my younger and more vulnerable years my father gave me some advice that I’ve been turning over in my mind ever since.\n\n‘Whenever you feel like criticizing any one,’ he told me, ‘just remember that all the people in this world haven’t had the advantages that you’ve had.’\n\n",
 }
 ```
