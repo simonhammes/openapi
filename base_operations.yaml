@@ -232,7 +232,7 @@ components:
       properties:
         _id:
           type: string
-          pattern: "^[a-zA-Z]{4}$"
+          pattern: "^[a-zA-Z0-9]{4}$"
         name:
           type: string
         is_header_locked:
@@ -240,13 +240,13 @@ components:
         summary_configs:
           type: object
         columns:
-          type: object
+          type: array
         rows:
           type: array
           items:
             $ref: "#/components/schemas/row_id"
         views:
-          type: object
+          type: array
         id_row_map:
           type: object
       example:
