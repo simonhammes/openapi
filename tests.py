@@ -255,6 +255,34 @@ ROWS = [
     }
 ]
 
+@pytest.mark.parametrize('operation_id', ['createTable', 'createTableDeprecated'])
+def test_createTable(base: Base, snapshot_json: SnapshotAssertion, operation_id: str):
+    table_name = f'test_{operation_id}'
+
+    path_parameters = {'base_uuid': base.uuid}
+    body = {'table_name': table_name, 'columns': COLUMNS}
+    headers = {'Authorization': f'Bearer {base.token}'}
+
+    if operation_id == 'createTable':
+        operation = base_operations_schema.get_operation_by_id('createTable')
+    elif operation_id == 'createTableDeprecated':
+        operation = base_operations_deprecated_schema.get_operation_by_id('createTableDeprecated')
+
+    case: Case = operation.make_case(path_parameters=path_parameters, body=body, headers=headers)
+    response = case.call_and_validate()
+
+    assert response.status_code == 200
+
+    matcher = path_type(
+        {
+            "_id": (str,),
+            r"columns\..*\.key": (str,),
+        },
+        regex=True,
+    )
+
+    assert snapshot_json(matcher=matcher) == response.json()
+
 @pytest.mark.parametrize('operation_id', ['appendRowsDeprecated', pytest.param('appendRows', marks=pytest.mark.xfail(reason="unstable output"))])
 def test_appendRows(base: Base, snapshot_json: SnapshotAssertion, operation_id: str):
     table_name = f'test_{operation_id}'
