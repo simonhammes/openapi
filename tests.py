@@ -1,4 +1,5 @@
 import os
+from typing import Generator
 import pytest
 import schemathesis
 from dataclasses import dataclass, field
@@ -109,6 +110,21 @@ def base(account_token: Secret):
     # Delete base to not cause any issues on future test runs
     path_parameters = {'workspace_id': WORKSPACE_ID}
     body = {'name': BASE_NAME}
+
+    case: Case = schema.get_operation_by_id('deleteBase').make_case(path_parameters=path_parameters, body=body)
+    response = case.call_and_validate(headers={"Authorization": f"Bearer {account_token.value}"})
+
+    assert response.status_code == 200
+
+@pytest.fixture
+def generated_base_name(account_token: Secret) -> Generator[str, None, None]:
+    base_name = "automated-testing-ahSh2sot"
+
+    yield base_name
+
+    # Delete base to not cause any issues on future test runs
+    path_parameters = {'workspace_id': WORKSPACE_ID}
+    body = {'name': base_name}
 
     case: Case = schema.get_operation_by_id('deleteBase').make_case(path_parameters=path_parameters, body=body)
     response = case.call_and_validate(headers={"Authorization": f"Bearer {account_token.value}"})
@@ -254,6 +270,22 @@ ROWS = [
         'text': 'row-with-empty-values'
     }
 ]
+
+def test_createBase(generated_base_name: str, account_token: Secret, snapshot_json: SnapshotAssertion):
+    body = {"workspace_id": WORKSPACE_ID, "name": generated_base_name}
+    case: Case = schema.get_operation_by_id('createBase').make_case(body=body)
+    response = case.call_and_validate(headers={"Authorization": f"Bearer {account_token.value}"})
+
+    assert response.status_code == 201
+
+    matcher = path_type({
+        'table.created_at': (str,),
+        'table.id': (int,),
+        'table.updated_at': (str,),
+        'table.uuid': (str,),
+    })
+
+    assert snapshot_json(matcher=matcher) == response.json()
 
 @pytest.mark.parametrize('operation_id', ['createTable', 'createTableDeprecated'])
 def test_createTable(base: Base, snapshot_json: SnapshotAssertion, operation_id: str):
