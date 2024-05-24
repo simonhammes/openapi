@@ -1,0 +1,22 @@
+{
+  "_archived": false,
+  "_creator": "e74694380d544e1e8ca43a2d73a597c3@auth.local",
+  "_ctime": "str",
+  "_id": "str",
+  "_last_modifier": "e74694380d544e1e8ca43a2d73a597c3@auth.local",
+  "_locked": null,
+  "_locked_by": null,
+  "_mtime": "str",
+  "checkbox": true,
+  "collaborator": null,
+  "date-german": "20.06.2030",
+  "date-german-hours-minutes": "20.06.2030 23:55",
+  "date-iso": "2030-06-20",
+  "date-iso-hours-minutes": "2030-06-20 23:55",
+  "formula": "2031-06-20T00:00:00+02:00",
+  "long-text": "## Heading\n- Item 1\n- Item 2",
+  "multiple-select": null,
+  "number": 499.99,
+  "single-select": null,
+  "text": "ABC"
+}

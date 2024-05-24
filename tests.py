@@ -27,8 +27,8 @@ BASE_NAME = 'Automated Tests'
 
 schema = schemathesis.from_path('./user_account_operations.yaml', base_url=BASE_URL, validate_schema=True)
 authentication_schema = schemathesis.from_path('./authentication.yaml', base_url=BASE_URL, validate_schema=True)
-# TODO: Use non-deprecated version?
-base_operations_schema = schemathesis.from_path('./base_operations_deprecated.yaml', base_url=BASE_URL, validate_schema=True)
+base_operations_deprecated_schema= schemathesis.from_path('./base_operations_deprecated.yaml', base_url=BASE_URL, validate_schema=True)
+base_operations_schema = schemathesis.from_path('./base_operations.yaml', base_url=BASE_URL, validate_schema=True)
 
 # TODO: Disable redirects for all tests? (to prevent issues like https://forum.seatable.io/t/seatable-4-4-out-now/4237/4)
 
@@ -255,8 +255,9 @@ ROWS = [
     }
 ]
 
-def test_append_rows(base: Base, snapshot_json: SnapshotAssertion):
-    table_name = 'test_append_rows'
+@pytest.mark.parametrize('operation_id', ['appendRowsDeprecated', pytest.param('appendRows', marks=pytest.mark.xfail(reason="unstable output"))])
+def test_appendRows(base: Base, snapshot_json: SnapshotAssertion, operation_id: str):
+    table_name = f'test_{operation_id}'
 
     create_table(base, table_name, COLUMNS)
 
@@ -264,7 +265,11 @@ def test_append_rows(base: Base, snapshot_json: SnapshotAssertion):
     body = {'table_name': table_name, 'rows': ROWS}
     headers = {'Authorization': f'Bearer {base.token}'}
 
-    operation = base_operations_schema.get_operation_by_id('appendRowsDeprecated')
+    if operation_id == 'appendRowsDeprecated':
+        operation = base_operations_deprecated_schema.get_operation_by_id(operation_id)
+    elif operation_id == 'appendRows':
+        operation = base_operations_schema.get_operation_by_id(operation_id)
+
     case: Case = operation.make_case(path_parameters=path_parameters, body=body, headers=headers)
     response = case.call_and_validate()
 
@@ -274,8 +279,9 @@ def test_append_rows(base: Base, snapshot_json: SnapshotAssertion):
 
     assert snapshot_json == data
 
-def test_get_row(base: Base, snapshot_json):
-    table_name = 'test_get_row'
+@pytest.mark.parametrize('operation_id', ['getRowDeprecated', 'getRow'])
+def test_getRow(base: Base, snapshot_json, operation_id: str):
+    table_name = f'test_{operation_id}'
 
     create_table(base, table_name, COLUMNS)
 
@@ -297,7 +303,11 @@ def test_get_row(base: Base, snapshot_json):
     query = {'table_name': table_name}
     headers = {'Authorization': f'Bearer {base.token}'}
 
-    operation = base_operations_schema.get_operation_by_id('getRowDeprecated')
+    if operation_id == 'getRowDeprecated':
+        operation = base_operations_deprecated_schema.get_operation_by_id(operation_id)
+    elif operation_id == 'getRow':
+        operation = base_operations_schema.get_operation_by_id(operation_id)
+
     case: Case = operation.make_case(path_parameters=path_parameters, query=query, headers=headers)
 
     response = case.call_and_validate()
@@ -323,8 +333,9 @@ EXPECTED_ROWS = [
     {'_id': mock.ANY, '_mtime': mock.ANY, '_ctime': mock.ANY, 'text': 'row-with-empty-values', 'formula': '#VALUE!'}
 ]
 
-def test_list_rows(base: Base, snapshot_json):
-    table_name = 'test_list_rows'
+@pytest.mark.parametrize('operation_id', ['listRowsDeprecated', 'listRows'])
+def test_listRows(base: Base, snapshot_json, operation_id: str):
+    table_name = f'test_{operation_id}'
 
     create_table(base, table_name, COLUMNS)
     append_rows(base, table_name, ROWS)
@@ -333,7 +344,11 @@ def test_list_rows(base: Base, snapshot_json):
     query = {'table_name': table_name}
     headers = {'Authorization': f'Bearer {base.token}'}
 
-    operation = base_operations_schema.get_operation_by_id('listRowsDeprecated')
+    if operation_id == 'listRowsDeprecated':
+        operation = base_operations_deprecated_schema.get_operation_by_id(operation_id)
+    elif operation_id == 'listRows':
+        operation = base_operations_schema.get_operation_by_id(operation_id)
+
     case: Case = operation.make_case(path_parameters=path_parameters, query=query, headers=headers)
 
     response = case.call_and_validate()
@@ -352,8 +367,9 @@ def test_list_rows(base: Base, snapshot_json):
     # Verify that response matches snapshot
     assert snapshot_json(matcher=matcher) == response.json()
 
-def test_list_rows_with_sql(base: Base, snapshot_json: SnapshotAssertion):
-    table_name = 'test_list_rows_with_sql'
+@pytest.mark.parametrize('operation_id', ['querySQLDeprecated', 'querySQL'])
+def test_querySQL(base: Base, snapshot_json: SnapshotAssertion, operation_id: str):
+    table_name = f'test_{operation_id}'
 
     create_table(base, table_name, COLUMNS)
     append_rows(base, table_name, ROWS)
@@ -362,7 +378,11 @@ def test_list_rows_with_sql(base: Base, snapshot_json: SnapshotAssertion):
     body = {'sql': f'SELECT * FROM {table_name}', 'convert_keys': True}
     headers = {'Authorization': f'Bearer {base.token}'}
 
-    operation = base_operations_schema.get_operation_by_id('querySQLDeprecated')
+    if operation_id == 'querySQLDeprecated':
+        operation = base_operations_deprecated_schema.get_operation_by_id(operation_id)
+    elif operation_id == 'querySQL':
+        operation = base_operations_schema.get_operation_by_id(operation_id)
+
     case: Case = operation.make_case(path_parameters=path_parameters, body=body, headers=headers)
 
     # TODO: case.call_and_validate() causes a schema violation error (expected object; the API returned an array)
@@ -386,7 +406,7 @@ def create_table(base: Base, table_name: str, columns: list[dict]):
     body = {'table_name': table_name, 'columns': columns}
     headers = {'Authorization': f'Bearer {base.token}'}
 
-    operation = base_operations_schema.get_operation_by_id('createTableDeprecated')
+    operation = base_operations_deprecated_schema.get_operation_by_id('createTableDeprecated')
     case: Case = operation.make_case(path_parameters=path_parameters, body=body, headers=headers)
 
     # TODO: case.call_and_validate() causes a schema violation error (expected object; the API returned an array)
@@ -399,7 +419,7 @@ def add_row(base: Base, table_name: str, row: dict) -> str:
     body = {'table_name': table_name, 'row': row}
     headers = {'Authorization': f'Bearer {base.token}'}
 
-    operation = base_operations_schema.get_operation_by_id('addRowDeprecated')
+    operation = base_operations_deprecated_schema.get_operation_by_id('addRowDeprecated')
     case: Case = operation.make_case(path_parameters=path_parameters, body=body, headers=headers)
     response = case.call_and_validate()
 
@@ -413,7 +433,7 @@ def append_rows(base: Base, table_name: str, rows: list[dict]):
     body = {'table_name': table_name, 'rows': rows}
     headers = {'Authorization': f'Bearer {base.token}'}
 
-    operation = base_operations_schema.get_operation_by_id('appendRowsDeprecated')
+    operation = base_operations_deprecated_schema.get_operation_by_id('appendRowsDeprecated')
     case: Case = operation.make_case(path_parameters=path_parameters, body=body, headers=headers)
     response = case.call_and_validate()
 
