@@ -45,36 +45,36 @@ Imagine a table with tasks. So it is obvious to define one view with all tasks a
   "views": [
     {
       "_id": "0000",
-          "name": "Open Todos",
-          "type": "table",
-          "is_locked": false,
-          "rows": [],
-          "formula_rows": {},
-          "summaries": {},
-          "filter_conjunction": "And",
-          "filters": [],
-          "sorts": [
-            {
-              "column_key": "kJW5",
-              "sort_type": "down"
-            }
-          ],
-          "hidden_columns": [
-            "f7l1",
-            "3a97"
-          ],
-          "groupbys": [
-            {
-              "column_key": "3a97",
-              "sort_type": "up",
-              "count_type": ""
-            }
-          ],
-          "groups": [],
-          "row_height": "double",
-          "colors": {},
-          "link_rows": {},
-          "column_colors": {}
+      "name": "Open Todos",
+      "type": "table",
+      "is_locked": false,
+      "rows": [],
+      "formula_rows": {},
+      "summaries": {},
+      "filter_conjunction": "And",
+      "filters": [],
+      "sorts": [
+        {
+          "column_key": "kJW5",
+          "sort_type": "down"
+        }
+      ],
+      "hidden_columns": [
+        "f7l1",
+        "3a97"
+      ],
+      "groupbys": [
+        {
+          "column_key": "3a97",
+          "sort_type": "up",
+          "count_type": ""
+        }
+      ],
+      "groups": [],
+      "row_height": "double",
+      "colors": {},
+      "link_rows": {},
+      "column_colors": {}
     },
     {...}
   ]
