@@ -14,7 +14,7 @@ slug: models
 
 ## Table
 
-A table object consists of key:value pairs that are a fixed and never change. Every table is defined by a `_id` and a `name`. The `_id` is unique inside a base.
+A table object consists of key:value pairs that are fixed and never change. Every table is defined by an `_id` and a `name`. The `_id` is unique inside a base.
 
 ```json Table object
   "tables": [
@@ -37,7 +37,7 @@ A table object consists of key:value pairs that are a fixed and never change. Ev
 
 ## View
 
-A table inside SeaTable can contain a nealy unlimited amount of rows. Rows are like entries in a database. A view is a defined set of parameters to show only a subset of these rows. Since you can create multiple views, they are perfect for switching between different views of the data in a table. Developers could imagine a view like a predefined SELECT query.
+A table inside SeaTable can contain a nearly unlimited amount of rows. Rows are like entries in a database. A view is a defined set of parameters to show only a subset of these rows. Since you can create multiple views, they are perfect for switching between different views of the data in a table. Developers could imagine a view like a predefined SELECT query.
 
 Imagine a table with tasks. So it is obvious to define one view with all tasks and create one more view each for the already done or still open tasks. A special row can occur in several views, is of course stored in the database only once.
 
@@ -82,7 +82,7 @@ Imagine a table with tasks. So it is obvious to define one view with all tasks a
 
 ## Row & Column
 
-A rows object consists of key:value pairs. The keys are the column_names (or the column_ids) and the values are the concrete content of the column. The following example and explanation should help to create a correct row object.
+A row object consists of key:value pairs. The keys are the column_names (or the column_ids) and the values are the concrete content of the column. The following example and explanation should help to create a correct row object.
 
 ```json Example row object (with column names)
 {
@@ -144,7 +144,7 @@ A rows object consists of key:value pairs. The keys are the column_names (or the
 }
 ```
 
-As you can see in the example, due to the different column types, the values can have different formats and could be strings, integer, arrays or even objects.
+As you can see in the example, due to the different column types, the values can have different formats and could be strings, integers, arrays or even objects.
 
 ### Supported column types
 
@@ -166,7 +166,7 @@ As you can see in the example, due to the different column types, the values can
 | `formula`                                      | `string`                                                                               | `"Albert Summer"`                                                                                                                                                     | Contains only the result of the formula.                                                                                                                |
 | `button`                                       | `null`                                                                                 | `null`                                                                                                                                                                | Always `null`                                                                                                                                           |
 | `link`                                         | `array`                                                                                | `[{"row_id": "Mr-3QnQ5Q-eeEqFBevtOkw", "display_value": "Google News"}]`                                                                                              |                                                                                                                                                         |
-| `link-formula`                                 | `array`, `string` or `integer`                                                         | `["Todo 1", "Todo 2"]`, `Open Pending`, `2`                                                                                                                           | The output depends of the link formula type. Lookup returns an array, rollup returns a string and findmax returns an integer.                           |
+| `link-formula`                                 | `array`, `string` or `integer`                                                         | `["Todo 1", "Todo 2"]`, `Open Pending`, `2`                                                                                                                           | The output depends on the link formula type. Lookup returns an array, rollup returns a string and findmax returns an integer.                           |
 | `digital-sign`                                 | `object`                                                                               | `{"username": "24...ab2@auth.local", "sign_image_url": "/digital-signs/2023-06/24...ab2@auth.local-1687426928723.png", "sign_time": "2023-06-22T09:42:08.761+00:00"}` |                                                                                                                                                         |
 | `_id`                                          | `string`                                                                               | `"Qtf7xPmoRaiFyQPO1aENTjb"`                                                                                                                                           | Unique value inside a base and can not be changed.                                                                                                      |
 | `_ctime`                                       | `string`                                                                               | `"2021-02-09T12:23:17.761+00:00"`                                                                                                                                     | Can not be changed.                                                                                                                                     |
@@ -204,7 +204,7 @@ Within SeaTable you can link a row to another row in the same table, or in anoth
 
 > 📘 Links are bidirectional
 >
-> SeaTable does not know a direction of links. If you create a link from a column A to column B, it is the same like creating a link from column B to column A.
+> SeaTable does not know the direction of links. If you create a link from a column A to column B, it is the same like creating a link from column B to column A.
 
 To create a link between two columns you will always need five informations. You need the two tables (identified by their name), the two columns that you want to link (identified by their row id) and the link_id. What makes it a little difficult is that the `link_id` is not the `column_id` or `column_key`. Use the [Get Metadata](/reference/get-metadata) to get the `link_id` of a link column.
 
