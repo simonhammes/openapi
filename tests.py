@@ -44,6 +44,20 @@ class Base:
     # Hide base token from console output by setting repr=False
     token: str = field(repr=False)
 
+class Secret:
+    """
+    Class to store a secret, ensures that the value will not be printed (e.g. if an assertion fails)
+    Based on https://github.com/pytest-dev/pytest/issues/8613#issuecomment-830011874
+    """
+    def __init__(self, value: str):
+        self.value = value
+
+    def __repr__(self):
+        return "Secret(********)"
+
+    def __str___(self):
+        return "*******"
+
 @pytest.fixture
 def snapshot_json(snapshot):
     # https://github.com/tophat/syrupy#jsonsnapshotextension
@@ -63,13 +77,13 @@ def account_token() -> str:
     account_token = response.json()['token']
     assert isinstance(account_token, str)
 
-    return account_token
+    return Secret(account_token)
 
 @pytest.fixture(scope='module')
-def base(account_token: str):
+def base(account_token: Secret):
     body = {"workspace_id": WORKSPACE_ID, "name": BASE_NAME}
     case: Case = schema.get_operation_by_id('createBase').make_case(body=body)
-    response = case.call_and_validate(headers={"Authorization": f"Bearer {account_token}"})
+    response = case.call_and_validate(headers={"Authorization": f"Bearer {account_token.value}"})
 
     assert response.status_code == 201
 
@@ -79,7 +93,7 @@ def base(account_token: str):
     assert isinstance(base_uuid, str)
 
     path_parameters = {'workspace_id': WORKSPACE_ID, 'base_name': BASE_NAME}
-    headers = {'Authorization': f'Bearer {account_token}'}
+    headers = {'Authorization': f'Bearer {account_token.value}'}
 
     operation = authentication_schema.get_operation_by_id('getBaseTokenWithAccountToken')
     case: Case = operation.make_case(path_parameters=path_parameters, headers=headers)
@@ -97,7 +111,7 @@ def base(account_token: str):
     body = {'name': BASE_NAME}
 
     case: Case = schema.get_operation_by_id('deleteBase').make_case(path_parameters=path_parameters, body=body)
-    response = case.call_and_validate(headers={"Authorization": f"Bearer {account_token}"})
+    response = case.call_and_validate(headers={"Authorization": f"Bearer {account_token.value}"})
 
     assert response.status_code == 200
 
