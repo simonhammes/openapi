@@ -1,6 +1,9 @@
 {
   "rows": [
     {
+      "_ctime": "str",
+      "_id": "str",
+      "_mtime": "str",
       "checkbox": true,
       "date-german": "2030-06-20",
       "date-german-hours-minutes": "2030-06-20 23:55",
@@ -17,6 +20,9 @@
       "text": "ABC"
     },
     {
+      "_ctime": "str",
+      "_id": "str",
+      "_mtime": "str",
       "checkbox": false,
       "date-german": "2030-06-20",
       "date-german-hours-minutes": "2030-06-20 23:55",
@@ -33,6 +39,9 @@
       "text": "D"
     },
     {
+      "_ctime": "str",
+      "_id": "str",
+      "_mtime": "str",
       "checkbox": true,
       "date-german": "2030-06-20",
       "date-german-hours-minutes": "2030-06-20 23:55",
@@ -50,6 +59,9 @@
       "text": "E"
     },
     {
+      "_ctime": "str",
+      "_id": "str",
+      "_mtime": "str",
       "formula": "#VALUE!",
       "text": "row-with-empty-values"
     }
