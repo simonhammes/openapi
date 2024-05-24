@@ -384,9 +384,7 @@ def test_querySQL(base: Base, snapshot_json: SnapshotAssertion, operation_id: st
         operation = base_operations_schema.get_operation_by_id(operation_id)
 
     case: Case = operation.make_case(path_parameters=path_parameters, body=body, headers=headers)
-
-    # TODO: case.call_and_validate() causes a schema violation error (expected object; the API returned an array)
-    response = case.call()
+    response = case.call_and_validate()
 
     assert response.status_code == 200
 
