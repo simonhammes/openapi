@@ -22,6 +22,7 @@ A table object consists of key:value pairs that are a fixed and never change. Ev
       "_id": "0000",
       "name": "Catalogue",
       "rows": [...],
+      "columns": [...],
       "view_structure": {...},
       "views": [...],
       "id_row_map": {}
