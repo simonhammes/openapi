@@ -1512,11 +1512,16 @@ components:
                 description: select your code-code for the background.
                 pattern: "#([A-Za-z0-9]){6}"
                 example: #F4667C
-              text-color:
+              textColor:
                 type: string
                 description: select your color-code for the text.
                 pattern: "#([A-Za-z0-9]){6}"
                 example: #FFFFFF
+              borderColor:
+                type: string
+                description: select your color-code for the text.
+                pattern: "#([A-Za-z0-9]){6}"
+                example: #7BC0D6
 
     # multiple select (with column_data)
     multiple_select_column:
