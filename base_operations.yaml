@@ -331,14 +331,11 @@ components:
       type: object
       properties:
         metadata:
-          type: object
-          additionalProperties: true
+          type: array
         results:
-          type: object
-          additionalProperties: true
+          type: array
         success:
-          type: string
-          description: success or error message
+          type: boolean
       example:
         metadata:
           - key: "0000"

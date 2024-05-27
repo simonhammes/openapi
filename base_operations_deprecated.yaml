@@ -310,12 +310,10 @@ components:
       type: object
       properties:
         metadata:
-          type: object
-          additionalProperties: true
+          type: array
           # $ref: "#/components/schemas/base_metadata"
         results:
-          type: object
-          additionalProperties: true
+          type: array
         success:
           type: boolean
       example:
