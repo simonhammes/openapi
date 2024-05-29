@@ -38,10 +38,12 @@ pip install -r requirements.txt
 # The leading space makes sure they won't be part of your .bash_history
  export SEATABLE_USERNAME=''
  export SEATABLE_PASSWORD=''
+ export SEATABLE_ADMIN_USERNAME=''
+ export SEATABLE_ADMIN_PASSWORD=''
 
 # Run tests
 # In case of any failures, run pytest with -vv for improved (but more verbose) output
-pytest tests.py
+pytest
 
 # Deactivate virtual environment (optional)
 deactivate

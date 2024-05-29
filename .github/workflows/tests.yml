@@ -14,7 +14,7 @@ jobs:
           cache: 'pip'
       - run: pip install -r requirements.txt
       - name: Pytest
-        run: pytest tests.py --color=yes
+        run: pytest --color=yes
         env:
           SEATABLE_USERNAME: 'hulk'
           SEATABLE_PASSWORD: ${{ secrets.SEATABLE_PASSWORD }}
