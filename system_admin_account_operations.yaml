@@ -2055,6 +2055,9 @@ paths:
                   $ref: "#/components/schemas/system_admin_name"
                 with_workspace:
                   $ref: "#/components/schemas/with_workspace"
+              required:
+                - email
+                - password
       security:
         - AccountTokenAuth: []
       parameters:
