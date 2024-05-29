@@ -379,6 +379,8 @@ def test_getRow(base: Base, snapshot_json, operation_id: str):
         '_id': (str,),
         '_ctime': (str,),
         '_mtime': (str,),
+        '_creator': (str,),
+        '_last_modifier': (str,),
     })
 
     assert snapshot_json(matcher=matcher) == response.json()
@@ -415,11 +417,11 @@ def test_listRows(base: Base, snapshot_json, operation_id: str):
 
     assert response.status_code == 200
 
-    # Create a custom matcher to validate that _id, _ctime and _mtime
-    # are strings without storing their actual value since they are not stable
+    # Create a custom matcher to validate that certain fields contain
+    # strings without storing their actual value since they are not stable
     matcher = path_type(
         {
-            r"rows\..*\.(_id|_ctime|_mtime)": (str,),
+            r"rows\..*\.(_id|_ctime|_mtime|_creator|_last_modifier)": (str,),
         },
         regex=True,
     )
