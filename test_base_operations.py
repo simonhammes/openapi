@@ -429,6 +429,79 @@ def test_listRows(base: Base, snapshot_json, operation_id: str):
     # Verify that response matches snapshot
     assert snapshot_json(matcher=matcher) == response.json()
 
+@pytest.mark.parametrize('operation_id', ['listRowsDeprecated', 'listRows'])
+def test_listRows_links(base: Base,  snapshot_json: SnapshotAssertion, operation_id: str):
+    table_name_1 = f'test_{operation_id}_links-1'
+    columns_1 = [
+        {'column_name': 'text', 'column_type': 'text'},
+    ]
+    create_table(base, table_name_1, columns_1)
+
+    table_name_2 = f'test_{operation_id}_links-2'
+    columns_2 = [
+        {'column_name': 'text', 'column_type': 'text'},
+    ]
+    create_table(base, table_name_2, columns_2)
+
+    # Add row to table 1
+    table_1_row_id = add_row(base, table_name_1, {'text': 'Table 1 Row 1'})
+    table_2_row_id = add_row(base, table_name_2, {'text': 'Table 2 Row 1'})
+
+    # Insert link column
+    path_parameters = {'base_uuid': base.uuid}
+    body = {
+        'table_name': table_name_2,
+        'column_name': 'link',
+        'column_type': 'link',
+        'column_data': {
+            'table': table_name_2,
+            'other_table': table_name_1
+        },
+    }
+    headers = {'Authorization': f'Bearer {base.token}'}
+    case: Case = base_operations_deprecated_schema.get_operation_by_id('insertColumnDeprecated') \
+        .make_case(path_parameters=path_parameters, body=body, headers=headers)
+    response = case.call_and_validate()
+
+    link_id = response.json()['data']['link_id']
+    assert isinstance(link_id, str)
+
+    # Create row link
+    body = {
+        'table_name': table_name_1,
+        'other_table_name': table_name_2,
+        'link_id': link_id,
+        'table_row_id': table_1_row_id,
+        'other_table_row_id': table_2_row_id,
+    }
+    case: Case = base_operations_deprecated_schema.get_operation_by_id('createRowLinkDeprecated') \
+        .make_case(path_parameters=path_parameters, body=body, headers=headers)
+    response = case.call_and_validate()
+
+    assert response.status_code == 200
+
+    # List rows
+    query = {'table_name': table_name_1}
+    if operation_id == 'listRowsDeprecated':
+        operation = base_operations_deprecated_schema.get_operation_by_id(operation_id)
+    elif operation_id == 'listRows':
+        operation = base_operations_schema.get_operation_by_id(operation_id)
+    case: Case = operation.make_case(path_parameters=path_parameters, query=query, headers=headers)
+#    case: Case = base_operations_deprecated_schema.get_operation_by_id('listRowsDeprecated') \
+#        .make_case()
+    response = case.call_and_validate()
+
+    matcher = path_type(
+        {
+            r"rows\..*\.(_id|_ctime|_mtime|_creator|_last_modifier)": (str,),
+            r"rows\..*\.(test_listRows_links-2|test_listRowsDeprecated_links-2)": (list,),
+        },
+        regex=True,
+    )
+
+    # Verify that response matches snapshot
+    assert snapshot_json(matcher=matcher) == response.json()
+
 @pytest.mark.parametrize('operation_id', ['querySQLDeprecated', 'querySQL'])
 def test_querySQL(base: Base, snapshot_json: SnapshotAssertion, operation_id: str):
     table_name = f'test_{operation_id}'
