@@ -1,0 +1,23 @@
+{
+  "page": 1,
+  "page_next": false,
+  "per_page": 25,
+  "user_list": [
+    {
+      "contact_email": "automated-testing-team-admin@seatable.io",
+      "ctime": "str",
+      "email": "str",
+      "id": "int",
+      "id_in_org": "",
+      "is_active": 1,
+      "is_org_admin": true,
+      "last_login": null,
+      "name": "str",
+      "quota": -2,
+      "quota_total": -2,
+      "quota_usage": 0,
+      "self_usage": 0,
+      "workspace_id": "int"
+    }
+  ]
+}
