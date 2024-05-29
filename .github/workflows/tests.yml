@@ -18,3 +18,5 @@ jobs:
         env:
           SEATABLE_USERNAME: 'hulk'
           SEATABLE_PASSWORD: ${{ secrets.SEATABLE_PASSWORD }}
+          SEATABLE_ADMIN_USERNAME: 'admin@seatable.io'
+          SEATABLE_ADMIN_PASSWORD: ${{ secrets.SEATABLE_ADMIN_PASSWORD }}
