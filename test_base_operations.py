@@ -1,135 +1,13 @@
-import os
-from typing import Generator
 import pytest
 import schemathesis
-from dataclasses import dataclass, field
-from requests import Response
+from .conftest import Base, BASE_URL, Secret, WORKSPACE_ID
 from schemathesis import Case
 from syrupy.assertion import SnapshotAssertion
-from syrupy.extensions.json import JSONSnapshotExtension
 from syrupy.matchers import path_type
-from unittest import mock
-
-# TODO: Make sure credentials are never logged to the console (in case of exceptions/assertion errors)
-# https://github.com/pytest-dev/pytest/issues/8613
-
-# TODO: Read from environment
-BASE_URL = 'https://seatable-demo.de'
-USERNAME = os.environ.get('SEATABLE_USERNAME')
-PASSWORD = os.environ.get('SEATABLE_PASSWORD')
-
-assert USERNAME is not None, 'SEATABLE_USERNAME environment variable is not set'
-assert PASSWORD is not None, 'SEATABLE_PASSWORD environment variable is not set'
-
-# TODO: Get WORKSPACE_ID from somewhere else
-WORKSPACE_ID = 2
-# TODO: BASE_NAME with included GHA run ID to aid debugging?
-BASE_NAME = 'Automated Tests'
 
 schema = schemathesis.from_path('./user_account_operations.yaml', base_url=BASE_URL, validate_schema=True)
-authentication_schema = schemathesis.from_path('./authentication.yaml', base_url=BASE_URL, validate_schema=True)
 base_operations_deprecated_schema= schemathesis.from_path('./base_operations_deprecated.yaml', base_url=BASE_URL, validate_schema=True)
 base_operations_schema = schemathesis.from_path('./base_operations.yaml', base_url=BASE_URL, validate_schema=True)
-
-# TODO: Disable redirects for all tests? (to prevent issues like https://forum.seatable.io/t/seatable-4-4-out-now/4237/4)
-
-@schemathesis.hook
-def after_call(context, case, response: Response):
-    # Log all request URLs. You have to run pytest with '-rA' in order to see these for successful tests.
-    print(response.request.url)
-
-@dataclass
-class Base:
-    """Class for storing base info"""
-    uuid: str
-    # Hide base token from console output by setting repr=False
-    token: str = field(repr=False)
-
-class Secret:
-    """
-    Class to store a secret, ensures that the value will not be printed (e.g. if an assertion fails)
-    Based on https://github.com/pytest-dev/pytest/issues/8613#issuecomment-830011874
-    """
-    def __init__(self, value: str):
-        self.value = value
-
-    def __repr__(self):
-        return "Secret(********)"
-
-    def __str___(self):
-        return "*******"
-
-@pytest.fixture
-def snapshot_json(snapshot):
-    # https://github.com/tophat/syrupy#jsonsnapshotextension
-    return snapshot.use_extension(JSONSnapshotExtension)
-
-# scope='module' ensures that this functions runs only once for all tests in this module
-@pytest.fixture(scope='module')
-def account_token() -> str:
-    body = {"username": USERNAME, "password": PASSWORD}
-
-    operation = authentication_schema.get_operation_by_id('getAccountTokenfromUsername')
-    case: Case = operation.make_case(body=body)
-    response = case.call_and_validate()
-
-    assert response.status_code == 200
-
-    account_token = response.json()['token']
-    assert isinstance(account_token, str)
-
-    return Secret(account_token)
-
-@pytest.fixture(scope='module')
-def base(account_token: Secret):
-    body = {"workspace_id": WORKSPACE_ID, "name": BASE_NAME}
-    case: Case = schema.get_operation_by_id('createBase').make_case(body=body)
-    response = case.call_and_validate(headers={"Authorization": f"Bearer {account_token.value}"})
-
-    assert response.status_code == 201
-
-    # TODO: Prune existing rows?
-
-    base_uuid = response.json()["table"]["uuid"]
-    assert isinstance(base_uuid, str)
-
-    path_parameters = {'workspace_id': WORKSPACE_ID, 'base_name': BASE_NAME}
-    headers = {'Authorization': f'Bearer {account_token.value}'}
-
-    operation = authentication_schema.get_operation_by_id('getBaseTokenWithAccountToken')
-    case: Case = operation.make_case(path_parameters=path_parameters, headers=headers)
-    response = case.call_and_validate()
-
-    assert response.status_code == 200
-
-    base_token = response.json()['access_token']
-    assert isinstance(base_token, str)
-
-    yield Base(base_uuid, base_token)
-
-    # Delete base to not cause any issues on future test runs
-    path_parameters = {'workspace_id': WORKSPACE_ID}
-    body = {'name': BASE_NAME}
-
-    case: Case = schema.get_operation_by_id('deleteBase').make_case(path_parameters=path_parameters, body=body)
-    response = case.call_and_validate(headers={"Authorization": f"Bearer {account_token.value}"})
-
-    assert response.status_code == 200
-
-@pytest.fixture
-def generated_base_name(account_token: Secret) -> Generator[str, None, None]:
-    base_name = "automated-testing-ahSh2sot"
-
-    yield base_name
-
-    # Delete base to not cause any issues on future test runs
-    path_parameters = {'workspace_id': WORKSPACE_ID}
-    body = {'name': base_name}
-
-    case: Case = schema.get_operation_by_id('deleteBase').make_case(path_parameters=path_parameters, body=body)
-    response = case.call_and_validate(headers={"Authorization": f"Bearer {account_token.value}"})
-
-    assert response.status_code == 200
 
 COLUMNS = [
     {
@@ -385,16 +263,6 @@ def test_getRow(base: Base, snapshot_json, operation_id: str):
 
     assert snapshot_json(matcher=matcher) == response.json()
 
-# Expected rows for test_list_rows and test_list_rows_with_sql
-EXPECTED_ROWS = [
-    {'_id': mock.ANY, '_mtime': mock.ANY, '_ctime': mock.ANY, 'text': 'ABC', 'long-text': '## Heading\n- Item 1\n- Item 2', 'number': 499.99, 'date-iso': '2030-06-20', 'date-iso-hours-minutes': '2030-06-20 23:55', 'date-german': '2030-06-20', 'date-german-hours-minutes': '2030-06-20 23:55', 'single-select': 'option-1', 'multiple-select': ['option-1', 'option-2'], 'checkbox': True, 'formula': '2031-06-20'},
-    {'_id': mock.ANY, '_mtime': mock.ANY, '_ctime': mock.ANY, 'text': 'D', 'long-text': '## Heading\n- Item 1\n- Item 2', 'number': 500, 'date-iso': '2030-06-20', 'date-iso-hours-minutes': '2030-06-20 23:55', 'date-german': '2030-06-20', 'date-german-hours-minutes': '2030-06-20 23:55', 'single-select': 'option-2', 'multiple-select': ['option-2', 'option-3'], 'checkbox': False, 'formula': '2031-06-20'},
-    {'_id': mock.ANY, '_mtime': mock.ANY, '_ctime': mock.ANY, 'text': 'E', 'long-text': '## Heading\n- Item 1\n- Item 2', 'number': -10, 'date-iso': '2030-06-20', 'date-iso-hours-minutes': '2030-06-20 23:55', 'date-german': '2030-06-20', 'date-german-hours-minutes': '2030-06-20 23:55', 'single-select': 'option-3', 'multiple-select': ['option-1', 'option-2', 'option-3'], 'checkbox': True, 'formula': '2031-06-20'},
-    # Make sure that empty values are not returned
-    # Regression test for https://forum.seatable.io/t/python-modification-in-rows-data-since-4-4/4254
-    {'_id': mock.ANY, '_mtime': mock.ANY, '_ctime': mock.ANY, 'text': 'row-with-empty-values', 'formula': '#VALUE!'}
-]
-
 @pytest.mark.parametrize('operation_id', ['listRowsDeprecated', 'listRows'])
 def test_listRows(base: Base, snapshot_json, operation_id: str):
     table_name = f'test_{operation_id}'
@@ -487,8 +355,6 @@ def test_listRows_links(base: Base,  snapshot_json: SnapshotAssertion, operation
     elif operation_id == 'listRows':
         operation = base_operations_schema.get_operation_by_id(operation_id)
     case: Case = operation.make_case(path_parameters=path_parameters, query=query, headers=headers)
-#    case: Case = base_operations_deprecated_schema.get_operation_by_id('listRowsDeprecated') \
-#        .make_case()
     response = case.call_and_validate()
 
     matcher = path_type(
