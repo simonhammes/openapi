@@ -438,7 +438,7 @@ components:
       format: binary
     org_name:
       type: string
-      description: "Name of the team. Required. "
+      description: "Name of the team."
       example: Demo Testing
     admin_email:
       type: string
