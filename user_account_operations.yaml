@@ -414,6 +414,39 @@ components:
       example: 20
 
   schemas:
+    Base:
+      type: object
+      properties:
+        table:
+          type: object
+          properties:
+            id:
+              type: integer
+            workspace_id:
+              type: integer
+            uuid:
+              $ref: "#/components/schemas/dtable_uuid"
+            name:
+              $ref: "#/components/schemas/dtable_name"
+            created_at:
+              type: string
+              format: date-time
+            updated_at:
+              type: string
+              format: date-time
+            color:
+              type: string
+              nullable: true
+            text_color:
+              type: string
+              nullable: true
+            icon:
+              type: string
+              nullable: true
+            is_encrypted:
+              type: boolean
+            in_storage:
+              type: boolean
     user_account_name:
       type: string
       example: Example
@@ -2620,20 +2653,20 @@ paths:
           content:
             application/json:
               schema:
-                type: object
+                $ref: "#/components/schemas/Base"
               example:
                 table:
                   id: 500
                   workspace_id: 1
                   uuid: 12345678-d6d6-4627-8aa7-ba8689bccb07
                   name: Example 2
-                  creator: Jasmin Tee
-                  modifier: Jasmin Tee
                   created_at: "2021-03-16T10:34:41+00:00"
                   updated_at: "2021-03-16T10:34:41+00:00"
                   color: "#E91E63"
                   text_color: null
                   icon: icon-market-analysis
+                  is_encrypted: false
+                  in_storage: true
 
   /api/v2.1/workspace/{workspace_id}/dtable/:
     put:
