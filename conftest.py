@@ -234,10 +234,7 @@ def create_group(account_token: Secret, group_name: str) -> tuple[int, int]:
     headers = {'Authorization': f'Bearer {account_token.value}'}
     case: Case = user_account_operations.get_operation_by_id('createGroup') \
         .make_case(body=body, headers=headers)
-
-    # TODO: Undocumented status code (201)
-    # TODO: Use call_and_validate()
-    response = case.call()
+    response = case.call_and_validate()
     assert response.status_code == 201
 
     group_id = response.json()['id']
