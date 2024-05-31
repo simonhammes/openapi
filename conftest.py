@@ -26,9 +26,6 @@ assert ADMIN_PASSWORD is not None, 'SEATABLE_ADMIN_PASSWORD environment variable
 # TODO: Make sure credentials are never logged to the console (in case of exceptions/assertion errors)
 # https://github.com/pytest-dev/pytest/issues/8613
 
-# TODO: Get WORKSPACE_ID from somewhere else
-WORKSPACE_ID = 2
-
 schema = schemathesis.from_path('./user_account_operations.yaml', base_url=BASE_URL, validate_schema=True)
 system_admin_account_operations = schemathesis.from_path('./system_admin_account_operations.yaml', base_url=BASE_URL, validate_schema=True)
 authentication_schema = schemathesis.from_path('./authentication.yaml', base_url=BASE_URL, validate_schema=True)
@@ -135,19 +132,24 @@ def base(account_token: Secret):
     delete_group(account_token, group_id)
 
 @pytest.fixture
-def generated_base_name(account_token: Secret) -> Generator[str, None, None]:
+def workspace_id(account_token: Secret) -> Generator[int, None, None]:
     base_name = "automated-testing-ahSh2sot"
 
-    yield base_name
+    group_name = f'Automated Tests {datetime.today().strftime("%Y-%m-%d %H-%M-%S")} {randint(1, 100)}'
+    group_id, workspace_id = create_group(account_token=account_token, group_name=group_name)
+
+    yield workspace_id
 
     # Delete base to not cause any issues on future test runs
-    path_parameters = {'workspace_id': WORKSPACE_ID}
+    path_parameters = {'workspace_id': workspace_id}
     body = {'name': base_name}
 
     case: Case = schema.get_operation_by_id('deleteBase').make_case(path_parameters=path_parameters, body=body)
     response = case.call_and_validate(headers={"Authorization": f"Bearer {account_token.value}"})
 
     assert response.status_code == 200
+
+    delete_group(account_token=account_token, group_id=group_id)
 
 # scope='module' ensures that this functions runs only once for all tests in this module
 @pytest.fixture(scope='module')
