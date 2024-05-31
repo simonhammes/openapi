@@ -438,7 +438,7 @@ components:
       format: binary
     org_name:
       type: string
-      description: "Name of the team. Required. "
+      description: "Name of the team."
       example: Demo Testing
     admin_email:
       type: string
@@ -1764,6 +1764,10 @@ paths:
                   $ref: "#/components/schemas/admin_name"
                 with_workspace:
                   $ref: "#/components/schemas/with_workspace"
+              required:
+                - org_name
+                - admin_email
+                - password
       security:
         - AccountTokenAuth: []
       responses:
@@ -2043,7 +2047,7 @@ paths:
         they login for the first time.
       requestBody:
         content:
-          application/json:
+          multipart/form-data:
             schema:
               type: object
               properties:
@@ -2055,6 +2059,9 @@ paths:
                   $ref: "#/components/schemas/system_admin_name"
                 with_workspace:
                   $ref: "#/components/schemas/with_workspace"
+              required:
+                - email
+                - password
       security:
         - AccountTokenAuth: []
       parameters:
