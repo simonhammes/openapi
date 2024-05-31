@@ -208,7 +208,7 @@ Within SeaTable you can link a row to another row in the same table, or in anoth
 >
 > SeaTable does not know the direction of links. If you create a link from a column A to column B, it is the same like creating a link from column B to column A.
 
-To create a link between two columns you will always need five informations. You need the two tables (identified by their name), the two columns that you want to link (identified by their row id) and the link_id. What makes it a little difficult is that the `link_id` is not the `column_id` or `column_key`. Use the [Get Metadata](/reference/getmetadata) endpoint to get the `link_id` of a link column.
+To create a link between two columns you will always need five informations. You need the two tables (identified by their name), the two columns that you want to link (identified by their row id) and the link_id. What makes it a little difficult is that the `link_id` is not the `column_id` or `column_key`. Use the [Get Metadata](https://api.seatable.io/reference/getmetadata) endpoint to get the `link_id` of a link column.
 
 ```json Example object to create a link
 {
