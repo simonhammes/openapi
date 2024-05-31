@@ -1,6 +1,6 @@
 import pytest
 import schemathesis
-from .conftest import Base, BASE_URL, Secret, WORKSPACE_ID
+from .conftest import Base, BASE_URL, Secret
 from schemathesis import Case
 from syrupy.assertion import SnapshotAssertion
 from syrupy.matchers import path_type
@@ -149,8 +149,8 @@ ROWS = [
     }
 ]
 
-def test_createBase(generated_base_name: str, account_token: Secret, snapshot_json: SnapshotAssertion):
-    body = {"workspace_id": WORKSPACE_ID, "name": generated_base_name}
+def test_createBase(workspace_id: int, account_token: Secret, snapshot_json: SnapshotAssertion):
+    body = {"workspace_id": workspace_id, "name": 'automated-testing-ahSh2sot'}
     case: Case = schema.get_operation_by_id('createBase').make_case(body=body)
     response = case.call_and_validate(headers={"Authorization": f"Bearer {account_token.value}"})
 
@@ -161,6 +161,7 @@ def test_createBase(generated_base_name: str, account_token: Secret, snapshot_js
         'table.id': (int,),
         'table.updated_at': (str,),
         'table.uuid': (str,),
+        'table.workspace_id': (int,),
     })
 
     assert snapshot_json(matcher=matcher) == response.json()
