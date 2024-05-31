@@ -4,6 +4,7 @@ import schemathesis
 import secrets
 import string
 from dataclasses import dataclass, field
+from datetime import datetime
 from random import randint
 from requests import Response
 from schemathesis import Case
@@ -27,14 +28,13 @@ assert ADMIN_PASSWORD is not None, 'SEATABLE_ADMIN_PASSWORD environment variable
 
 # TODO: Get WORKSPACE_ID from somewhere else
 WORKSPACE_ID = 2
-# TODO: BASE_NAME with included GHA run ID to aid debugging?
-BASE_NAME = 'Automated Tests'
 
 schema = schemathesis.from_path('./user_account_operations.yaml', base_url=BASE_URL, validate_schema=True)
 system_admin_account_operations = schemathesis.from_path('./system_admin_account_operations.yaml', base_url=BASE_URL, validate_schema=True)
 authentication_schema = schemathesis.from_path('./authentication.yaml', base_url=BASE_URL, validate_schema=True)
 base_operations_deprecated_schema= schemathesis.from_path('./base_operations_deprecated.yaml', base_url=BASE_URL, validate_schema=True)
 base_operations_schema = schemathesis.from_path('./base_operations.yaml', base_url=BASE_URL, validate_schema=True)
+user_account_operations = schemathesis.from_path('./user_account_operations.yaml', base_url=BASE_URL, validate_schema=True)
 
 @schemathesis.hook
 def after_call(context, case, response: Response):
@@ -94,18 +94,21 @@ def account_token() -> str:
 
 @pytest.fixture(scope='module')
 def base(account_token: Secret):
-    body = {"workspace_id": WORKSPACE_ID, "name": BASE_NAME}
+    group_name = f'Automated Tests {datetime.today().strftime("%Y-%m-%d %H-%M-%S")}'
+    group_id, workspace_id = create_group(account_token=account_token, group_name=group_name)
+
+    base_name = 'Automated Tests'
+
+    body = {"workspace_id": workspace_id, "name": base_name}
     case: Case = schema.get_operation_by_id('createBase').make_case(body=body)
     response = case.call_and_validate(headers={"Authorization": f"Bearer {account_token.value}"})
 
     assert response.status_code == 201
 
-    # TODO: Prune existing rows?
-
     base_uuid = response.json()["table"]["uuid"]
     assert isinstance(base_uuid, str)
 
-    path_parameters = {'workspace_id': WORKSPACE_ID, 'base_name': BASE_NAME}
+    path_parameters = {'workspace_id': workspace_id, 'base_name': base_name}
     headers = {'Authorization': f'Bearer {account_token.value}'}
 
     operation = authentication_schema.get_operation_by_id('getBaseTokenWithAccountToken')
@@ -117,16 +120,19 @@ def base(account_token: Secret):
     base_token = response.json()['access_token']
     assert isinstance(base_token, str)
 
+    # Yield back to the test function
     yield Base(base_uuid, base_token)
 
     # Delete base to not cause any issues on future test runs
-    path_parameters = {'workspace_id': WORKSPACE_ID}
-    body = {'name': BASE_NAME}
+    path_parameters = {'workspace_id': workspace_id}
+    body = {'name': base_name}
 
     case: Case = schema.get_operation_by_id('deleteBase').make_case(path_parameters=path_parameters, body=body)
     response = case.call_and_validate(headers={"Authorization": f"Bearer {account_token.value}"})
 
     assert response.status_code == 200
+
+    delete_group(account_token, group_id)
 
 @pytest.fixture
 def generated_base_name(account_token: Secret) -> Generator[str, None, None]:
@@ -221,3 +227,43 @@ def team_name(system_admin_account_token: Secret) -> Generator[str, None, None]:
 def generate_password() -> str:
     alphabet = string.ascii_letters + string.digits
     return ''.join(secrets.choice(alphabet) for i in range(20))
+
+def create_group(account_token: Secret, group_name: str) -> tuple[int, int]:
+    """Creates a group and returns (group_id, workspace_id)"""
+    body = {'name': group_name}
+    headers = {'Authorization': f'Bearer {account_token.value}'}
+    case: Case = user_account_operations.get_operation_by_id('createGroup') \
+        .make_case(body=body, headers=headers)
+
+    # TODO: Undocumented status code (201)
+    # TODO: Use call_and_validate()
+    response = case.call()
+    assert response.status_code == 201
+
+    group_id = response.json()['id']
+    assert isinstance(group_id, int)
+
+    # TODO: Is there an easier way to get the workspace ID of a group?
+
+    # TODO: Fix bug with query
+    query = {'detail': False}
+    case: Case = user_account_operations.get_operation_by_id('listWorkspaces') \
+        .make_case(headers=headers)
+    response = case.call_and_validate()
+
+    assert response.status_code == 200
+
+    workspaces = response.json()['workspace_list']
+    workspace_id = next((w['id'] for w in workspaces if w.get('group_id', None) == group_id), None)
+    assert isinstance(workspace_id, int)
+
+    return (group_id, workspace_id)
+
+def delete_group(account_token: Secret, group_id: int):
+    path_parameters = {'group_id': group_id}
+    headers = {'Authorization': f'Bearer {account_token.value}'}
+    case: Case = user_account_operations.get_operation_by_id('deleteGroup') \
+        .make_case(path_parameters=path_parameters, headers=headers)
+    response = case.call_and_validate()
+
+    assert response.status_code == 200
