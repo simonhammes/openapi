@@ -14,7 +14,7 @@ slug: models
 
 ## Table
 
-A table object consists of key:value pairs that are a fixed and never change. Every table is defined by a `_id` and a `name`. The `_id` is unique inside a base.
+A table object consists of key:value pairs that are fixed and never change. Every table is defined by an `_id` and a `name`. The `_id` is unique inside a base.
 
 ```json Table object
   "tables": [
@@ -22,6 +22,7 @@ A table object consists of key:value pairs that are a fixed and never change. Ev
       "_id": "0000",
       "name": "Catalogue",
       "rows": [...],
+      "columns": [...],
       "view_structure": {...},
       "views": [...],
       "id_row_map": {}
@@ -36,7 +37,7 @@ A table object consists of key:value pairs that are a fixed and never change. Ev
 
 ## View
 
-A table inside SeaTable can contain a nealy unlimited amount of rows. Rows are like entries in a database. A view is a defined set of parameters to show only a subset of these rows. Since you can create multiple views, they are perfect for switching between different views of the data in a table. Developers could imagine a view like a predefined SELECT query.
+A table inside SeaTable can contain a nearly unlimited amount of rows. Rows are like entries in a database. A view is a defined set of parameters to show only a subset of these rows. Since you can create multiple views, they are perfect for switching between different views of the data in a table. Developers could imagine a view like a predefined SELECT query.
 
 Imagine a table with tasks. So it is obvious to define one view with all tasks and create one more view each for the already done or still open tasks. A special row can occur in several views, is of course stored in the database only once.
 
@@ -44,36 +45,36 @@ Imagine a table with tasks. So it is obvious to define one view with all tasks a
   "views": [
     {
       "_id": "0000",
-          "name": "Open Todos",
-          "type": "table",
-          "is_locked": false,
-          "rows": [],
-          "formula_rows": {},
-          "summaries": {},
-          "filter_conjunction": "And",
-          "filters": [],
-          "sorts": [
-            {
-              "column_key": "kJW5",
-              "sort_type": "down"
-            }
-          ],
-          "hidden_columns": [
-            "f7l1",
-            "3a97"
-          ],
-          "groupbys": [
-            {
-              "column_key": "3a97",
-              "sort_type": "up",
-              "count_type": ""
-            }
-          ],
-          "groups": [],
-          "row_height": "double",
-          "colors": {},
-          "link_rows": {},
-          "column_colors": {}
+      "name": "Open Todos",
+      "type": "table",
+      "is_locked": false,
+      "rows": [],
+      "formula_rows": {},
+      "summaries": {},
+      "filter_conjunction": "And",
+      "filters": [],
+      "sorts": [
+        {
+          "column_key": "kJW5",
+          "sort_type": "down"
+        }
+      ],
+      "hidden_columns": [
+        "f7l1",
+        "3a97"
+      ],
+      "groupbys": [
+        {
+          "column_key": "3a97",
+          "sort_type": "up",
+          "count_type": ""
+        }
+      ],
+      "groups": [],
+      "row_height": "double",
+      "colors": {},
+      "link_rows": {},
+      "column_colors": {}
     },
     {...}
   ]
@@ -81,7 +82,7 @@ Imagine a table with tasks. So it is obvious to define one view with all tasks a
 
 ## Row & Column
 
-A rows object consists of key:value pairs. The keys are the column_names (or the column_ids) and the values are the concrete content of the column. The following example and explanation should help to create a correct row object.
+A row object consists of key:value pairs. The keys are the column_names (or the column_ids) and the values are the concrete content of the column. The following example and explanation should help to create a correct row object.
 
 ```json Example row object (with column names)
 {
@@ -108,7 +109,7 @@ A rows object consists of key:value pairs. The keys are the column_names (or the
     "Cover": [
         "https://cloud.seatable.io/workspace/9463/asset/91a1ec23-2db0-4812-bbf5-5772352a4d63/images/2023-03/book-cover.png"
       ],
-    "Selling Price": 48
+    "Selling Price": 48,
     "Summary": "In my younger and more vulnerable years my father gave me some advice that I’ve been turning over in my mind ever since.\n\n‘Whenever you feel like criticizing any one,’ he told me, ‘just remember that all the people in this world haven’t had the advantages that you’ve had.’\n\n",
 }
 ```
@@ -138,12 +139,12 @@ A rows object consists of key:value pairs. The keys are the column_names (or the
     "d9W1": [
         "https://cloud.seatable.io/workspace/9463/asset/91a1ec23-2db0-4812-bbf5-5772352a4d63/images/2023-03/book-cover.png"
       ],
-    "38WE": 48
+    "38WE": 48,
     "Summary": "In my younger and more vulnerable years my father gave me some advice that I’ve been turning over in my mind ever since.\n\n‘Whenever you feel like criticizing any one,’ he told me, ‘just remember that all the people in this world haven’t had the advantages that you’ve had.’\n\n",
 }
 ```
 
-As you can see in the example, due to the different column types, the values can have different formats and could be strings, integer, arrays or even objects.
+As you can see in the example, due to the different column types, the values can have different formats and could be strings, integers, arrays or even objects.
 
 ### Supported column types
 
@@ -157,7 +158,7 @@ As you can see in the example, due to the different column types, the values can
 | `duration`                                     | `string`                                                                               | `"9:50"` or `"1:10:30"`                                                                                                                                               | Depending on column setting.                                                                                                                            |
 | `single-select`                                | `string`                                                                               | `"female"`                                                                                                                                                            | The exact string of the option is required. If the option doesn't exist, `option deleted` will be shown in the UI.                                      |
 | `multiple-select`                              | `array`                                                                                | `["Option 1", "Option 2"]`                                                                                                                                            | Non-existing options will be ignored.                                                                                                                   |
-| `image`                                        | `array`                                                                                | `["/workspace/24/asset/.../heart.png", "https://seatable.io/logo.svg"]`                                                                                               | Images can be stored in two ways:<br/>- [uploading an image](https://api.seatable.io/reference/upload-file-image)<br/>- providing public URLs           |
+| `image`                                        | `array`                                                                                | `["/workspace/24/asset/.../heart.png", "https://seatable.io/logo.svg"]`                                                                                               | Images can be stored in two ways:<br/>- [uploading an image](https://api.seatable.io/reference/uploadfile)<br/>- providing public URLs           |
 | `file`                                         | `array`                                                                                | `[{"name": "fav.ico", "size": 6746, "type": "file", "url": "..."}]`                                                                                                   | You need to upload the file first, get its parent_path and file_relative_path first and then return to this call.                                       |
 | `checkbox`                                     | `boolean`                                                                              | `true`                                                                                                                                                                |                                                                                                                                                         |
 | `rate`                                         | `integer`                                                                              | 4                                                                                                                                                                     |
@@ -165,7 +166,7 @@ As you can see in the example, due to the different column types, the values can
 | `formula`                                      | `string`                                                                               | `"Albert Summer"`                                                                                                                                                     | Contains only the result of the formula.                                                                                                                |
 | `button`                                       | `null`                                                                                 | `null`                                                                                                                                                                | Always `null`                                                                                                                                           |
 | `link`                                         | `array`                                                                                | `[{"row_id": "Mr-3QnQ5Q-eeEqFBevtOkw", "display_value": "Google News"}]`                                                                                              |                                                                                                                                                         |
-| `link-formula`                                 | `array`, `string` or `integer`                                                         | `["Todo 1", "Todo 2"]`, `Open Pending`, `2`                                                                                                                           | The output depends of the link formula type. Lookup returns an array, rollup returns a string and findmax returns an integer.                           |
+| `link-formula`                                 | `array`, `string` or `integer`                                                         | `["Todo 1", "Todo 2"]`, `Open Pending`, `2`                                                                                                                           | The output depends on the link formula type. Lookup returns an array, rollup returns a string and findmax returns an integer.                           |
 | `digital-sign`                                 | `object`                                                                               | `{"username": "24...ab2@auth.local", "sign_image_url": "/digital-signs/2023-06/24...ab2@auth.local-1687426928723.png", "sign_time": "2023-06-22T09:42:08.761+00:00"}` |                                                                                                                                                         |
 | `_id`                                          | `string`                                                                               | `"Qtf7xPmoRaiFyQPO1aENTjb"`                                                                                                                                           | Unique value inside a base and can not be changed.                                                                                                      |
 | `_ctime`                                       | `string`                                                                               | `"2021-02-09T12:23:17.761+00:00"`                                                                                                                                     | Can not be changed.                                                                                                                                     |
@@ -193,7 +194,9 @@ SeaTable offers some column types that are **filled automatically**. It is not p
 
 ### Handling of default values
 
-However, the **default values** of the text, number and single select column types won't be filled by the API request automatically. If you leave these fields blank, they'll also be blank after the new row is appended, which is different than the behavior on the web UI.
+If you use the old [Append Rows](/reference/appendrowsdeprecated) endpoint, the **default values** of the text, number and single select column types **won't be filled** by the API request automatically. If you leave these fields blank, they'll also be blank after the new row is appended, which is different than the behavior on the web UI.
+
+If you use the new [Append Rows](/reference/appendrows) endpoint, you can set the `apply_default` body parameter to `true`, which ensures that any default values are automatically applied.
 
 ---
 
@@ -203,9 +206,9 @@ Within SeaTable you can link a row to another row in the same table, or in anoth
 
 > 📘 Links are bidirectional
 >
-> SeaTable does not know a direction of links. If you create a link from a column A to column B, it is the same like creating a link from column B to column A.
+> SeaTable does not know the direction of links. If you create a link from a column A to column B, it is the same like creating a link from column B to column A.
 
-To create a link between two columns you will always need five informations. You need the two tables (identified by their name), the two columns that you want to link (identified by their row id) and the link_id. What makes it a little difficult is that the `link_id` is not the `column_id` or `column_key`. Use the [Get Metadata](/reference/get-metadata) to get the `link_id` of a link column.
+To create a link between two columns you will always need five informations. You need the two tables (identified by their name), the two columns that you want to link (identified by their row id) and the link_id. What makes it a little difficult is that the `link_id` is not the `column_id` or `column_key`. Use the [Get Metadata](/reference/getmetadata) endpoint to get the `link_id` of a link column.
 
 ```json Example object to create a link
 {
