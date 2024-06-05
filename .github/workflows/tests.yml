@@ -14,7 +14,8 @@ jobs:
           cache: 'pip'
       - run: pip install -r requirements.txt
       - name: Pytest
-        run: pytest --color=yes
+        # TODO: Run all tests on stage.seatable.io? Or test_teams.py on seatable-demo.de?
+        run: pytest test_base_operations.py --color=yes
         env:
           SEATABLE_USERNAME: 'hulk'
           SEATABLE_PASSWORD: ${{ secrets.SEATABLE_PASSWORD }}
