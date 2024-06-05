@@ -12,7 +12,7 @@ from syrupy.extensions.json import JSONSnapshotExtension
 from typing import Generator
 
 # TODO: Read from environment
-BASE_URL = 'https://seatable-demo.de'
+BASE_URL = 'https://stage.seatable.io'
 USERNAME = os.environ.get('SEATABLE_USERNAME')
 PASSWORD = os.environ.get('SEATABLE_PASSWORD')
 ADMIN_USERNAME = os.environ.get('SEATABLE_ADMIN_USERNAME')
