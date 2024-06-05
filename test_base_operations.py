@@ -239,7 +239,7 @@ def test_getRow(base: Base, snapshot_json, operation_id: str):
     row_id = add_row(base, table_name, row)
 
     path_parameters = {'base_uuid': base.uuid, 'row_id': row_id}
-    query = {'table_name': table_name}
+    query = {'table_name': table_name, 'convert_keys': True}
     headers = {'Authorization': f'Bearer {base.token}'}
 
     if operation_id == 'getRowDeprecated':
@@ -272,7 +272,7 @@ def test_listRows(base: Base, snapshot_json, operation_id: str):
     append_rows(base, table_name, ROWS)
 
     path_parameters = {'base_uuid': base.uuid}
-    query = {'table_name': table_name}
+    query = {'table_name': table_name, 'convert_keys': True}
     headers = {'Authorization': f'Bearer {base.token}'}
 
     if operation_id == 'listRowsDeprecated':
@@ -350,7 +350,7 @@ def test_listRows_links(base: Base,  snapshot_json: SnapshotAssertion, operation
     assert response.status_code == 200
 
     # List rows
-    query = {'table_name': table_name_1}
+    query = {'table_name': table_name_1, 'convert_keys': True}
     if operation_id == 'listRowsDeprecated':
         operation = base_operations_deprecated_schema.get_operation_by_id(operation_id)
     elif operation_id == 'listRows':
