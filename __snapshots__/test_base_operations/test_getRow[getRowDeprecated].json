@@ -8,6 +8,9 @@
   "date-iso": "2030-06-20",
   "date-iso-hours-minutes": "2030-06-20 23:55",
   "formula": "2031-06-20",
+  "formula-boolean-return-value": "false",
+  "formula-float-return-value": 3.9000000000000004,
+  "formula-integer-return-value": 3,
   "long-text": "## Heading\n- Item 1\n- Item 2",
   "number": 499.99,
   "text": "ABC"

@@ -151,6 +151,27 @@ COLUMNS = [
             'formula': "dateAdd({date-iso}, 1, 'year')"
         }
     },
+    {
+        'column_name': 'formula-integer-return-value',
+        'column_type': 'formula',
+        'column_data': {
+            'formula': '1 + 2',
+        },
+    },
+    {
+        'column_name': 'formula-float-return-value',
+        'column_type': 'formula',
+        'column_data': {
+            'formula': '1.3 + 2.6',
+        },
+    },
+    {
+        'column_name': 'formula-boolean-return-value',
+        'column_type': 'formula',
+        'column_data': {
+            'formula': 'and(true(), false())',
+        },
+    },
     # TODO: Link + Link Formula
     # TODO: creator + last-modifier
     # {

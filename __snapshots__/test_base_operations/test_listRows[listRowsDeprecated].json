@@ -16,6 +16,9 @@
       "duration-hours-minutes-seconds": 5430,
       "email": "example@seatable.io",
       "formula": "2031-06-20",
+      "formula-boolean-return-value": "false",
+      "formula-float-return-value": 3.9000000000000004,
+      "formula-integer-return-value": 3,
       "long-text": "## Heading\n- Item 1\n- Item 2",
       "multiple-select": [
         "option-1",
@@ -37,6 +40,9 @@
       "date-iso": "2030-06-20",
       "date-iso-hours-minutes": "2030-06-20 23:55",
       "formula": "2031-06-20",
+      "formula-boolean-return-value": "false",
+      "formula-float-return-value": 3.9000000000000004,
+      "formula-integer-return-value": 3,
       "long-text": "## Heading\n- Item 1\n- Item 2",
       "multiple-select": [
         "option-2",
@@ -56,6 +62,9 @@
       "date-iso": "2030-06-20",
       "date-iso-hours-minutes": "2030-06-20 23:55",
       "formula": "2031-06-20",
+      "formula-boolean-return-value": "false",
+      "formula-float-return-value": 3.9000000000000004,
+      "formula-integer-return-value": 3,
       "long-text": "## Heading\n- Item 1\n- Item 2",
       "multiple-select": [
         "option-1",
@@ -71,6 +80,9 @@
       "_id": "str",
       "_mtime": "str",
       "formula": "#VALUE!",
+      "formula-boolean-return-value": "false",
+      "formula-float-return-value": 3.9000000000000004,
+      "formula-integer-return-value": 3,
       "text": "row-with-empty-values"
     }
   ]
