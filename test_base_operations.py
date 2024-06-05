@@ -42,6 +42,36 @@ COLUMNS = [
         }
     },
     {
+        'column_name': 'date-us',
+        'column_type': 'date',
+        'column_data': {
+            'format': 'M/D/YYYY'
+        }
+    },
+    {
+        'column_name': 'date-us-hours-minutes',
+        'column_type': 'date',
+        'column_data': {
+            'format': 'M/D/YYYY HH:mm'
+        }
+    },
+        {
+        'column_name': 'date-european',
+        'column_type': 'date',
+        'column_data': {
+            'format': 'DD/MM/YYYY'
+        }
+    },
+    # FIXME: Fix this
+    # Also fails with insertColumn operation on api.seatable.io: {"error_type": "column_data_error", "error_message": "column_data: {\"format\":\"DD/MM/YYYY HH:mm\"} do not meet specifications."}
+    #{
+    #     'column_name': 'date-european-hours-minutes',
+    #     'column_type': 'date',
+    #     'column_data': {
+    #         'format': 'DD/MM/YYYY HH:mm'
+    #     }
+    #},
+    {
         'column_name': 'date-german',
         'column_type': 'date',
         'column_data': {
@@ -109,6 +139,10 @@ ROWS = [
         # 'collaborator':
         'date-iso': '2030/06/20',
         'date-iso-hours-minutes': '2030/06/20 23:55',
+        'date-us': '6/5/2024',
+        'date-us-hours-minutes': '6/5/2024 23:55',
+        'date-european': '05/06/2024',
+        'date-european-hours-minutes': '05/06/2024 23:55',
         'date-german': '20.06.2030',
         'date-german-hours-minutes': '20.06.2030 23:55',
         'single-select': 'option-1',

@@ -69,6 +69,42 @@
     {
       "base_id": "str",
       "data": {
+        "format": "M/D/YYYY"
+      },
+      "id": "date-us",
+      "key": "str",
+      "name": "date-us",
+      "table_id": "str",
+      "table_name": "test_querySQL",
+      "type": "date"
+    },
+    {
+      "base_id": "str",
+      "data": {
+        "format": "M/D/YYYY HH:mm"
+      },
+      "id": "date-us-hours-minutes",
+      "key": "str",
+      "name": "date-us-hours-minutes",
+      "table_id": "str",
+      "table_name": "test_querySQL",
+      "type": "date"
+    },
+    {
+      "base_id": "str",
+      "data": {
+        "format": "DD/MM/YYYY"
+      },
+      "id": "date-european",
+      "key": "str",
+      "name": "date-european",
+      "table_id": "str",
+      "table_name": "test_querySQL",
+      "type": "date"
+    },
+    {
+      "base_id": "str",
+      "data": {
         "format": "DD.MM.YYYY"
       },
       "id": "date-german",
@@ -261,10 +297,13 @@
       "_mtime": "str",
       "checkbox": true,
       "collaborator": null,
+      "date-european": "2024-06-05T00:00:00+02:00",
       "date-german": "2030-06-20T00:00:00+02:00",
       "date-german-hours-minutes": "2030-06-20T23:55:00+02:00",
       "date-iso": "2030-06-20T00:00:00+02:00",
       "date-iso-hours-minutes": "2030-06-20T23:55:00+02:00",
+      "date-us": "2024-06-05T00:00:00+02:00",
+      "date-us-hours-minutes": "2024-06-05T23:55:00+02:00",
       "formula": "2031-06-20T00:00:00+02:00",
       "long-text": "## Heading\n- Item 1\n- Item 2",
       "multiple-select": [],
@@ -283,10 +322,13 @@
       "_mtime": "str",
       "checkbox": false,
       "collaborator": null,
+      "date-european": null,
       "date-german": "2030-06-20T00:00:00+02:00",
       "date-german-hours-minutes": "2030-06-20T23:55:00+02:00",
       "date-iso": "2030-06-20T00:00:00+02:00",
       "date-iso-hours-minutes": "2030-06-20T23:55:00+02:00",
+      "date-us": null,
+      "date-us-hours-minutes": null,
       "formula": "2031-06-20T00:00:00+02:00",
       "long-text": "## Heading\n- Item 1\n- Item 2",
       "multiple-select": [],
@@ -305,10 +347,13 @@
       "_mtime": "str",
       "checkbox": true,
       "collaborator": null,
+      "date-european": null,
       "date-german": "2030-06-20T00:00:00+02:00",
       "date-german-hours-minutes": "2030-06-20T23:55:00+02:00",
       "date-iso": "2030-06-20T00:00:00+02:00",
       "date-iso-hours-minutes": "2030-06-20T23:55:00+02:00",
+      "date-us": null,
+      "date-us-hours-minutes": null,
       "formula": "2031-06-20T00:00:00+02:00",
       "long-text": "## Heading\n- Item 1\n- Item 2",
       "multiple-select": [],
@@ -327,10 +372,13 @@
       "_mtime": "str",
       "checkbox": null,
       "collaborator": null,
+      "date-european": null,
       "date-german": null,
       "date-german-hours-minutes": null,
       "date-iso": null,
       "date-iso-hours-minutes": null,
+      "date-us": null,
+      "date-us-hours-minutes": null,
       "formula": "#VALUE!",
       "long-text": null,
       "multiple-select": null,
