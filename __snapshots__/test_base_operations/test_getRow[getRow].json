@@ -18,10 +18,12 @@
   "date-us-hours-minutes": null,
   "duration-hours-minutes": null,
   "duration-hours-minutes-seconds": null,
+  "email": null,
   "formula": "2031-06-20T00:00:00+02:00",
   "long-text": "## Heading\n- Item 1\n- Item 2",
   "multiple-select": null,
   "number": 499.99,
   "single-select": null,
-  "text": "ABC"
+  "text": "ABC",
+  "url": null
 }

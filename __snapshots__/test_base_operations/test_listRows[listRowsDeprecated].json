@@ -14,6 +14,7 @@
       "date-us-hours-minutes": "2024-06-05 23:55",
       "duration-hours-minutes": 5400,
       "duration-hours-minutes-seconds": 5430,
+      "email": "example@seatable.io",
       "formula": "2031-06-20",
       "long-text": "## Heading\n- Item 1\n- Item 2",
       "multiple-select": [
@@ -22,7 +23,8 @@
       ],
       "number": 499.99,
       "single-select": "option-1",
-      "text": "ABC"
+      "text": "ABC",
+      "url": "https://seatable.io"
     },
     {
       "_ctime": "str",

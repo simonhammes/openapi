@@ -123,6 +123,16 @@ COLUMNS = [
             ]
         }
     },
+    # TODO: image
+    # TODO: file
+    {
+        'column_name': 'email',
+        'column_type': 'email',
+    },
+    {
+        'column_name': 'url',
+        'column_type': 'url',
+    },
     {
         'column_name': 'checkbox',
         'column_type': 'checkbox',
@@ -166,6 +176,8 @@ ROWS = [
         'duration-hours-minutes-seconds': '5430',
         'single-select': 'option-1',
         'multiple-select': ['option-1', 'option-2'],
+        'email': 'example@seatable.io',
+        'url': 'https://seatable.io',
         'checkbox': True,
     },
     {
