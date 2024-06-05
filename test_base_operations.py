@@ -138,6 +138,13 @@ COLUMNS = [
         'column_type': 'checkbox',
     },
     {
+        'column_name': 'rate',
+        'column_type': 'rate',
+        'column_data': {
+            'rate_max_number': 10,
+        },
+    },
+    {
         'column_name': 'formula',
         'column_type': 'formula',
         'column_data': {
@@ -179,6 +186,7 @@ ROWS = [
         'email': 'example@seatable.io',
         'url': 'https://seatable.io',
         'checkbox': True,
+        'rate': 7,
     },
     {
         'text': 'D',

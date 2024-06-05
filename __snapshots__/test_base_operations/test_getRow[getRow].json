@@ -23,6 +23,7 @@
   "long-text": "## Heading\n- Item 1\n- Item 2",
   "multiple-select": null,
   "number": 499.99,
+  "rate": null,
   "single-select": null,
   "text": "ABC",
   "url": null

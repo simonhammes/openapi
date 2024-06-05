@@ -22,6 +22,7 @@
         "option-2"
       ],
       "number": 499.99,
+      "rate": 7,
       "single-select": "option-1",
       "text": "ABC",
       "url": "https://seatable.io"

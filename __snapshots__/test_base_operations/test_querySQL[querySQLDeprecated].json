@@ -241,6 +241,18 @@
     {
       "base_id": "str",
       "data": {
+        "rate_max_number": 10
+      },
+      "id": "rate",
+      "key": "str",
+      "name": "rate",
+      "table_id": "str",
+      "table_name": "test_querySQLDeprecated",
+      "type": "rate"
+    },
+    {
+      "base_id": "str",
+      "data": {
         "formula": "dateAdd({date-iso}, 1, 'year')"
       },
       "id": "formula",
@@ -357,6 +369,7 @@
       "long-text": "## Heading\n- Item 1\n- Item 2",
       "multiple-select": [],
       "number": 499.99,
+      "rate": 7,
       "single-select": 1,
       "text": "ABC",
       "url": "https://seatable.io"
@@ -386,6 +399,7 @@
       "long-text": "## Heading\n- Item 1\n- Item 2",
       "multiple-select": [],
       "number": 500,
+      "rate": null,
       "single-select": 2,
       "text": "D",
       "url": null
@@ -415,6 +429,7 @@
       "long-text": "## Heading\n- Item 1\n- Item 2",
       "multiple-select": [],
       "number": -10,
+      "rate": null,
       "single-select": 3,
       "text": "E",
       "url": null
@@ -444,6 +459,7 @@
       "long-text": null,
       "multiple-select": null,
       "number": null,
+      "rate": null,
       "single-select": null,
       "text": "row-with-empty-values",
       "url": null
