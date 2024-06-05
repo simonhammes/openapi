@@ -197,6 +197,33 @@ COLUMNS = [
     #     'column_name': 'last-modifier',
     #     'column_type': 'last-modifier',
     # },
+    {
+        'column_name': 'auto-number-integer',
+        'column_type': 'auto-number',
+        'column_data': {
+            'format': '0000',
+            'digits': 4,
+        },
+    },
+    {
+        'column_name': 'auto-number-string-prefix',
+        'column_type': 'auto-number',
+        'column_data': {
+            'format': '0000',
+            'digits': 4,
+            'prefix_type': 'string',
+            'prefix': 'row',
+        },
+    },
+    {
+        'column_name': 'auto-number-date-prefix',
+        'column_type': 'auto-number',
+        'column_data': {
+            'format': '0000',
+            'digits': 4,
+            'prefix_type': 'date',
+        },
+    },
 ]
 
 ROWS = [
@@ -379,6 +406,7 @@ def test_getRow(base: Base, snapshot_json, operation_id: str):
         '_mtime': (str,),
         '_creator': (str,),
         '_last_modifier': (str,),
+        'auto-number-date-prefix': (str,),
     })
 
     assert snapshot_json(matcher=matcher) == response.json()
@@ -409,7 +437,7 @@ def test_listRows(base: Base, snapshot_json, operation_id: str):
     # strings without storing their actual value since they are not stable
     matcher = path_type(
         {
-            r"rows\..*\.(_id|_ctime|_mtime|_creator|_last_modifier)": (str,),
+            r"rows\..*\.(_id|_ctime|_mtime|_creator|_last_modifier|auto-number-date-prefix)": (str,),
         },
         regex=True,
     )
@@ -514,7 +542,7 @@ def test_querySQL(base: Base, snapshot_json: SnapshotAssertion, operation_id: st
         {
             # Exclude unstable props from value comparison and just store their types
             r"metadata\..*\.(base_id|key|table_id)": (str,),
-            r"results\..*\.(_id|_ctime|_mtime|_creator|_last_modifier)": (str,),
+            r"results\..*\.(_id|_ctime|_mtime|_creator|_last_modifier|auto-number-date-prefix)": (str,),
         },
         regex=True,
     )

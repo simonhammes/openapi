@@ -325,6 +325,52 @@
     },
     {
       "base_id": "str",
+      "data": {
+        "digits": 4,
+        "format": "0000",
+        "max_used_auto_number": 4
+      },
+      "id": "auto-number-integer",
+      "key": "str",
+      "name": "auto-number-integer",
+      "table_id": "str",
+      "table_name": "test_querySQL",
+      "type": "auto-number"
+    },
+    {
+      "base_id": "str",
+      "data": {
+        "digits": 4,
+        "format": "0000",
+        "max_used_auto_number": 4,
+        "prefix": "row",
+        "prefix_type": "string"
+      },
+      "id": "auto-number-string-prefix",
+      "key": "str",
+      "name": "auto-number-string-prefix",
+      "table_id": "str",
+      "table_name": "test_querySQL",
+      "type": "auto-number"
+    },
+    {
+      "base_id": "str",
+      "data": {
+        "digits": 4,
+        "format": "0000",
+        "max_used_auto_number": 4,
+        "prefix": "20240605",
+        "prefix_type": "date"
+      },
+      "id": "auto-number-date-prefix",
+      "key": "str",
+      "name": "auto-number-date-prefix",
+      "table_id": "str",
+      "table_name": "test_querySQL",
+      "type": "auto-number"
+    },
+    {
+      "base_id": "str",
       "data": null,
       "id": "_locked",
       "key": "str",
@@ -414,6 +460,9 @@
       "_locked": null,
       "_locked_by": null,
       "_mtime": "str",
+      "auto-number-date-prefix": "str",
+      "auto-number-integer": "0001",
+      "auto-number-string-prefix": "row-0001",
       "checkbox": true,
       "collaborator": null,
       "date-european": "2024-06-05T00:00:00+02:00",
@@ -454,6 +503,9 @@
       "_locked": null,
       "_locked_by": null,
       "_mtime": "str",
+      "auto-number-date-prefix": "str",
+      "auto-number-integer": "0002",
+      "auto-number-string-prefix": "row-0002",
       "checkbox": false,
       "collaborator": null,
       "date-european": null,
@@ -489,6 +541,9 @@
       "_locked": null,
       "_locked_by": null,
       "_mtime": "str",
+      "auto-number-date-prefix": "str",
+      "auto-number-integer": "0003",
+      "auto-number-string-prefix": "row-0003",
       "checkbox": true,
       "collaborator": null,
       "date-european": null,
@@ -524,6 +579,9 @@
       "_locked": null,
       "_locked_by": null,
       "_mtime": "str",
+      "auto-number-date-prefix": "str",
+      "auto-number-integer": "0004",
+      "auto-number-string-prefix": "row-0004",
       "checkbox": null,
       "collaborator": null,
       "date-european": null,
