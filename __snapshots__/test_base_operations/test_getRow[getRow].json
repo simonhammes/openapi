@@ -16,6 +16,8 @@
   "date-iso-hours-minutes": "2030-06-20T23:55:00+02:00",
   "date-us": null,
   "date-us-hours-minutes": null,
+  "duration-hours-minutes": null,
+  "duration-hours-minutes-seconds": null,
   "formula": "2031-06-20T00:00:00+02:00",
   "long-text": "## Heading\n- Item 1\n- Item 2",
   "multiple-select": null,

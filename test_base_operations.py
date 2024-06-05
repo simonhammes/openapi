@@ -86,6 +86,22 @@ COLUMNS = [
         }
     },
     {
+        'column_name': 'duration-hours-minutes',
+        'column_type': 'duration',
+        'column_data': {
+            'format': 'duration',
+            'duration_format': 'h:mm'
+        }
+    },
+    {
+        'column_name': 'duration-hours-minutes-seconds',
+        'column_type': 'duration',
+        'column_data': {
+            'format': 'duration',
+            'duration_format': 'h:mm:ss'
+        }
+    },
+    {
         'column_name': 'single-select',
         'column_type': 'single-select',
         'column_data': {
@@ -145,6 +161,9 @@ ROWS = [
         'date-european-hours-minutes': '05/06/2024 23:55',
         'date-german': '20.06.2030',
         'date-german-hours-minutes': '20.06.2030 23:55',
+        # Duration values are in seconds
+        'duration-hours-minutes': '5400',
+        'duration-hours-minutes-seconds': '5430',
         'single-select': 'option-1',
         'multiple-select': ['option-1', 'option-2'],
         'checkbox': True,

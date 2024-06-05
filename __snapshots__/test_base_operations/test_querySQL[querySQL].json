@@ -129,6 +129,32 @@
     {
       "base_id": "str",
       "data": {
+        "duration_format": "h:mm",
+        "format": "duration"
+      },
+      "id": "duration-hours-minutes",
+      "key": "str",
+      "name": "duration-hours-minutes",
+      "table_id": "str",
+      "table_name": "test_querySQL",
+      "type": "duration"
+    },
+    {
+      "base_id": "str",
+      "data": {
+        "duration_format": "h:mm:ss",
+        "format": "duration"
+      },
+      "id": "duration-hours-minutes-seconds",
+      "key": "str",
+      "name": "duration-hours-minutes-seconds",
+      "table_id": "str",
+      "table_name": "test_querySQL",
+      "type": "duration"
+    },
+    {
+      "base_id": "str",
+      "data": {
         "options": [
           {
             "color": "#9860E5",
@@ -304,6 +330,8 @@
       "date-iso-hours-minutes": "2030-06-20T23:55:00+02:00",
       "date-us": "2024-06-05T00:00:00+02:00",
       "date-us-hours-minutes": "2024-06-05T23:55:00+02:00",
+      "duration-hours-minutes": 5400,
+      "duration-hours-minutes-seconds": 5430,
       "formula": "2031-06-20T00:00:00+02:00",
       "long-text": "## Heading\n- Item 1\n- Item 2",
       "multiple-select": [],
@@ -329,6 +357,8 @@
       "date-iso-hours-minutes": "2030-06-20T23:55:00+02:00",
       "date-us": null,
       "date-us-hours-minutes": null,
+      "duration-hours-minutes": null,
+      "duration-hours-minutes-seconds": null,
       "formula": "2031-06-20T00:00:00+02:00",
       "long-text": "## Heading\n- Item 1\n- Item 2",
       "multiple-select": [],
@@ -354,6 +384,8 @@
       "date-iso-hours-minutes": "2030-06-20T23:55:00+02:00",
       "date-us": null,
       "date-us-hours-minutes": null,
+      "duration-hours-minutes": null,
+      "duration-hours-minutes-seconds": null,
       "formula": "2031-06-20T00:00:00+02:00",
       "long-text": "## Heading\n- Item 1\n- Item 2",
       "multiple-select": [],
@@ -379,6 +411,8 @@
       "date-iso-hours-minutes": null,
       "date-us": null,
       "date-us-hours-minutes": null,
+      "duration-hours-minutes": null,
+      "duration-hours-minutes-seconds": null,
       "formula": "#VALUE!",
       "long-text": null,
       "multiple-select": null,
