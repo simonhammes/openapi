@@ -9,13 +9,51 @@
       "_locked": null,
       "_locked_by": null,
       "_mtime": "str",
-      "test_listRows_links-2": [
+      "link": [
         {
-          "display_value": "Table 2 Row 1",
+          "display_value": 1.1,
+          "row_id": "str"
+        },
+        {
+          "display_value": 1.1,
+          "row_id": "str"
+        },
+        {
+          "display_value": 1.2,
+          "row_id": "str"
+        },
+        {
+          "display_value": 1.3,
+          "row_id": "str"
+        },
+        {
+          "display_value": 1.4,
+          "row_id": "str"
+        },
+        {
+          "display_value": 1.4,
           "row_id": "str"
         }
       ],
-      "text": "Table 1 Row 1"
+      "link-formula-countlinks": 6,
+      "link-formula-findmax": [
+        1.4
+      ],
+      "link-formula-findmin": [
+        1.1
+      ],
+      "link-formula-lookup": [
+        1.1,
+        1.1,
+        1.2,
+        1.3,
+        1.4,
+        1.4
+      ],
+      "link-formula-rollup-average": 1.25,
+      "link-formula-rollup-concatenate": "1.1 1.1 1.2 1.3 1.4 1.4",
+      "link-formula-rollup-max": 1.4,
+      "number": 2.1
     }
   ]
 }

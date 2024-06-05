@@ -172,7 +172,6 @@ COLUMNS = [
             'formula': 'and(true(), false())',
         },
     },
-    # TODO: Link + Link Formula
     {
         'column_name': 'geolocation-country-region',
         'column_type': 'geolocation',
@@ -458,19 +457,27 @@ def test_listRows(base: Base, snapshot_json, operation_id: str):
 def test_listRows_links(base: Base,  snapshot_json: SnapshotAssertion, operation_id: str):
     table_name_1 = f'test_{operation_id}_links-1'
     columns_1 = [
-        {'column_name': 'text', 'column_type': 'text'},
+        {'column_name': 'number', 'column_type': 'number'},
     ]
     create_table(base, table_name_1, columns_1)
 
     table_name_2 = f'test_{operation_id}_links-2'
     columns_2 = [
-        {'column_name': 'text', 'column_type': 'text'},
+        {'column_name': 'number', 'column_type': 'number'},
     ]
     create_table(base, table_name_2, columns_2)
 
-    # Add row to table 1
-    table_1_row_id = add_row(base, table_name_1, {'text': 'Table 1 Row 1'})
-    table_2_row_id = add_row(base, table_name_2, {'text': 'Table 2 Row 1'})
+    # Add rows
+    table_1_rows = [
+        {'number': 1.1},
+        {'number': 1.1},
+        {'number': 1.2},
+        {'number': 1.3},
+        {'number': 1.4},
+        {'number': 1.4},
+    ]
+    table_1_row_ids = append_rows(base, table_name_1, table_1_rows)
+    table_2_row_id = add_row(base, table_name_2, {'number': 2.1})
 
     # Insert link column
     path_parameters = {'base_uuid': base.uuid}
@@ -493,35 +500,127 @@ def test_listRows_links(base: Base,  snapshot_json: SnapshotAssertion, operation
 
     # Create row link
     body = {
-        'table_name': table_name_1,
-        'other_table_name': table_name_2,
+        'table_name': table_name_2,
+        'other_table_name': table_name_1,
         'link_id': link_id,
-        'table_row_id': table_1_row_id,
-        'other_table_row_id': table_2_row_id,
+        'row_id': table_2_row_id,
+        'other_rows_ids': table_1_row_ids,
     }
-    case: Case = base_operations_deprecated_schema.get_operation_by_id('createRowLinkDeprecated') \
+    case: Case = base_operations_deprecated_schema.get_operation_by_id('createRowLinksDeprecated') \
         .make_case(path_parameters=path_parameters, body=body, headers=headers)
     response = case.call_and_validate()
 
     assert response.status_code == 200
 
+    # TODO: Use appendColumns operation (does not work with link-formula columns?)
+    link_formula_columns = [
+        {
+            'table_name': table_name_2,
+            'column_name': 'link-formula-lookup',
+            'column_type': 'link-formula',
+            'column_data': {
+                'formula': 'lookup',
+                'link_column': 'link',
+                'level1_linked_column': 'number',
+            },
+        },
+        {
+            'table_name': table_name_2,
+            'column_name': 'link-formula-countlinks',
+            'column_type': 'link-formula',
+            'column_data': {
+                'formula': 'count_links',
+                'link_column': 'link',
+            },
+        },
+        {
+            'table_name': table_name_2,
+            'column_name': 'link-formula-rollup-average',
+            'column_type': 'link-formula',
+            'column_data': {
+                'formula': 'rollup',
+                'link_column': 'link',
+                'summary_column': 'number',
+                'summary_method': 'average',
+            },
+        },
+        {
+            'table_name': table_name_2,
+            'column_name': 'link-formula-rollup-max',
+            'column_type': 'link-formula',
+            'column_data': {
+                'formula': 'rollup',
+                'link_column': 'link',
+                'summary_column': 'number',
+                'summary_method': 'max',
+            },
+        },
+        {
+            'table_name': table_name_2,
+            'column_name': 'link-formula-rollup-concatenate',
+            'column_type': 'link-formula',
+            'column_data': {
+                'formula': 'rollup',
+                'link_column': 'link',
+                'summary_column': 'number',
+                'summary_method': 'concatenate',
+            },
+        },
+        {
+            'table_name': table_name_2,
+            'column_name': 'link-formula-findmax',
+            'column_type': 'link-formula',
+            'column_data': {
+                'formula': 'findmax',
+                'link_column': 'link',
+                'searched_column': 'number',
+                'comparison_column': 'number',
+            },
+        },
+        {
+            'table_name': table_name_2,
+            'column_name': 'link-formula-findmin',
+            'column_type': 'link-formula',
+            'column_data': {
+                'formula': 'findmin',
+                'link_column': 'link',
+                'searched_column': 'number',
+                'comparison_column': 'number',
+            },
+        },
+    ]
+
+    # Insert link-formula columns to table 2
+    for column in link_formula_columns:
+        path_parameters = {'base_uuid': base.uuid}
+        case: Case = base_operations_deprecated_schema.get_operation_by_id('insertColumnDeprecated') \
+            .make_case(path_parameters=path_parameters, body=column, headers=headers)
+        response = case.call_and_validate()
+        assert response.status_code == 200
+
     # List rows
-    query = {'table_name': table_name_1, 'convert_keys': True}
+    query = {'table_name': table_name_2, 'convert_keys': True}
     if operation_id == 'listRowsDeprecated':
         operation = base_operations_deprecated_schema.get_operation_by_id(operation_id)
+        matcher = path_type(
+            {
+                r"rows\..*\.(_id|_ctime|_mtime|_creator|_last_modifier)": (str,),
+                r"rows\..*\.link.\d": (str,),
+            },
+            regex=True,
+        )
     elif operation_id == 'listRows':
         operation = base_operations_schema.get_operation_by_id(operation_id)
+        matcher = path_type(
+            {
+                r"rows\..*\.(_id|_ctime|_mtime|_creator|_last_modifier)": (str,),
+                r"rows\..*\.link.*\.row_id": (str,),
+            },
+            regex=True,
+        )
+
     case: Case = operation.make_case(path_parameters=path_parameters, query=query, headers=headers)
     response = case.call_and_validate()
-
-    matcher = path_type(
-        {
-            r"rows\..*\.(_id|_ctime|_mtime|_creator|_last_modifier)": (str,),
-            r"rows\..*\.test_listRowsDeprecated_links-2.0": (str,),
-            r"rows\..*\.test_listRows_links-2.*\.row_id": (str,),
-        },
-        regex=True,
-    )
 
     # Verify that response matches snapshot
     assert snapshot_json(matcher=matcher) == response.json()
@@ -584,13 +683,20 @@ def add_row(base: Base, table_name: str, row: dict) -> str:
 
     return row_id
 
-def append_rows(base: Base, table_name: str, rows: list[dict]):
+def append_rows(base: Base, table_name: str, rows: list[dict]) -> list[str]:
     path_parameters = {'base_uuid': base.uuid}
     body = {'table_name': table_name, 'rows': rows}
     headers = {'Authorization': f'Bearer {base.token}'}
 
-    operation = base_operations_deprecated_schema.get_operation_by_id('appendRowsDeprecated')
+    operation = base_operations_schema.get_operation_by_id('appendRows')
     case: Case = operation.make_case(path_parameters=path_parameters, body=body, headers=headers)
     response = case.call_and_validate()
 
     assert response.status_code == 200
+
+    # Extract row IDs
+    row_ids = [r['_id'] for r in response.json()['row_ids']]
+
+    assert len(row_ids) == len(rows)
+
+    return row_ids
