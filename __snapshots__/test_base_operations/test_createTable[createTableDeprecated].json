@@ -480,6 +480,47 @@
       "resizable": true,
       "type": "formula",
       "width": 200
+    },
+    {
+      "colorbys": {},
+      "data": {
+        "geo_format": "country_region",
+        "lang": "en"
+      },
+      "description": null,
+      "draggable": true,
+      "edit_metadata_permission_type": "",
+      "edit_metadata_permitted_group": "",
+      "edit_metadata_permitted_users": [],
+      "editable": true,
+      "key": "str",
+      "name": "geolocation-country-region",
+      "permission_type": "",
+      "permitted_group": "",
+      "permitted_users": [],
+      "resizable": true,
+      "type": "geolocation",
+      "width": 200
+    },
+    {
+      "colorbys": {},
+      "data": {
+        "geo_format": "lng_lat"
+      },
+      "description": null,
+      "draggable": true,
+      "edit_metadata_permission_type": "",
+      "edit_metadata_permitted_group": "",
+      "edit_metadata_permitted_users": [],
+      "editable": true,
+      "key": "str",
+      "name": "geolocation-lat-lon",
+      "permission_type": "",
+      "permitted_group": "",
+      "permitted_users": [],
+      "resizable": true,
+      "type": "geolocation",
+      "width": 200
     }
   ],
   "header_settings": {},

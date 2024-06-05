@@ -300,6 +300,31 @@
     },
     {
       "base_id": "str",
+      "data": {
+        "geo_format": "country_region",
+        "lang": "en"
+      },
+      "id": "geolocation-country-region",
+      "key": "str",
+      "name": "geolocation-country-region",
+      "table_id": "str",
+      "table_name": "test_querySQL",
+      "type": "geolocation"
+    },
+    {
+      "base_id": "str",
+      "data": {
+        "geo_format": "lng_lat"
+      },
+      "id": "geolocation-lat-lon",
+      "key": "str",
+      "name": "geolocation-lat-lon",
+      "table_id": "str",
+      "table_name": "test_querySQL",
+      "type": "geolocation"
+    },
+    {
+      "base_id": "str",
       "data": null,
       "id": "_locked",
       "key": "str",
@@ -405,6 +430,13 @@
       "formula-boolean-return-value": false,
       "formula-float-return-value": 3.9000000000000004,
       "formula-integer-return-value": 3,
+      "geolocation-country-region": {
+        "country_region": "Germany"
+      },
+      "geolocation-lat-lon": {
+        "lat": 50,
+        "lng": 8.23
+      },
       "long-text": "## Heading\n- Item 1\n- Item 2",
       "multiple-select": [],
       "number": 499.99,
@@ -438,6 +470,8 @@
       "formula-boolean-return-value": false,
       "formula-float-return-value": 3.9000000000000004,
       "formula-integer-return-value": 3,
+      "geolocation-country-region": null,
+      "geolocation-lat-lon": null,
       "long-text": "## Heading\n- Item 1\n- Item 2",
       "multiple-select": [],
       "number": 500,
@@ -471,6 +505,8 @@
       "formula-boolean-return-value": false,
       "formula-float-return-value": 3.9000000000000004,
       "formula-integer-return-value": 3,
+      "geolocation-country-region": null,
+      "geolocation-lat-lon": null,
       "long-text": "## Heading\n- Item 1\n- Item 2",
       "multiple-select": [],
       "number": -10,
@@ -504,6 +540,8 @@
       "formula-boolean-return-value": false,
       "formula-float-return-value": 3.9000000000000004,
       "formula-integer-return-value": 3,
+      "geolocation-country-region": null,
+      "geolocation-lat-lon": null,
       "long-text": null,
       "multiple-select": null,
       "number": null,

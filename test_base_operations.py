@@ -173,6 +173,21 @@ COLUMNS = [
         },
     },
     # TODO: Link + Link Formula
+    {
+        'column_name': 'geolocation-country-region',
+        'column_type': 'geolocation',
+        'column_data': {
+            'geo_format': 'country_region',
+            'lang': 'en',
+        },
+    },
+    {
+        'column_name': 'geolocation-lat-lon',
+        'column_type': 'geolocation',
+        'column_data': {
+            'geo_format': 'lng_lat',
+        },
+    },
     # TODO: creator + last-modifier
     # {
     #     'column_name': 'creator',
@@ -208,6 +223,8 @@ ROWS = [
         'url': 'https://seatable.io',
         'checkbox': True,
         'rate': 7,
+        'geolocation-country-region': {'country_region': 'Germany'},
+        'geolocation-lat-lon': {'lng': 8.23, 'lat': 50.00},
     },
     {
         'text': 'D',
