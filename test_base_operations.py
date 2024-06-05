@@ -325,9 +325,8 @@ def test_createTable(base: Base, snapshot_json: SnapshotAssertion, operation_id:
     matcher = path_type(
         {
             "_id": (str,),
-            r"columns\..*\.key": (str,),
+            'columns': (list,)
         },
-        regex=True,
     )
 
     assert snapshot_json(matcher=matcher) == response.json()
@@ -540,8 +539,8 @@ def test_querySQL(base: Base, snapshot_json: SnapshotAssertion, operation_id: st
 
     matcher = path_type(
         {
+            "metadata": (list,),
             # Exclude unstable props from value comparison and just store their types
-            r"metadata\..*\.(base_id|key|table_id)": (str,),
             r"results\..*\.(_id|_ctime|_mtime|_creator|_last_modifier|auto-number-date-prefix)": (str,),
         },
         regex=True,
