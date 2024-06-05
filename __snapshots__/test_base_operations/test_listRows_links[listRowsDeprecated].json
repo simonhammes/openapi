@@ -4,7 +4,9 @@
       "_ctime": "str",
       "_id": "str",
       "_mtime": "str",
-      "test_listRowsDeprecated_links-2": "list",
+      "test_listRowsDeprecated_links-2": [
+        "str"
+      ],
       "text": "Table 1 Row 1"
     }
   ]

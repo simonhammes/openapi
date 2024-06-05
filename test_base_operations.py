@@ -361,7 +361,8 @@ def test_listRows_links(base: Base,  snapshot_json: SnapshotAssertion, operation
     matcher = path_type(
         {
             r"rows\..*\.(_id|_ctime|_mtime|_creator|_last_modifier)": (str,),
-            r"rows\..*\.(test_listRows_links-2|test_listRowsDeprecated_links-2)": (list,),
+            r"rows\..*\.test_listRowsDeprecated_links-2.0": (str,),
+            r"rows\..*\.test_listRows_links-2.*\.row_id": (str,),
         },
         regex=True,
     )

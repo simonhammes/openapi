@@ -9,7 +9,12 @@
       "_locked": null,
       "_locked_by": null,
       "_mtime": "str",
-      "test_listRows_links-2": "list",
+      "test_listRows_links-2": [
+        {
+          "display_value": "Table 2 Row 1",
+          "row_id": "str"
+        }
+      ],
       "text": "Table 1 Row 1"
     }
   ]
