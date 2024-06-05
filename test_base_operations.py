@@ -247,7 +247,7 @@ def test_createTable(base: Base, snapshot_json: SnapshotAssertion, operation_id:
 
     assert snapshot_json(matcher=matcher) == response.json()
 
-@pytest.mark.parametrize('operation_id', ['appendRowsDeprecated', pytest.param('appendRows', marks=pytest.mark.xfail(reason="unstable output"))])
+@pytest.mark.parametrize('operation_id', ['appendRowsDeprecated', 'appendRows'])
 def test_appendRows(base: Base, snapshot_json: SnapshotAssertion, operation_id: str):
     table_name = f'test_{operation_id}'
 
@@ -269,7 +269,15 @@ def test_appendRows(base: Base, snapshot_json: SnapshotAssertion, operation_id: 
 
     data = response.json()
 
-    assert snapshot_json == data
+    matcher = path_type(
+        {
+            'first_row': (dict,),
+            r"row_ids\..*\._id": (str,),
+        },
+        regex=True
+    )
+
+    assert snapshot_json(matcher=matcher) == data
 
 @pytest.mark.parametrize('operation_id', ['getRowDeprecated', 'getRow'])
 def test_getRow(base: Base, snapshot_json, operation_id: str):

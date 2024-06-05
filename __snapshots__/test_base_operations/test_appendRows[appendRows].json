@@ -1,42 +1,18 @@
 {
-  "first_row": {
-    "0000": "ABC",
-    "0085": "2030-06-20 23:55",
-    "256U": {
-      "images": [],
-      "links": [],
-      "preview": " Heading - Item 1 - Item 2...",
-      "text": "## Heading\n- Item 1\n- Item 2"
-    },
-    "7A4N": "2030-06-20",
-    "EuNx": true,
-    "IRjy": 499.99,
-    "_creator": "212c1d660a37481baf644cb4325fa9e2@auth.local",
-    "_ctime": "2024-05-29T12:33:09.689+00:00",
-    "_id": "DQ1O5KlnSmm6R6OIUTmyvQ",
-    "_last_modifier": "212c1d660a37481baf644cb4325fa9e2@auth.local",
-    "_mtime": "2024-05-29T12:33:09.689+00:00",
-    "aO6O": "2030-06-20",
-    "lW1R": "2030-06-20 23:55",
-    "q47m": [
-      1,
-      2
-    ],
-    "rKgs": 1
-  },
+  "first_row": "dict",
   "inserted_row_count": 4,
   "row_ids": [
     {
-      "_id": "DQ1O5KlnSmm6R6OIUTmyvQ"
+      "_id": "str"
     },
     {
-      "_id": "TuHxvIgfQey8-6jmc96ilg"
+      "_id": "str"
     },
     {
-      "_id": "FzmAf_k-RFyqF90L2dbo0w"
+      "_id": "str"
     },
     {
-      "_id": "SZcY0H2STs6V415S2TtFAA"
+      "_id": "str"
     }
   ]
 }
