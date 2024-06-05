@@ -15,6 +15,11 @@
       "date-iso-hours-minutes": "2030-06-20 23:55",
       "date-us": "2024-06-05",
       "date-us-hours-minutes": "2024-06-05 23:55",
+      "digital-sign": {
+        "sign_image_url": "https://admin.seatable.io/assets/SeaTable256-256.png",
+        "sign_time": "2024-06-05T13:28:56.090+00:00",
+        "username": "some-user@auth.local"
+      },
       "duration-hours-minutes": 5400,
       "duration-hours-minutes-seconds": 5430,
       "email": "example@seatable.io",

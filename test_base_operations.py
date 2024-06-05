@@ -224,6 +224,10 @@ COLUMNS = [
             'prefix_type': 'date',
         },
     },
+    {
+        'column_name': 'digital-sign',
+        'column_type': 'digital-sign',
+    },
 ]
 
 ROWS = [
@@ -252,6 +256,12 @@ ROWS = [
         'rate': 7,
         'geolocation-country-region': {'country_region': 'Germany'},
         'geolocation-lat-lon': {'lng': 8.23, 'lat': 50.00},
+        'digital-sign': {
+            'username': 'some-user@auth.local',
+            # Using an external image is a shortcut, but seems to work :)
+            'sign_image_url': 'https://admin.seatable.io/assets/SeaTable256-256.png',
+            'sign_time': '2024-06-05T13:28:56.090+00:00',
+        },
     },
     {
         'text': 'D',
