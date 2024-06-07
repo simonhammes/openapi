@@ -21,7 +21,33 @@ COLUMNS = [
     {
         'column_name': 'number',
         'column_type': 'number',
-        # TODO: Add different test cases for different column_data values (format, decimal, thousands)
+    },
+    {
+        'column_name': 'number-decimal-dot-thousands-comma',
+        'column_type': 'number',
+        'column_data': {
+            'format': 'number',
+            'decimal': 'dot',
+            'thousands': 'comma',
+        },
+    },
+    {
+        'column_name': 'number-percent',
+        'column_type': 'number',
+        'column_data': {
+            'format': 'percent',
+            'decimal': 'comma',
+            'thousands': 'no',
+        },
+    },
+    {
+        'column_name': 'number-euro',
+        'column_type': 'number',
+        'column_data': {
+            'format': 'euro',
+            'decimal': 'comma',
+            'thousands': 'no',
+        },
     },
     {
         'column_name': 'collaborator',
@@ -234,6 +260,9 @@ ROWS = [
         'text': 'ABC',
         'long-text': '## Heading\n- Item 1\n- Item 2',
         'number': 499.99,
+        'number-decimal-dot-thousands-comma': 1_000_000.123,
+        'number-percent': 5,
+        'number-euro': 5.23,
         # TODO
         # 'collaborator':
         'date-iso': '2030/06/20',
@@ -266,6 +295,8 @@ ROWS = [
         'text': 'D',
         'long-text': '## Heading\n- Item 1\n- Item 2',
         'number': 500,
+        'number-percent': 5.12345,
+        'number-euro': 10.2345,
         # TODO
         # 'collaborator':
         'date-iso': '2030/06/20',

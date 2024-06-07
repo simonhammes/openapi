@@ -40,6 +40,9 @@
         "option-2"
       ],
       "number": 499.99,
+      "number-decimal-dot-thousands-comma": 1000000.123,
+      "number-euro": 5.23,
+      "number-percent": 5,
       "rate": 7,
       "single-select": "option-1",
       "text": "ABC",
@@ -67,6 +70,8 @@
         "option-3"
       ],
       "number": 500,
+      "number-euro": 10.2345,
+      "number-percent": 5.12345,
       "single-select": "option-2",
       "text": "D"
     },
