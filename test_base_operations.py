@@ -1,4 +1,5 @@
 import pytest
+import requests
 import schemathesis
 from .conftest import Base, BASE_URL, Secret
 from schemathesis import Case
@@ -8,6 +9,7 @@ from syrupy.matchers import path_type
 schema = schemathesis.from_path('./user_account_operations.yaml', base_url=BASE_URL, validate_schema=True)
 base_operations_deprecated_schema= schemathesis.from_path('./base_operations_deprecated.yaml', base_url=BASE_URL, validate_schema=True)
 base_operations_schema = schemathesis.from_path('./base_operations.yaml', base_url=BASE_URL, validate_schema=True)
+file_operations = schemathesis.from_path('./file_operations.yaml', base_url=BASE_URL, validate_schema=True)
 
 COLUMNS = [
     {
@@ -149,8 +151,6 @@ COLUMNS = [
             ]
         }
     },
-    # TODO: image
-    # TODO: file
     {
         'column_name': 'email',
         'column_type': 'email',
@@ -654,6 +654,86 @@ def test_listRows_links(base: Base,  snapshot_json: SnapshotAssertion, operation
     response = case.call_and_validate()
 
     # Verify that response matches snapshot
+    assert snapshot_json(matcher=matcher) == response.json()
+
+@pytest.mark.parametrize('operation_id', ['listRowsDeprecated', 'listRows'])
+def test_listRows_files_images(base: Base,  snapshot_json: SnapshotAssertion, operation_id: str):
+    table_name = f'test_{operation_id}_files_images'
+    columns = [
+        {'column_name': 'text', 'column_type': 'text'},
+        {'column_name': 'images', 'column_type': 'image'},
+        {'column_name': 'files', 'column_type': 'file'},
+    ]
+    create_table(base, table_name, columns)
+
+    # Generate upload link
+    headers = {'Authorization': f'Bearer {base.api_token}'}
+    case: Case = file_operations.get_operation_by_id('getUploadLink').make_case(headers=headers)
+    response = case.call_and_validate()
+    assert response.status_code == 200
+
+    upload_link_data = response.json()
+
+    # TODO: Use schemathesis to execute uploadFile requests
+
+    # Upload image
+    files = { "file": ("seatable-logo.svg", open("seatable-logo.svg", "rb"), "image/svg+xml") }
+    payload = {
+        'parent_dir': upload_link_data['parent_path'],
+        'relative_path': upload_link_data['img_relative_path'],
+        'replace': 1,
+    }
+    headers = {'Accept': 'application/json'}
+    response = requests.post(f'{upload_link_data["upload_link"]}?ret-json=1', data=payload, files=files, headers=headers)
+    assert response.status_code == 200
+    uploaded_image = response.json()
+
+    # Upload file
+    files = { "file": ("test.txt", open("test.txt", "rb"), "text/plain") }
+    payload = {
+        'parent_dir': upload_link_data['parent_path'],
+        'relative_path': upload_link_data['file_relative_path'],
+        'replace': 1,
+    }
+    headers = {'Accept': 'application/json'}
+    response = requests.post(f'{upload_link_data["upload_link"]}?ret-json=1', data=payload, files=files, headers=headers)
+    assert response.status_code == 200
+    uploaded_file = response.json()
+
+    # Insert row
+    row = {
+        'images': [f'/workspace/{base.workspace_id}{upload_link_data["parent_path"]}/{upload_link_data["img_relative_path"]}/{uploaded_image[0]["name"]}'],
+        'files': [
+            {
+                'name': uploaded_file[0]['name'],
+                'size': uploaded_file[0]['size'],
+                'type': 'file',
+                'url': f'/workspace/{base.workspace_id}{upload_link_data["parent_path"]}/{upload_link_data["file_relative_path"]}/{uploaded_file[0]["name"]}'
+            }
+        ],
+    }
+    add_row(base, table_name, row)
+
+    # List rows
+    path_parameters = {'base_uuid': base.uuid}
+    query = {'table_name': table_name, 'convert_keys': True}
+    headers = {'Authorization': f'Bearer {base.token}'}
+    if operation_id == 'listRowsDeprecated':
+        operation = base_operations_deprecated_schema.get_operation_by_id(operation_id)
+    elif operation_id == 'listRows':
+        operation = base_operations_schema.get_operation_by_id(operation_id)
+    case: Case = operation.make_case(path_parameters=path_parameters, query=query, headers=headers)
+    response = case.call_and_validate()
+
+    # Verify that response matches snapshot
+    matcher = path_type(
+            {
+                r"rows\..*\.(_id|_ctime|_mtime|_creator|_last_modifier)": (str,),
+                r"rows\..*\.files.0.url": (str,),
+                r"rows\..*\.images.0": (str,),
+            },
+            regex=True,
+        )
     assert snapshot_json(matcher=matcher) == response.json()
 
 @pytest.mark.parametrize('operation_id', ['querySQLDeprecated', 'querySQL'])

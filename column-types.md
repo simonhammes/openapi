@@ -33,4 +33,5 @@ Note: Everything in this document was tested against v5.0 on stage.seatable.io
 ```bash
 git diff --no-index __snapshots__/test_base_operations/test_listRows\[listRows* --color-words
 git diff --no-index __snapshots__/test_base_operations/test_listRows_links\[listRows* --color-words
+git diff --no-index __snapshots__/test_base_operations/test_listRows_files_images\[listRows* --color-words
 ```

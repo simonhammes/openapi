@@ -43,9 +43,12 @@ def after_call(context, case, response: Response):
 @dataclass
 class Base:
     """Class for storing base info"""
+    workspace_id: int
     uuid: str
     # Hide base token from console output by setting repr=False
     token: str = field(repr=False)
+    # Temporary API token for file uploads
+    api_token: str = field(repr=False)
 
 @dataclass
 class TeamAdmin:
@@ -117,8 +120,11 @@ def base(account_token: Secret):
     base_token = response.json()['access_token']
     assert isinstance(base_token, str)
 
+    # Get API token for file uploads
+    api_token = get_api_token(account_token, workspace_id, base_name)
+
     # Yield back to the test function
-    yield Base(base_uuid, base_token)
+    yield Base(workspace_id=workspace_id, uuid=base_uuid, token=base_token, api_token=api_token.value)
 
     # Delete base to not cause any issues on future test runs
     path_parameters = {'workspace_id': workspace_id}
@@ -130,6 +136,19 @@ def base(account_token: Secret):
     assert response.status_code == 200
 
     delete_group(account_token, group_id)
+
+def get_api_token(account_token: Secret, workspace_id: int, base_name: str) -> Secret:
+    path_parameters = {'workspace_id': workspace_id, 'base_name': base_name}
+    headers = {'Authorization': f'Bearer {account_token.value}'}
+    case: Case = authentication_schema.get_operation_by_id('createTempApiToken').make_case(path_parameters=path_parameters, headers=headers)
+    response = case.call_and_validate()
+
+    assert response.status_code == 200
+
+    api_token = response.json()['api_token']
+    assert isinstance(api_token, str)
+
+    return Secret(api_token)
 
 @pytest.fixture
 def workspace_id(account_token: Secret) -> Generator[int, None, None]:
