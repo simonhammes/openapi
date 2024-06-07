@@ -213,15 +213,6 @@ COLUMNS = [
             'geo_format': 'lng_lat',
         },
     },
-    # TODO: creator + last-modifier
-    # {
-    #     'column_name': 'creator',
-    #     'column_type': 'creator',
-    # },
-    # {
-    #     'column_name': 'last-modifier',
-    #     'column_type': 'last-modifier',
-    # },
     {
         'column_name': 'auto-number-integer',
         'column_type': 'auto-number',
@@ -263,8 +254,6 @@ ROWS = [
         'number-decimal-dot-thousands-comma': 1_000_000.123,
         'number-percent': 5,
         'number-euro': 5.23,
-        # TODO
-        # 'collaborator':
         'date-iso': '2030/06/20',
         'date-iso-hours-minutes': '2030/06/20 23:55',
         'date-us': '6/5/2024',
@@ -297,8 +286,6 @@ ROWS = [
         'number': 500,
         'number-percent': 5.12345,
         'number-euro': 10.2345,
-        # TODO
-        # 'collaborator':
         'date-iso': '2030/06/20',
         'date-iso-hours-minutes': '2030/06/20 23:55',
         'date-german': '20.06.2030',
@@ -311,8 +298,6 @@ ROWS = [
         'text': 'E',
         'long-text': '## Heading\n- Item 1\n- Item 2',
         'number': -10,
-        # TODO
-        # 'collaborator':
         'date-iso': '2030/06/20',
         'date-iso-hours-minutes': '2030/06/20 23:55',
         'date-german': '20.06.2030',
@@ -413,8 +398,6 @@ def test_getRow(base: Base, snapshot_json, operation_id: str):
         'text': 'ABC',
         'long-text': '## Heading\n- Item 1\n- Item 2',
         'number': 499.99,
-        # TODO
-        # 'collaborator':
         'date-iso': '2030/06/20',
         'date-iso-hours-minutes': '2030/06/20 23:55',
         'date-german': '20.06.2030',
