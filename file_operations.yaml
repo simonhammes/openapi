@@ -201,7 +201,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
+                type: array
               example:
                 - name: favicon.ico
                   id: b4356e3000d01a37b458524b59cecb1a5d23d964
