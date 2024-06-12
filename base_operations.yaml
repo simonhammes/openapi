@@ -1424,7 +1424,7 @@ components:
             description: Define one or many options for this column
             properties:
               id:
-                type: integer
+                type: string
                 description: Select any unique id.
                 pattern: "^([A-Za-z0-9]){4}$"
               name:
