@@ -1,2 +1,8 @@
 /.idea
 /generator
+/tests/.env
+/tests/.venv
+/tests/__snapshots__
+/tests/diff*
+/tests/.hypothesis
+/tests/__pycache__
