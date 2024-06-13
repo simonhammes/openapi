@@ -57,6 +57,9 @@ cd tests
 # Activate virtual environment
 source .venv/bin/activate
 
+# Source environment variables
+source .env
+
 # Run tests
 # You can specify specific test scenarios or run all tests
 # In case of any failures, run pytest with -vv for improved (but more verbose) output
