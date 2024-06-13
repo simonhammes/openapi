@@ -21,8 +21,6 @@ Listed below are all the changes to the SeaTable API. Each date corresponds to a
 > **Base Operations (from 4.4)**
 >
 > Starting with version 4.4, SeaTable introduced a new component to SeaTable Server: the API Gateway. It introduces several new API endpoints and improvements to existing ones, creating a more streamlined experience for all base operations. You can identify the new endpoints by their URLs, which include `/api-gateway/`. The old API endpoints for `dtable-server` and `dtable-db` are still valid and could be used.
->
-> For optimized performance of SeaTable, three of the _old_ requests are redirected with Status Code 302 to the API Gateway. The redirect calls are [List Rows with SQL](/reference/querysqldeprecated), [List Rows](/reference/listrowsdeprecated) and [Get Row](/reference/getrowdeprecated).
 
 > 🚧 Breaking changes
 >
