@@ -316,10 +316,18 @@ components:
         sql:
           type: string
           format: SQL-Query
-          description: SQL-Query to get rows from base
+          description: SQL-Query to get rows from base.
         convert_keys:
           type: boolean
           description: Determines if the columns are returned as their keys (true) or their names (false by default).
+        parameters:
+          type: array
+          description: Parameters in SQL clause to avoid sql injection. Only needed, if you use `?` in the SQL-statement.
+          items:
+            oneOf:
+              - type: string
+              - type: integer
+          example: ["Max", 12]
         server_only:
           type: boolean
           description: Show rows from normal and Big Data backend (false by default) or limit the output only to the normal backend (true).
@@ -2472,6 +2480,11 @@ paths:
         - `SELECT name, age, birthday FROM Family`
         - `SELECT name, age FROM Family ORDER BY name`
         - `INSERT INTO Family (Name,Age) VALUES ('Name', 23)`
+        - `SELECT * FROM Family WHERE Name=? AND Age=?`
+
+        > 📘 Avoid SQL injection
+        > 
+        > If you use `?` in your SQL-statement, you have to provide values to replace the placeholders. This protects against SQL injections. 
 
         > 🚧 Max return limit
         >
