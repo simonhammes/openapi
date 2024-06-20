@@ -1,7 +1,7 @@
 ---
 title: Models
 excerpt: This page describes the different objects used in SeaTable.
-category: 65e6ef8514da74005d339fac
+category: 6673eedb565107002a159063
 isReference: true
 slug: models
 ---
@@ -86,61 +86,57 @@ A row object consists of key:value pairs. The keys are the column_names (or the 
 
 ```json Example row object (with column names)
 {
-    "_id": "Qtf7xPmoRaiFyQPO1aENTjb",
-    "_ctime": "2021-02-09T12:23:17.761+00:00",
-    "_mtime": "2021-03-10T16:19:31.761+00:00",
-    "_creator": "145504ae043c438cbb55f2afb084d586@auth.local",
-    "_last_modifier": "145504ae043c438cbb55f2afb084d586@auth.local",
-    "Book-Title": "The Great Gatsby",
-    "Publishing Date": "1925-04-10",
-    "Reviews": [
-        {
-            "row_id": "aG-P7aRoSPi_wauvv60fsA",
-            "display_value": "Wallstreet Journal"
-        },
-        {
-            "row_id": "Mr-3QnQ5Q-eeEqFBevtOkw",
-            "display_value": "Google News"
-        }
-      ],
-    "Author": [
-        "145504ae043c438cbb55f2afb084d586@auth.local"
-    ],
-    "Cover": [
-        "https://cloud.seatable.io/workspace/9463/asset/91a1ec23-2db0-4812-bbf5-5772352a4d63/images/2023-03/book-cover.png"
-      ],
-    "Selling Price": 48,
-    "Summary": "In my younger and more vulnerable years my father gave me some advice that I’ve been turning over in my mind ever since.\n\n‘Whenever you feel like criticizing any one,’ he told me, ‘just remember that all the people in this world haven’t had the advantages that you’ve had.’\n\n",
+  "_id": "Qtf7xPmoRaiFyQPO1aENTjb",
+  "_ctime": "2021-02-09T12:23:17.761+00:00",
+  "_mtime": "2021-03-10T16:19:31.761+00:00",
+  "_creator": "145504ae043c438cbb55f2afb084d586@auth.local",
+  "_last_modifier": "145504ae043c438cbb55f2afb084d586@auth.local",
+  "Book-Title": "The Great Gatsby",
+  "Publishing Date": "1925-04-10",
+  "Reviews": [
+    {
+      "row_id": "aG-P7aRoSPi_wauvv60fsA",
+      "display_value": "Wallstreet Journal"
+    },
+    {
+      "row_id": "Mr-3QnQ5Q-eeEqFBevtOkw",
+      "display_value": "Google News"
+    }
+  ],
+  "Author": ["145504ae043c438cbb55f2afb084d586@auth.local"],
+  "Cover": [
+    "https://cloud.seatable.io/workspace/9463/asset/91a1ec23-2db0-4812-bbf5-5772352a4d63/images/2023-03/book-cover.png"
+  ],
+  "Selling Price": 48,
+  "Summary": "In my younger and more vulnerable years my father gave me some advice that I’ve been turning over in my mind ever since.\n\n‘Whenever you feel like criticizing any one,’ he told me, ‘just remember that all the people in this world haven’t had the advantages that you’ve had.’\n\n"
 }
 ```
 
 ```json Example row object (with column ids)
 {
-    "_id": "Qtf7xPmoRaiFyQPO1aENTjb",
-    "_ctime": "2021-02-09T12:23:17.761+00:00",
-    "_mtime": "2021-03-10T16:19:31.761+00:00",
-    "_creator": "145504ae043c438cbb55f2afb084d586@auth.local",
-    "_last_modifier": "145504ae043c438cbb55f2afb084d586@auth.local",
-    "d9W1": "The Great Gatsby",
-    "UYOZ": "1925-04-10",
-    "J5ds": [
-        {
-            "row_id": "aG-P7aRoSPi_wauvv60fsA",
-            "display_value": "Wallstreet Journal"
-        },
-        {
-            "row_id": "Mr-3QnQ5Q-eeEqFBevtOkw",
-            "display_value": "Google News"
-        }
-      ],
-    "XX98": [
-        "145504ae043c438cbb55f2afb084d586@auth.local"
-    ],
-    "d9W1": [
-        "https://cloud.seatable.io/workspace/9463/asset/91a1ec23-2db0-4812-bbf5-5772352a4d63/images/2023-03/book-cover.png"
-      ],
-    "38WE": 48,
-    "Summary": "In my younger and more vulnerable years my father gave me some advice that I’ve been turning over in my mind ever since.\n\n‘Whenever you feel like criticizing any one,’ he told me, ‘just remember that all the people in this world haven’t had the advantages that you’ve had.’\n\n",
+  "_id": "Qtf7xPmoRaiFyQPO1aENTjb",
+  "_ctime": "2021-02-09T12:23:17.761+00:00",
+  "_mtime": "2021-03-10T16:19:31.761+00:00",
+  "_creator": "145504ae043c438cbb55f2afb084d586@auth.local",
+  "_last_modifier": "145504ae043c438cbb55f2afb084d586@auth.local",
+  "d9W1": "The Great Gatsby",
+  "UYOZ": "1925-04-10",
+  "J5ds": [
+    {
+      "row_id": "aG-P7aRoSPi_wauvv60fsA",
+      "display_value": "Wallstreet Journal"
+    },
+    {
+      "row_id": "Mr-3QnQ5Q-eeEqFBevtOkw",
+      "display_value": "Google News"
+    }
+  ],
+  "XX98": ["145504ae043c438cbb55f2afb084d586@auth.local"],
+  "d9W1": [
+    "https://cloud.seatable.io/workspace/9463/asset/91a1ec23-2db0-4812-bbf5-5772352a4d63/images/2023-03/book-cover.png"
+  ],
+  "38WE": 48,
+  "Summary": "In my younger and more vulnerable years my father gave me some advice that I’ve been turning over in my mind ever since.\n\n‘Whenever you feel like criticizing any one,’ he told me, ‘just remember that all the people in this world haven’t had the advantages that you’ve had.’\n\n"
 }
 ```
 
@@ -158,7 +154,7 @@ As you can see in the example, due to the different column types, the values can
 | `duration`                                     | `string`                                                                               | `"9:50"` or `"1:10:30"`                                                                                                                                               | Depending on column setting.                                                                                                                            |
 | `single-select`                                | `string`                                                                               | `"female"`                                                                                                                                                            | The exact string of the option is required. If the option doesn't exist, `option deleted` will be shown in the UI.                                      |
 | `multiple-select`                              | `array`                                                                                | `["Option 1", "Option 2"]`                                                                                                                                            | Non-existing options will be ignored.                                                                                                                   |
-| `image`                                        | `array`                                                                                | `["/workspace/24/asset/.../heart.png", "https://seatable.io/logo.svg"]`                                                                                               | Images can be stored in two ways:<br/>- [uploading an image](https://api.seatable.io/reference/uploadfile)<br/>- providing public URLs           |
+| `image`                                        | `array`                                                                                | `["/workspace/24/asset/.../heart.png", "https://seatable.io/logo.svg"]`                                                                                               | Images can be stored in two ways:<br/>- [uploading an image](https://api.seatable.io/reference/uploadfile)<br/>- providing public URLs                  |
 | `file`                                         | `array`                                                                                | `[{"name": "fav.ico", "size": 6746, "type": "file", "url": "..."}]`                                                                                                   | You need to upload the file first, get its parent_path and file_relative_path first and then return to this call.                                       |
 | `checkbox`                                     | `boolean`                                                                              | `true`                                                                                                                                                                |                                                                                                                                                         |
 | `rate`                                         | `integer`                                                                              | 4                                                                                                                                                                     |
