@@ -322,11 +322,13 @@ components:
           description: Determines if the columns are returned as their keys (true) or their names (false by default).
         parameters:
           type: array
-          description: Parameters in SQL clause to avoid sql injection. Only needed, if you use `?` in the SQL-statement.
+          description: Parameters in SQL clause to avoid sql injection. Only needed, if you use `?` in the SQL statement. The parameters will replace the `?` according to their order in the array.
           items:
             oneOf:
-              - type: string
-              - type: integer
+              - title: Add a String
+                type: string
+              - title: Add an integer
+                type: integer
           example: ["Max", 12]
         server_only:
           type: boolean
@@ -2484,7 +2486,7 @@ paths:
 
         > 📘 Avoid SQL injection
         > 
-        > If you use `?` in your SQL-statement, you have to provide values to replace the placeholders. This protects against SQL injections. 
+        > If you use `?` in your SQL-statement, you have to provide values to replace the placeholders with parameters. This protects against SQL injections. 
 
         > 🚧 Max return limit
         >
