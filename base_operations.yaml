@@ -161,7 +161,7 @@ components:
       in: query
       schema:
         type: boolean
-      description: If 'true', the column's id will be converted to column names.
+      description: Determines if the columns are returned as their keys (false by default) or their names (true).
       example: true
     link_column_key:
       name: link_column_key
@@ -319,7 +319,7 @@ components:
           description: SQL-Query to get rows from base.
         convert_keys:
           type: boolean
-          description: Determines if the columns are returned as their keys (true) or their names (false by default).
+          description: Determines if the columns are returned as their keys (false by default) or their names (true).
         parameters:
           type: array
           description: Parameters in SQL clause to avoid sql injection. Only needed, if you use `?` in the SQL statement. The parameters will replace the `?` according to their order in the array.
@@ -339,7 +339,6 @@ components:
         server_only: false
       required:
         - sql
-        - convert_keys
 
     sql_query_response:
       type: object
