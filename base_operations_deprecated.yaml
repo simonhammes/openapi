@@ -298,13 +298,12 @@ components:
           description: SQL-Query to get rows from base
         convert_keys:
           type: boolean
-          description: Determines if the columns are returned as their keys (true) or their names (false by default).
+          description: Determines if the columns are returned as their keys (false by default) or their names (true).
       example:
         sql: "SELECT Name, Status FROM Table1 LIMIT 3"
         convert_keys: true
       required:
         - sql
-        - convert_keys
 
     sql_query_response:
       type: object
