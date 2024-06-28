@@ -2483,6 +2483,8 @@ paths:
         - `INSERT INTO Family (Name,Age) VALUES ('Name', 23)`
         - `SELECT * FROM Family WHERE Name=? AND Age=?`
 
+        SELECT does not support column keys. You can only limit the output by column names.
+
         > 📘 Avoid SQL injection
         > 
         > If you use `?` in your SQL-statement, you have to provide values to replace the placeholders with parameters. This protects against SQL injections. 
