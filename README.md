@@ -30,7 +30,7 @@ For local test execution, we recommend to setup a virtual environment.
 ```bash
 cd tests
 
-# Create virtual environment
+# Create virtual environment (instead of python, you might also user python3)
 python -m venv .venv
 
 # Activate virtual environment
@@ -40,7 +40,7 @@ source .venv/bin/activate
 pip install -r requirements.txt
 
 # Create environment variables
-copy env-example .env
+copy env.example .env
 # edit .env with the editor of your choice and save it...
 
 # Deactivate virtual environment
