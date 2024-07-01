@@ -2088,6 +2088,8 @@ components:
         new_column_type:
           type: string
           example: "number"
+        column_data:
+          type: object
       required:
         - op_type
         - table_name
