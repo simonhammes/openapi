@@ -1435,7 +1435,7 @@ components:
               id:
                 type: string
                 description: Select any unique id.
-                pattern: "^([A-Za-z0-9]){4}$"
+                pattern: "^([A-Za-z0-9]){6}$"
               name:
                 type: string
                 description: The name of your option.
