@@ -134,9 +134,9 @@ COLUMNS = [
         'column_type': 'single-select',
         'column_data': {
             'options': [
-               {'id': 1, 'name': 'option-1', 'color': '#9860E5'},
-               {'id': 2, 'name': 'option-2', 'color': '#89D2EA'},
-               {'id': 3, 'name': 'option-3', 'color': '#59CB74'},
+               {'id': "0000", 'name': 'option-1', 'color': '#9860E5', 'textColor': '#000000'},
+               {'id': "ef3s", 'name': 'option-2', 'color': '#89D2EA', 'textColor': '#000000'},
+               {'id': "38d7", 'name': 'option-3', 'color': '#59CB74', 'textColor': '#000000'},
             ]
         }
     },
@@ -145,9 +145,9 @@ COLUMNS = [
         'column_type': 'multiple-select',
         'column_data': {
             'options': [
-               {'id': 1, 'name': 'option-1', 'color': '#9860E5'},
-               {'id': 2, 'name': 'option-2', 'color': '#89D2EA'},
-               {'id': 3, 'name': 'option-3', 'color': '#59CB74'},
+               {'id': "0000", 'name': 'option-1', 'color': '#9860E5', 'textColor': '#000000'},
+               {'id': "ef32", 'name': 'option-2', 'color': '#89D2EA', 'textColor': '#000000'},
+               {'id': "yze2", 'name': 'option-3', 'color': '#59CB74', 'textColor': '#000000'},
             ]
         }
     },
@@ -403,6 +403,11 @@ def test_getRow(base: Base, snapshot_json, operation_id: str):
         'date-german': '20.06.2030',
         'date-german-hours-minutes': '20.06.2030 23:55',
         'checkbox': True,
+        'single-select': "option-1",
+        'multiple-select': ["option-1", "option-2"],
+        'rate': 2,
+        'url': 'https://cloud.seatable.io',
+        'email': 'demo@example.com'
     }
     row_id = add_row(base, table_name, row)
 
@@ -631,7 +636,7 @@ def test_listRows_links(base: Base,  snapshot_json: SnapshotAssertion, operation
         matcher = path_type(
             {
                 r"rows\..*\.(_id|_ctime|_mtime|_creator|_last_modifier)": (str,),
-                r"rows\..*\.link.*\.row_id": (str,),
+                r"rows\..*\.link.\d": (str,),
             },
             regex=True,
         )

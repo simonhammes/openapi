@@ -62,9 +62,8 @@ source .env
 
 # Run tests
 # You can specify specific test scenarios or run all tests
-# In case of any failures, run pytest with -vv for improved (but more verbose) output
-pytest                                       # runs all files starting with test_xxx
-pytest test_base_operations.py --color=yes   # runs only the scenario from test_base_operations.py
+pytest                                           # runs all files starting with test_xxx
+pytest test_base_operations.py --color=yes -vv   # runs only the scenario from test_base_operations.py (verbose mode)
 
 # Deactivate virtual environment (optional)
 deactivate

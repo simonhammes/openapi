@@ -6,3 +6,4 @@
 /tests/diff*
 /tests/.hypothesis
 /tests/__pycache__
+.vscode
