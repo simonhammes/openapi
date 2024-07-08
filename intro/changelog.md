@@ -16,8 +16,17 @@ Listed below are all the changes to the SeaTable API. Each date corresponds to a
 
 ## Version 5.0 (15.07.2024)
 
+We recommend using the new `/api-gateway/` endpoints. These endpoints are faster because they check if the base has remained unchanged since the last request, allowing for quicker responses.
+
+> 🚧 Breaking changes
+>
+> - [Get Row](/reference/getrowdeprecated) and [List Rows](/reference/listrowsdeprecated): `Link` now returns an array containing `display_value` and `row_id` instead of a string with only the `display_value`. This change harmonizes the output with `Get Row` and `List Rows with SQL` endpoints.
+> - [Get Row](/reference/getrowdeprecated) and [List Rows](/reference/listrowsdeprecated): `Link Formula` now returns the right output type depending of the result. Single numbers are returned as integers, multiple values as arrays. This change harmonizes the output of the `Get Row`, `List Rows` and `List Rows with SQL` endpoints.
+
 > 👍 Other changes
 >
+> - [Get Row](/reference/getrowdeprecated): All column values are now consistently returned. If a value is not defined, `null` is returned instead of omitting the value.
+> - [List Rows](/reference/listrowsdeprecated): All column values are now consistently returned. If a value is not defined, `null` is returned instead of omitting the value.
 > - [Query SeaTable with SQL](/reference/querysql): Now supports `parameters` to protect against SQL injection.
 
 ## Version 4.4 (15.05.2024)
@@ -31,7 +40,6 @@ Listed below are all the changes to the SeaTable API. Each date corresponds to a
 > 🚧 Breaking changes
 >
 > - data collection table calls (user) were removed. This was done because data collection tables will be disabled in general with version 5.0. In SeaTable Cloud this feature was never available.
-> - [List Rows](/reference/listrowsdeprecated): `Link Formula` returns now an array instead of a string. This is to harmonize the output with `Get Row` and `List Rows with SQL`.
 > - [Get Row](/reference/getrowdeprecated): `_mtime` and `_ctime` are not returned if these column types are defined in this base. This is to harmonize the output with `List Rows` and `List Rows with SQL`.
 
 > 👍 Other changes
@@ -41,7 +49,7 @@ Listed below are all the changes to the SeaTable API. Each date corresponds to a
 
 ## Version 4.3 (08.02.2024)
 
-You can access the SeaTable API Reference for version 4.3 via this link: [SeaTable API Reference - Version 4.3](https://seatable.readme.io/v4.3/reference/introduction).
+The SeaTable API Reference for version 4.3 is no longer accessible here. However, you can find it on [Github](https://github.com/seatable/openapi/tree/v4.3).
 
 > 📘 New requests
 >

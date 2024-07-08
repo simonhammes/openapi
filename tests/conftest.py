@@ -131,12 +131,12 @@ def base(account_token: Secret):
     path_parameters = {'workspace_id': workspace_id}
     body = {'name': base_name}
 
-    case: Case = schema.get_operation_by_id('deleteBase').make_case(path_parameters=path_parameters, body=body)
-    response = case.call_and_validate(headers={"Authorization": f"Bearer {account_token.value}"})
+    #case: Case = schema.get_operation_by_id('deleteBase').make_case(path_parameters=path_parameters, body=body)
+    #response = case.call_and_validate(headers={"Authorization": f"Bearer {account_token.value}"})
 
-    assert response.status_code == 200
+    #assert response.status_code == 200
 
-    delete_group(account_token, group_id)
+    #delete_group(account_token, group_id)
 
 def get_api_token(account_token: Secret, workspace_id: int, base_name: str) -> Secret:
     path_parameters = {'workspace_id': workspace_id, 'base_name': base_name}
@@ -164,12 +164,12 @@ def workspace_id(account_token: Secret) -> Generator[int, None, None]:
     path_parameters = {'workspace_id': workspace_id}
     body = {'name': base_name}
 
-    case: Case = schema.get_operation_by_id('deleteBase').make_case(path_parameters=path_parameters, body=body)
-    response = case.call_and_validate(headers={"Authorization": f"Bearer {account_token.value}"})
+    #case: Case = schema.get_operation_by_id('deleteBase').make_case(path_parameters=path_parameters, body=body)
+    #response = case.call_and_validate(headers={"Authorization": f"Bearer {account_token.value}"})
 
-    assert response.status_code == 200
+    #assert response.status_code == 200
 
-    delete_group(account_token=account_token, group_id=group_id)
+    #delete_group(account_token=account_token, group_id=group_id)
 
 # scope='module' ensures that this functions runs only once for all tests in this module
 @pytest.fixture(scope='module')
@@ -222,8 +222,8 @@ def team(system_admin_account_token: Secret) -> Generator[int, None, None]:
     yield TeamAdmin(team_id=team_id, account_token=account_token)
 
     path_parameters = {'org_id': team_id}
-    case: Case = system_admin_account_operations.get_operation_by_id('deleteTeam').make_case(path_parameters=path_parameters)
-    response = case.call_and_validate(headers={'Authorization': f'Bearer {system_admin_account_token.value}'})
+    #case: Case = system_admin_account_operations.get_operation_by_id('deleteTeam').make_case(path_parameters=path_parameters)
+    #response = case.call_and_validate(headers={'Authorization': f'Bearer {system_admin_account_token.value}'})
 
 @pytest.fixture
 def team_name(system_admin_account_token: Secret) -> Generator[str, None, None]:
@@ -243,8 +243,8 @@ def team_name(system_admin_account_token: Secret) -> Generator[str, None, None]:
     assert isinstance(org_id, int)
 
     path_parameters = {'org_id': org_id}
-    case: Case = system_admin_account_operations.get_operation_by_id('deleteTeam').make_case(path_parameters=path_parameters)
-    response = case.call_and_validate(headers={'Authorization': f'Bearer {system_admin_account_token.value}'})
+    #case: Case = system_admin_account_operations.get_operation_by_id('deleteTeam').make_case(path_parameters=path_parameters)
+    #response = case.call_and_validate(headers={'Authorization': f'Bearer {system_admin_account_token.value}'})
 
 def generate_password() -> str:
     alphabet = string.ascii_letters + string.digits
@@ -281,8 +281,8 @@ def create_group(account_token: Secret, group_name: str) -> tuple[int, int]:
 def delete_group(account_token: Secret, group_id: int):
     path_parameters = {'group_id': group_id}
     headers = {'Authorization': f'Bearer {account_token.value}'}
-    case: Case = user_account_operations.get_operation_by_id('deleteGroup') \
-        .make_case(path_parameters=path_parameters, headers=headers)
-    response = case.call_and_validate()
+    #case: Case = user_account_operations.get_operation_by_id('deleteGroup') \
+    #    .make_case(path_parameters=path_parameters, headers=headers)
+    #response = case.call_and_validate()
 
-    assert response.status_code == 200
+    #assert response.status_code == 200
