@@ -17,12 +17,14 @@ USERNAME = os.environ.get('SEATABLE_USERNAME')
 PASSWORD = os.environ.get('SEATABLE_PASSWORD')
 ADMIN_USERNAME = os.environ.get('SEATABLE_ADMIN_USERNAME')
 ADMIN_PASSWORD = os.environ.get('SEATABLE_ADMIN_PASSWORD')
+CLEANUP_AFTER_TESTS = os.environ.get('CLEANUP_AFTER_TESTS', True)
 
 assert BASE_URL is not None, 'SEATABLE_SERVER environment variable is not set'
 assert USERNAME is not None, 'SEATABLE_USERNAME environment variable is not set'
 assert PASSWORD is not None, 'SEATABLE_PASSWORD environment variable is not set'
 assert ADMIN_USERNAME is not None, 'SEATABLE_ADMIN_USERNAME environment variable is not set'
 assert ADMIN_PASSWORD is not None, 'SEATABLE_ADMIN_PASSWORD environment variable is not set'
+assert CLEANUP_AFTER_TESTS in ["True", "False"], "CLEANUP_AFTER_TESTS environment variable must be either 'True' or 'False'"
 
 # TODO: Make sure credentials are never logged to the console (in case of exceptions/assertion errors)
 # https://github.com/pytest-dev/pytest/issues/8613
@@ -127,16 +129,17 @@ def base(account_token: Secret):
     # Yield back to the test function
     yield Base(workspace_id=workspace_id, uuid=base_uuid, token=base_token, api_token=api_token.value)
 
-    # Delete base to not cause any issues on future test runs
-    path_parameters = {'workspace_id': workspace_id}
-    body = {'name': base_name}
+    if CLEANUP_AFTER_TESTS == 'True':
+        # Delete base to not cause any issues on future test runs
+        path_parameters = {'workspace_id': workspace_id}
+        body = {'name': base_name}
 
-    #case: Case = schema.get_operation_by_id('deleteBase').make_case(path_parameters=path_parameters, body=body)
-    #response = case.call_and_validate(headers={"Authorization": f"Bearer {account_token.value}"})
+        case: Case = schema.get_operation_by_id('deleteBase').make_case(path_parameters=path_parameters, body=body)
+        response = case.call_and_validate(headers={"Authorization": f"Bearer {account_token.value}"})
 
-    #assert response.status_code == 200
+        assert response.status_code == 200
 
-    #delete_group(account_token, group_id)
+        delete_group(account_token, group_id)
 
 def get_api_token(account_token: Secret, workspace_id: int, base_name: str) -> Secret:
     path_parameters = {'workspace_id': workspace_id, 'base_name': base_name}
@@ -160,16 +163,17 @@ def workspace_id(account_token: Secret) -> Generator[int, None, None]:
 
     yield workspace_id
 
-    # Delete base to not cause any issues on future test runs
-    path_parameters = {'workspace_id': workspace_id}
-    body = {'name': base_name}
+    if CLEANUP_AFTER_TESTS == 'True':
+        # Delete base to not cause any issues on future test runs
+        path_parameters = {'workspace_id': workspace_id}
+        body = {'name': base_name}
 
-    #case: Case = schema.get_operation_by_id('deleteBase').make_case(path_parameters=path_parameters, body=body)
-    #response = case.call_and_validate(headers={"Authorization": f"Bearer {account_token.value}"})
+        case: Case = schema.get_operation_by_id('deleteBase').make_case(path_parameters=path_parameters, body=body)
+        response = case.call_and_validate(headers={"Authorization": f"Bearer {account_token.value}"})
 
-    #assert response.status_code == 200
+        assert response.status_code == 200
 
-    #delete_group(account_token=account_token, group_id=group_id)
+        delete_group(account_token=account_token, group_id=group_id)
 
 # scope='module' ensures that this functions runs only once for all tests in this module
 @pytest.fixture(scope='module')
@@ -221,9 +225,10 @@ def team(system_admin_account_token: Secret) -> Generator[int, None, None]:
 
     yield TeamAdmin(team_id=team_id, account_token=account_token)
 
-    path_parameters = {'org_id': team_id}
-    #case: Case = system_admin_account_operations.get_operation_by_id('deleteTeam').make_case(path_parameters=path_parameters)
-    #response = case.call_and_validate(headers={'Authorization': f'Bearer {system_admin_account_token.value}'})
+    if CLEANUP_AFTER_TESTS == 'True':
+        path_parameters = {'org_id': team_id}
+        case: Case = system_admin_account_operations.get_operation_by_id('deleteTeam').make_case(path_parameters=path_parameters)
+        response = case.call_and_validate(headers={'Authorization': f'Bearer {system_admin_account_token.value}'})
 
 @pytest.fixture
 def team_name(system_admin_account_token: Secret) -> Generator[str, None, None]:
@@ -231,20 +236,21 @@ def team_name(system_admin_account_token: Secret) -> Generator[str, None, None]:
 
     yield team_name
 
-    # Remove team to not cause issues on future test runs
-    case: Case = system_admin_account_operations.get_operation_by_id('listTeams').make_case()
-    response = case.call_and_validate(headers={'Authorization': f'Bearer {system_admin_account_token.value}'})
-    data = response.json()
+    if CLEANUP_AFTER_TESTS == 'True':
+        # Remove team to not cause issues on future test runs
+        case: Case = system_admin_account_operations.get_operation_by_id('listTeams').make_case()
+        response = case.call_and_validate(headers={'Authorization': f'Bearer {system_admin_account_token.value}'})
+        data = response.json()
 
-    assert response.status_code == 200
+        assert response.status_code == 200
 
-    # Find the organization we want to delete
-    org_id = next((team['org_id'] for team in data['organizations'] if team['org_name'] == team_name), None)
-    assert isinstance(org_id, int)
+        # Find the organization we want to delete
+        org_id = next((team['org_id'] for team in data['organizations'] if team['org_name'] == team_name), None)
+        assert isinstance(org_id, int)
 
-    path_parameters = {'org_id': org_id}
-    #case: Case = system_admin_account_operations.get_operation_by_id('deleteTeam').make_case(path_parameters=path_parameters)
-    #response = case.call_and_validate(headers={'Authorization': f'Bearer {system_admin_account_token.value}'})
+        path_parameters = {'org_id': org_id}
+        case: Case = system_admin_account_operations.get_operation_by_id('deleteTeam').make_case(path_parameters=path_parameters)
+        response = case.call_and_validate(headers={'Authorization': f'Bearer {system_admin_account_token.value}'})
 
 def generate_password() -> str:
     alphabet = string.ascii_letters + string.digits
@@ -279,10 +285,12 @@ def create_group(account_token: Secret, group_name: str) -> tuple[int, int]:
     return (group_id, workspace_id)
 
 def delete_group(account_token: Secret, group_id: int):
-    path_parameters = {'group_id': group_id}
-    headers = {'Authorization': f'Bearer {account_token.value}'}
-    #case: Case = user_account_operations.get_operation_by_id('deleteGroup') \
-    #    .make_case(path_parameters=path_parameters, headers=headers)
-    #response = case.call_and_validate()
 
-    #assert response.status_code == 200
+    if CLEANUP_AFTER_TESTS == 'True':
+        path_parameters = {'group_id': group_id}
+        headers = {'Authorization': f'Bearer {account_token.value}'}
+        case: Case = user_account_operations.get_operation_by_id('deleteGroup') \
+            .make_case(path_parameters=path_parameters, headers=headers)
+        response = case.call_and_validate()
+
+        assert response.status_code == 200
