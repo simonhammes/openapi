@@ -2596,6 +2596,12 @@ paths:
         > 🚧 Returns at most 10 000 rows
         >
         > The request returns a maximum of 10 000 rows regardless of the limit specified in the SQL-statement.
+
+        > ❗️ CURL does not follow redirects by default (relevant especially for SeaTable Cloud)
+        >
+        > SeaTable Cloud (version 5.0 and newer) redirects this endpoint to the [new API gateway endpoint](/reference/getrow) using a 302 header redirect.
+        > If you `curl` command does not return any result, you need to add the `-L` parameter to follow these redirects. Most other clients handle redirects automatically.
+
       requestBody:
         description: description des requestBody
         content:
@@ -2631,6 +2637,12 @@ paths:
         > 🚧 Returns at most 1 000 rows
         >
         > The request returns a maximum of 1 000 rows regardless of the specified limit.
+
+        > ❗️ CURL does not follow redirects by default (relevant especially for SeaTable Cloud)
+        >
+        > SeaTable Cloud (version 5.0 and newer) redirects this endpoint to the [new API gateway endpoint](/reference/getrow) using a 302 header redirect.
+        > If you `curl` command does not return any result, you need to add the `-L` parameter to follow these redirects. Most other clients handle redirects automatically.
+
       security:
         - BaseTokenAuth: []
       parameters:
@@ -2751,7 +2763,13 @@ paths:
         - Rows
       summary: Get Row
       operationId: getRowDeprecated
-      description: Retrieves a single row.
+      description: |-
+        Retrieves a single row from a base. By default the column names are returned, but you can also decide to get the column ids back.
+
+        > ❗️ CURL does not follow redirects by default (relevant especially for SeaTable Cloud)
+        >
+        > SeaTable Cloud (version 5.0 and newer) redirects this endpoint to the [new API gateway endpoint](/reference/getrow) using a 302 header redirect.
+        > If you `curl` command does not return any result, you need to add the `-L` parameter to follow these redirects. Most other clients handle redirects automatically.
       security:
         - BaseTokenAuth: []
       parameters:
