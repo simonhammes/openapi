@@ -29,6 +29,8 @@ We recommend using the new `/api-gateway/` endpoints. These endpoints are faster
 > - [List Rows](/reference/listrowsdeprecated): All column values are now consistently returned. If a value is not defined, `null` is returned instead of omitting the value.
 > - [Query SeaTable with SQL](/reference/querysql): Now supports `parameters` to protect against SQL injection.
 
+For more details about the changes, please refer to [this post on the SeaTable Forum](https://forum.seatable.io/t/important-changes-to-api-and-seatable-cloud-with-version-5-0/4887).
+
 ## Version 4.4 (15.05.2024)
 
 > 📘 New requests
