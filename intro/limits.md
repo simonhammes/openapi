@@ -26,6 +26,16 @@ The access counter is not reset at a specific time, but the relevant period is a
 >
 > Currently, the same limits apply to all SeaTable Cloud customers. In the future, SeaTable might adjust the rate limits to balance for demand and reliability. SeaTable may also introduce distinct rate limits for teams with different pricing plans.
 
+### Retrieve current rate limit usage
+
+The new `/api-gateway` endpoints return the current API rate limit usage through `x-ratelimit` headers. These headers provide the daily limit, the current usage, and the next reset time as a Unix timestamp in seconds. Below is an example of the returned headers:
+
+```
+x-ratelimit-limit: 5000
+x-ratelimit-remaining: 4936
+x-ratelimit-reset: 1720710405
+```
+
 ### General rate limits
 
 | Endpoints                                              | SeaTable Cloud       | SeaTable Dedicated and Server |
