@@ -16,35 +16,10 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      - name: Install openapi-to-postmanv2 (v4)
-        run: npm i -g openapi-to-postmanv2@4
-      - name: Convert .yaml files into Postman collections
-        run: |
-          mkdir -p postman
-
-          for filename in *.yaml; do
-            # https://github.com/postmanlabs/openapi-to-postman#-command-line-interface
-            # %.* is used to strip the file extension
-            openapi2postmanv2 -s "${filename}" -o "postman/${filename%.*}.json" --pretty --options folderStrategy=Tags
-          done
-      - name: Create Postman Collection
-        id: create_collection
-        run: |
-          curl -sS --request POST \
-          --url "https://api.getpostman.com/collections?workspace=${{ env.WORKSPACE_ID }}" \
-          --header 'X-Api-Key: ${{ env.POSTMAN_API_KEY }}' \
-          --header 'Content-Type: application/json' \
-          --data '{
-            "collection": {
-              "info": {
-                "name": "${{ env.COLLECTION_NAME }}",
-                "description": "New Collection created via the Postman API.",
-                "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
-              },
-              "item": []
-            }
-          }' | tee response.json
-          echo "COLLECTION_ID=$(cat response.json | jq -r .collection.uid)" >> $GITHUB_OUTPUT
+      - name: Install openapi-to-postmanv2 (v4) + postman-combine-collections
+        run: npm i -g openapi-to-postmanv2@4 postman-combine-collections
+      - name: Sync with Postman
+        run: ./sync-with-postman.sh
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         # Always upload artifacts, even on failed runs
