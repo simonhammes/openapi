@@ -3,6 +3,13 @@ name: Postman
 # TODO: Limit this to tags (?)
 on: push
 
+env:
+  # TODO: Modify before merge
+  COLLECTION_NAME: ${{ github.run_id }}
+  POSTMAN_API_KEY: ${{ secrets.POSTMAN_API_KEY }}
+  # TODO: Modify before merge
+  WORKSPACE_ID: "5ba71e46-c8ee-4633-84df-7dbd853f5462"
+
 jobs:
   postman:
     runs-on: ubuntu-22.04
@@ -20,6 +27,24 @@ jobs:
             # %.* is used to strip the file extension
             openapi2postmanv2 -s "${filename}" -o "postman/${filename%.*}.json" --pretty --options folderStrategy=Tags
           done
+      - name: Create Postman Collection
+        id: create_collection
+        run: |
+          curl -sS --request POST \
+          --url "https://api.getpostman.com/collections?workspace=${{ env.WORKSPACE_ID }}" \
+          --header 'X-Api-Key: ${{ env.POSTMAN_API_KEY }}' \
+          --header 'Content-Type: application/json' \
+          --data '{
+            "collection": {
+              "info": {
+                "name": "${{ env.COLLECTION_NAME }}",
+                "description": "New Collection created via the Postman API.",
+                "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+              },
+              "item": []
+            }
+          }' | tee response.json
+          echo "COLLECTION_ID=$(cat response.json | jq -r .collection.uid)" >> $GITHUB_OUTPUT
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         # Always upload artifacts, even on failed runs
