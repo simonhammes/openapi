@@ -9,8 +9,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      - name: Install openapi-to-postmanv2
-        run: npm i -g openapi-to-postmanv2
+      - name: Install openapi-to-postmanv2 (v4)
+        run: npm i -g openapi-to-postmanv2@4
       - name: Convert .yaml files into Postman collections
         run: |
           mkdir -p postman
