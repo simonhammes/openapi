@@ -7,8 +7,6 @@ env:
   # TODO: Modify before merge
   COLLECTION_NAME: ${{ github.run_id }}
   POSTMAN_API_KEY: ${{ secrets.POSTMAN_API_KEY }}
-  # TODO: Modify before merge
-  WORKSPACE_ID: "5ba71e46-c8ee-4633-84df-7dbd853f5462"
 
 jobs:
   postman:
