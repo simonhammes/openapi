@@ -20,3 +20,11 @@ jobs:
             # %.* is used to strip the file extension
             openapi2postmanv2 -s "${filename}" -o "postman/${filename%.*}.json" --pretty --options folderStrategy=Tags
           done
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        # Always upload artifacts, even on failed runs
+        if: always()
+        with:
+          name: postman-collections
+          path: postman/
+          retention-days: 7
