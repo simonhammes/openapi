@@ -11,5 +11,12 @@ jobs:
         uses: actions/checkout@v3
       - name: Install openapi-to-postmanv2
         run: npm i -g openapi-to-postmanv2
-      #- name: Convert .yaml files into Postman collections
-      #  run: |
+      - name: Convert .yaml files into Postman collections
+        run: |
+          mkdir -p postman
+
+          for filename in *.yaml; do
+            # https://github.com/postmanlabs/openapi-to-postman#-command-line-interface
+            # %.* is used to strip the file extension
+            openapi2postmanv2 -s "${filename}" -o "postman/${filename%.*}.json" --pretty --options folderStrategy=Tags
+          done
