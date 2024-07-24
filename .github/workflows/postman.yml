@@ -1,0 +1,15 @@
+name: Postman
+
+# TODO: Limit this to tags (?)
+on: push
+
+jobs:
+  postman:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Install openapi-to-postmanv2
+        run: npm i -g openapi-to-postmanv2
+      #- name: Convert .yaml files into Postman collections
+      #  run: |
