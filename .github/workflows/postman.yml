@@ -19,7 +19,7 @@ jobs:
       - name: Set COLLECTON_NAME variable
         run: |
           TAG="${{ github.ref_name }}"
-          COLLECTION_NAME="SeaTable ${TAG#postman-}"
+          export COLLECTION_NAME="SeaTable ${TAG#postman-}"
           echo "COLLECTION_NAME=${COLLECTION_NAME}" >> $GITHUB_OUTPUT
       - name: Echo variables
         run: |
